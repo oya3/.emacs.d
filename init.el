@@ -8,10 +8,11 @@
 ;;       f/b : 枝移動
 ;; C-c > : インデント調整起動
 ;; C-x C-b : バッファーリスト表示
-;; C-x C-l : 関数一覧表示
 ;; C-x C-b : バッファー一覧表示
 ;; C-c t b : 旧バッファー一覧
-
+;;           d : delete
+;;           x : 実行
+;; helm imenu : 関数一覧表示
 ;; C-x k : バッファー削除
 ;; C-x 0 : カーソルのあるウィンドウを閉じる　
 ;; C-x 1 : 他のウィンドウを全て閉じる　　　　
@@ -54,8 +55,7 @@
 ;; C-x, C-l : マークから現在位置までの範囲の文字を小文字にする
 ;; M-l : 単語を小文字にする
 
-;; C-x r : 置換（正規表現)
-;; C-x g : グレップ（正規表現）
+;; M-% : 置換（正規表現)
 
 ;; C-c ; : リージョン範囲をコメントアウト
 ;; C-;   : １行コメント
@@ -122,6 +122,11 @@
   )
 (cask-initialize)
 
+;; 日本語環境
+(set-language-environment "Japanese")
+(set-default-coding-systems 'utf-8) ; デフォルトの文字コード
+(prefer-coding-system 'utf-8)
+
 ;; PATH 追加
 ;; - Windows で Linuxコマンド を使える！ msys2！
 ;;   https://nagayasu-shinya.com/emacs-msys2-path/
@@ -137,17 +142,13 @@
 	   (getenv "PATH")))
   ;; 区切り文字はなし
   (setq exec-path (append exec-path '("C:\\msys64\\usr\\bin")))
+  ;; windowsの場合のみ
+  (setq-default buffer-file-coding-system 'japanese-cp932-dos)
   )
-
-(set-language-environment "Japanese")
-(set-default-coding-systems 'utf-8) ; デフォルトの文字コード
-(prefer-coding-system 'utf-8)
-(setq-default buffer-file-coding-system 'japanese-cp932-dos)
 
 ;; (set-default-coding-systems 'japanese-cp932-dos)
 ;; (set-buffer-file-coding-system 'utf-8)
 
-;; 日本語環境
 ;; (setq default-process-coding-system '(utf-8-dos . cp932))
 ;; (set-language-environment "Japanese")
 ;; (prefer-coding-system 'utf-8)
@@ -514,7 +515,7 @@ mouse-3: delete other windows"
 ;; カレントのファイルパスをコピーする
 ;; - Emacs で開いているファイルのフルパスをミニバッファに表示とコピーするための emacs lisp の関数のメモ
 ;;   http://cortyuming.hateblo.jp/entry/20130802/p1
-(defun copy-file-path ()
+(defun get-file-path ()
   "show the full path file name in the minibuffer and copy to kill ring."
   (interactive)
   (when buffer-file-name
@@ -574,11 +575,12 @@ mouse-3: delete other windows"
 ;; (define-key global-map (kbd "C-x r") 'query-replace-regexp)
 ;; - visual-regexp-steroids.el : 【正規表現革命】isearchや置換でPerl/Pythonの正規表現を使おうぜ！
 ;;   http://emacs.rubikitch.com/visual-regexp-steroids/
+(require 'visual-regexp)
 (require 'visual-regexp-steroids)
 ;; (setq vr/engine 'python)                ;python regexpならばこれ
 (setq vr/engine 'pcre2el)               ;elispでPCREから変換
 (global-set-key (kbd "M-%") 'vr/query-replace)
-(global-set-key (kbd "C-x r") 'vr/query-replace) ;; my keybind 削除予定
+;; (global-set-key (kbd "C-x r") 'vr/query-replace) ;; my keybind 削除予定
 ;; ;; multiple-cursorsを使っているならこれで
 ;; (global-set-key (kbd "C-c m") 'vr/mc-mark)
 ;; ;; 普段の正規表現isearch
@@ -587,10 +589,13 @@ mouse-3: delete other windows"
 
 ;;----------------------------------------------------------
 ;; helm
-;; (require 'helm-config)
-;; (helm-mode 1)
-
+(require 'helm)
 (require 'helm-config)
+
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
+(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+
 (helm-mode 1)
 ;; - Windows NTEmacs で ag (The Silver Searcher) を使う
 ;;   http://extra-vision.blogspot.com/2016/01/ntemacs-ag-silver-searcher.html
@@ -692,6 +697,8 @@ mouse-3: delete other windows"
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 (add-hook 'java-mode-hook 'helm-gtags-mode)
 (add-hook 'js-mode-hook 'helm-gtags-mode)
+;; タグを自動更新。windowsの場合、動作しないかも。。。
+(setq helm-gtags-auto-update t)
 
 ;;----------------------------------------------------------
 
@@ -787,18 +794,16 @@ mouse-3: delete other windows"
 ;; markdown-mode
 (add-to-list 'auto-mode-alist'("\\.md\\'" . markdown-mode))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (yasnippet yaml-mode web-mode use-package tabbar smex smartparens scss-mode projectile prodigy popwin pallet nyan-mode multiple-cursors magit idle-highlight-mode htmlize helm-swoop helm-gtags helm-ag haml-mode flycheck-cask expand-region exec-path-from-shell eproject drag-stuff dracula-theme dirtree direx coffee-mode auto-complete))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+
+;;----------------------------------------------------------
+;; makefile-gmake-mode
+;; (setq-default tab-always-indent t)
+(defun hard-tabs ()
+  ;; (setq-default indent-tabs-mode t)
+  ;; (setq indent-tabs-mode t)
+  (setq indent-tabs-mode nil
+        tab-width 2))
+(add-hook 'makefile-mode-hook 'hard-tabs)
+(add-hook 'makefile-gmake-mode-hook 'hard-tabs)
+(add-hook 'makefile-bsdmake-mode-hook 'hard-tabs)
 

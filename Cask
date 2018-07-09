@@ -24,6 +24,7 @@
 (depends-on "whitespace")
 (depends-on "tabbar")
 (depends-on "git-gutter-fringe+")
+(depends-on "visual-regexp")
 (depends-on "visual-regexp-steroids")
 (depends-on "pcre2el")
 (depends-on "markdown-mode")
