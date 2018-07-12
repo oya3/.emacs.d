@@ -220,8 +220,8 @@
 
 ;; Windows 用のフォント設定
 (when (eq system-type 'windows-nt)
-  ;; (set-face-font 'default "ＭＳ ゴシック")
   ;; (set-face-font 'default "MeiryoKe_Gothic")
+  ;; (set-face-font 'default "ＭＳ ゴシック-12")
   (set-face-font 'default "Ricty Diminished-12")
   ;;
   ;; (set-face-attribute 'default nil :family "Inconsolata" :height 110)
@@ -697,6 +697,7 @@ mouse-3: delete other windows"
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 (add-hook 'java-mode-hook 'helm-gtags-mode)
 (add-hook 'js-mode-hook 'helm-gtags-mode)
+(add-hook 'csharp-mode-hook 'helm-gtags-mode)
 ;; タグを自動更新。windowsの場合、動作しないかも。。。
 (setq helm-gtags-auto-update t)
 
@@ -789,6 +790,21 @@ mouse-3: delete other windows"
              (local-set-key (kbd "RET") 'newline-and-indent)
              )
           )
+
+;;------------------------------------------------------------------------------
+;; csharp mode
+(add-hook 'csharp-mode-hook
+          '(lambda()
+             ;; (setq c-set-style "cc-mode")
+             ;; (c-set-offset 'innamespace 0)
+             ;; (setq tab-width 4)
+             (setq indent-tabs-mode nil)
+             ;; (setq c-basic-offset 4)
+             ;; (setq c-tab-always-indent t)
+             ;; (local-set-key (kbd "RET") 'newline-and-indent)
+             )
+          )
+;; (setq csharp-want-imenu nil)
 
 ;;----------------------------------------------------------
 ;; markdown-mode

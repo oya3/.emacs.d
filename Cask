@@ -20,6 +20,7 @@
 (depends-on "ruby-mode")
 (depends-on "coffee-mode")
 (depends-on "web-mode")
+(depends-on "csharp-mode")
 (depends-on "direx")
 (depends-on "whitespace")
 (depends-on "tabbar")
