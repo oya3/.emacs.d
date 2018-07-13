@@ -100,6 +100,10 @@
 ;; 文字コード自動判定が間違ったとき
 ;; C-x RET r (revert-buffer-with-coding-system) で 文字コードを指定しなおすことで対処できる。
 ;;
+;; windows 専用設定だけど、どうも26.1では動かない気がする。。。
+;; SETX /M ALTERNATE_EDITOR "C:\tools\emacs\bin\runemacs.exe"
+;; SETX /M EMACS_SERVER_FILE "C:\Users\oya\.emacs.d\server\main_server"
+;;
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
