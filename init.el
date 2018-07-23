@@ -126,6 +126,12 @@
   )
 (cask-initialize)
 
+; server start for emacs-client
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
+
 ;; 日本語環境
 (set-language-environment "Japanese")
 (set-default-coding-systems 'utf-8) ; デフォルトの文字コード
@@ -240,6 +246,10 @@
   ;; (set-fontset-font nil '(#x80 . #x10ffff) (font-spec :family "MS Gothic"))
   ;; ;; 記号をデフォルトのフォントにしない。(for Emacs 25.2)
   ;; (setq use-default-font-for-symbols nil)
+  )
+
+(when (eq system-type 'gnu/linux)
+  (set-face-font 'default "ricty-12")
   )
 
 ;; 画面が1980x1080場合、[110]
