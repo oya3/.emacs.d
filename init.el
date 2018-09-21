@@ -839,6 +839,10 @@ mouse-3: delete other windows"
 (add-hook 'makefile-gmake-mode-hook 'hard-tabs)
 (add-hook 'makefile-bsdmake-mode-hook 'hard-tabs)
 
+;; 大文字／小文字変換。なんか以下が必要っぽい
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+
 ;;----------------------------------------------------------
 ;; GDB 関連
 ;; 有用なバッファを開くモード
