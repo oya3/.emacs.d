@@ -581,8 +581,12 @@ mouse-3: delete other windows"
 (setq ac-use-menu-map t)
 (ac-set-trigger-key "TAB")
 (setq ac-delay 1.0) ; auto-completeまでの時間
-(setq ac-auto-show-menu 2.0) ; メニューが表示されるまで
+(setq ac-auto-show-menu 1.0) ; メニューが表示されるまで
 (global-auto-complete-mode t)
+;; AC 有効にする追加のメジャーモード
+(add-to-list 'ac-modes 'makefile-make-mode)
+(add-to-list 'ac-modes 'makefile-gmake-mode)
+(add-to-list 'ac-modes 'makefile-bsdmake-mode)
 
 ;;----------------------------------------------------------
 ;; 置換
