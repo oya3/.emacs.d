@@ -3,3 +3,7 @@ auto-save-list/
 elpa/
 .emacs.desktop*
 ac-comphist.dat
+kkcrc
+server/
+session.*
+
