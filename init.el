@@ -50,9 +50,9 @@
 ;; M-d : カーソルの単語を削除（削除した単語はキルリングに蓄積）
 ;; C-k : カーソルから行末までを削除（削除したものはキルリングに蓄積）
 
-;; C-x, C-u : マークから現在位置までの範囲の文字を大文字にする
+;; [デフォルトは無効になってる] C-x, C-u : マークから現在位置までの範囲の文字を大文字にする
 ;; M-u : 単語を大文字にする
-;; C-x, C-l : マークから現在位置までの範囲の文字を小文字にする
+;; [デフォルトは無効になってる] C-x, C-l : マークから現在位置までの範囲の文字を小文字にする
 ;; M-l : 単語を小文字にする
 
 ;; M-% : 置換（正規表現)
@@ -114,6 +114,8 @@
 ;; - Emacsの設定ファイルをOSの判定をして共有する方法｜system-type
 ;;   https://nagayasu-shinya.com/emacs-system-type/
 (message "OS is %s." system-type)
+
+(setenv "LC_MESSAGES" "C")
 
 ;; cask 設定
 ;; for mac
@@ -232,7 +234,8 @@
 (when (eq system-type 'windows-nt)
   ;; (set-face-font 'default "MeiryoKe_Gothic")
   ;; (set-face-font 'default "ＭＳ ゴシック-12")
-  (set-face-font 'default "Ricty Diminished-12")
+  ;; (set-face-font 'default "Ricty Diminished-12")
+  (set-face-font 'default "Ricty Diminished-11")
   ;;
   ;; (set-face-attribute 'default nil :family "Inconsolata" :height 110)
   ;; ;; (set-face-attribute 'default nil :family "Consolas" :height 104)
@@ -783,7 +786,7 @@ mouse-3: delete other windows"
 ;; (font-lock-add-keywords 'c-mode '(("\\<\\(Q_OBJECT\\|public slots\\|public signals\\|private slots\\|private signals\\|protected slots\\|protected signals\\)\\>" . font-lock-constant-face)))
 (add-hook 'c-mode-hook
           '(lambda()
-             (setq c-set-style "cc-mode")
+             (setq c-set-style "stroustrup")
              (c-set-offset 'innamespace 0)
              (setq tab-width 4)
              (setq indent-tabs-mode t)
@@ -795,7 +798,7 @@ mouse-3: delete other windows"
 
 (add-hook 'c++-mode-hook
           '(lambda()
-             (setq c-set-style "cc-mode")
+             (setq c-set-style "stroustrup")
              (c-set-offset 'innamespace 0)
              (setq tab-width 4)
              (setq indent-tabs-mode t)
