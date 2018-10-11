@@ -136,8 +136,8 @@
 
 ;; 日本語環境
 (set-language-environment "Japanese")
-(set-default-coding-systems 'utf-8) ; デフォルトの文字コード
-(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8-unix) ; デフォルトの文字コード
+(prefer-coding-system 'utf-8-unix)
 
 ;; PATH 追加
 ;; - Windows で Linuxコマンド を使える！ msys2！
@@ -156,6 +156,10 @@
   (setq exec-path (append exec-path '("C:\\msys64\\usr\\bin")))
   ;; windowsの場合のみ
   (setq-default buffer-file-coding-system 'japanese-cp932-dos)
+  ;; 環境依存文字 文字化け対応
+  (set-charset-priority 'ascii 'japanese-jisx0208 'latin-jisx0201
+			'katakana-jisx0201 'iso-8859-1 'cp1252 'unicode)
+  (set-coding-system-priority 'utf-8 'euc-jp 'iso-2022-jp 'cp932)
   )
 
 ;; (set-default-coding-systems 'japanese-cp932-dos)
@@ -235,7 +239,7 @@
   ;; (set-face-font 'default "MeiryoKe_Gothic")
   ;; (set-face-font 'default "ＭＳ ゴシック-12")
   ;; (set-face-font 'default "Ricty Diminished-12")
-  (set-face-font 'default "Ricty Diminished-11")
+  (set-face-font 'default "Ricty Diminished-12")
   ;;
   ;; (set-face-attribute 'default nil :family "Inconsolata" :height 110)
   ;; ;; (set-face-attribute 'default nil :family "Consolas" :height 104)
