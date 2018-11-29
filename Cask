@@ -1,8 +1,8 @@
-;; # coding: utf-8
-;; パッケージリポジトリの指定
 (source gnu)
 (source melpa)
-(source marmalade)
+
+;;(depends-on "")
+;; (depends-on "gtags-mode")
 
 (depends-on "magit")
 (depends-on "dracula-theme")
@@ -12,7 +12,6 @@
 (depends-on "helm-ag" "0.57" )
 (depends-on "helm-swoop")
 (depends-on "helm-gtags")
-;; (depends-on "gtags-mode")
 
 (depends-on "scss-mode")
 (depends-on "haml-mode")
@@ -32,9 +31,10 @@
 (depends-on "undo-tree")
 (depends-on "indent-guide")
 (depends-on "indent-tools")
-;;(depends-on "")
+(depends-on "dimmer")
+;;(depends-on "visual-basic-mode")
+;;(depends-on "vbnet-mode")
 
-;; default
 (depends-on "bind-key")
 (depends-on "cask")
 (depends-on "dash")

@@ -117,6 +117,8 @@
 
 (setenv "LC_MESSAGES" "C")
 
+(add-to-list 'load-path "~/.emacs.d/elisp")
+
 ;; cask 設定
 ;; for mac
 (when (eq system-type 'darwin)
@@ -183,6 +185,10 @@
 ;;(set-default-coding-systems 'utf-8) ; デフォルトの文字コード
 ;;(prefer-coding-system 'utf-8)
 ;;(set-default 'buffer-file-coding-system 'japanese-cp932-dos)
+
+;; 行番号はシステムを使う
+(when (version<= "26.0.50" emacs-version )
+  (global-display-line-numbers-mode))
 
 ;;----------------------------------------------------------
 ;; undo redo 設定
@@ -307,6 +313,22 @@
 ;; dracula theme
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'dracula t)
+
+
+;; アクティブバッファー強調表示
+(when (require 'dimmer nil t)
+  (setq dimmer-fraction 0.6)
+  (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar") 
+  (dimmer-mode 1))
+(with-eval-after-load "dimmer"
+  (defun dimmer-off ()
+    (dimmer-mode -1)
+    (dimmer-process-all))
+  (defun dimmer-on ()
+    (dimmer-mode 1)
+    (dimmer-process-all))
+  (add-hook 'focus-out-hook #'dimmer-off)
+  (add-hook 'focus-in-hook #'dimmer-on))
 
 ;; desktop-save-mode 終了時のフレーム状態を保存
 (if window-system (progn
@@ -563,11 +585,11 @@ mouse-3: delete other windows"
 
 ;;----------------------------------------------------------
 ;; 行番号表示
-(global-linum-mode t)
-(setq linum-format "%d ")
-(set-face-attribute 'linum nil
-		    :foreground "#a9a9a9"
-		    :height 0.9)
+;; (global-linum-mode t)
+;; (setq linum-format "%d ")
+;; (set-face-attribute 'linum nil
+;; 		    :foreground "#a9a9a9"
+;; 		    :height 0.9)
 
 ;;----------------------------------------------------------
 ;; インクリメンタルサーチ
@@ -835,6 +857,23 @@ mouse-3: delete other windows"
 ;; markdown-mode
 (add-to-list 'auto-mode-alist'("\\.md\\'" . markdown-mode))
 
+;;----------------------------------------------------------
+;; vb.net-mode
+(autoload 'vbnet-mode "vbnet-mode" "Mode for editing VB.NET code." t)
+(setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vb\\)$" .
+                                 vbnet-mode)) auto-mode-alist))
+(defun my-vbnet-mode-fn ()
+  "My hook for VB.NET mode"
+  (interactive)
+  (turn-on-font-lock)
+  (turn-on-auto-revert-mode)
+  (setq indent-tabs-mode nil)
+  (setq vbnet-mode-indent 4)
+  (setq vbnet-want-imenu t)
+  ;; (require 'flymake)
+  ;; (flymake-mode 1)
+  )
+(add-hook 'vbnet-mode-hook 'my-vbnet-mode-fn)
 
 ;;----------------------------------------------------------
 ;; makefile-gmake-mode
