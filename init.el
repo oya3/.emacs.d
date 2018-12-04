@@ -582,6 +582,7 @@ mouse-3: delete other windows"
 (setq revert-buffer-function 'shk-deferred-auto-revert)
 (global-set-key [(control c)(R)] 'shk-deferred-auto-revert)
 ;; (global-auto-revert-mode 1) ;; 勝手に読み直す。emasc側で変更があるとセーブできなくなる
+(global-auto-revert-mode t)
 
 ;;----------------------------------------------------------
 ;; 行番号表示
@@ -778,6 +779,10 @@ mouse-3: delete other windows"
 ;;   (interactive)
 ;;   ( ibuffer ))
 
+;; ------------------------------------------------------------------------------
+;; Meadow時代のofficeファイルをテキスト化するパッケージ（独自改良版）
+(require 'xdoc2txt)
+
 ;;----------------------------------------------------------
 ;; ruby-mode
 (add-hook 'ruby-mode-hook
@@ -867,7 +872,7 @@ mouse-3: delete other windows"
   (interactive)
   (turn-on-font-lock)
   (turn-on-auto-revert-mode)
-  (setq indent-tabs-mode nil)
+  (setq indent-tabs-mode t)
   (setq vbnet-mode-indent 4)
   (setq vbnet-want-imenu t)
   ;; (require 'flymake)
