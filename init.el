@@ -158,10 +158,11 @@
   (setq exec-path (append exec-path '("C:\\msys64\\usr\\bin")))
   ;; windowsの場合のみ
   (setq-default buffer-file-coding-system 'japanese-cp932-dos)
-  ;; 環境依存文字 文字化け対応
-  (set-charset-priority 'ascii 'japanese-jisx0208 'latin-jisx0201
-			'katakana-jisx0201 'iso-8859-1 'cp1252 'unicode)
-  (set-coding-system-priority 'utf-8 'euc-jp 'iso-2022-jp 'cp932)
+  ;; 以下を有効にすると"◎"の特殊な文字でemacsが固まってしまうので削除。文字化け対応は別途検討が必要
+  ;; ;; 環境依存文字 文字化け対応
+  ;; (set-charset-priority 'ascii 'japanese-jisx0208 'latin-jisx0201
+  ;; 			'katakana-jisx0201 'iso-8859-1 'cp1252 'unicode)
+  ;; (set-coding-system-priority 'utf-8 'euc-jp 'iso-2022-jp 'cp932)
   )
 
 ;; (set-default-coding-systems 'japanese-cp932-dos)
