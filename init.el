@@ -147,12 +147,13 @@
 ;; (message "oya debug: system-type: %s" system-type)
 (when (eq system-type 'windows-nt)
 
-  ;; MSYS2 のコマンドを使えるようにする. 
+  ;; MSYS2 のコマンドを使えるようにする.
   (setenv "PATH"
 	  (concat
 	   ;; 下記の行に MSYS2 のコマンドの実行可能ファイルがある場所を設定してください. スラッシュが2つ連続することに注意！
 	   ;; 区切り文字はセミコロン
 	   "C:\\msys64\\usr\\bin;"
+	   (concat (getenv "HOME") "\\.emacs.d\\bin;")
 	   (getenv "PATH")))
   (setq exec-path (parse-colon-path (getenv "PATH"))) ;; 実行パスも同じにする
   ;; windowsの場合のみ
