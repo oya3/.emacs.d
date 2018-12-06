@@ -154,8 +154,7 @@
 	   ;; 区切り文字はセミコロン
 	   "C:\\msys64\\usr\\bin;"
 	   (getenv "PATH")))
-  ;; 区切り文字はなし
-  (setq exec-path (append exec-path '("C:\\msys64\\usr\\bin")))
+  (setq exec-path (parse-colon-path (getenv "PATH"))) ;; 実行パスも同じにする
   ;; windowsの場合のみ
   (setq-default buffer-file-coding-system 'japanese-cp932-dos)
   ;; 以下を有効にすると"◎"の特殊な文字でemacsが固まってしまうので削除。文字化け対応は別途検討が必要
