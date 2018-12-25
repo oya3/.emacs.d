@@ -883,6 +883,20 @@ mouse-3: delete other windows"
 ;; これ無効にしないとファイル保存時にハードタブをソフトタブに見たままに変更し保存してしまう。
 
 ;;----------------------------------------------------------
+;; web-mode
+(add-hook 'web-mode-hook
+          '(lambda ()
+             (setq web-mode-attr-indent-offset nil)
+             (setq web-mode-markup-indent-offset 2)
+             (setq web-mode-css-indent-offset 2)
+             (setq web-mode-code-indent-offset 2)
+             (setq web-mode-sql-indent-offset 2)
+             (setq indent-tabs-mode nil)
+             (setq tab-width 2)
+             ))
+(add-to-list 'auto-mode-alist'("\\.html\\'" . web-mode))
+
+;;----------------------------------------------------------
 ;; makefile-gmake-mode
 ;; (setq-default tab-always-indent t)
 (defun hard-tabs ()
