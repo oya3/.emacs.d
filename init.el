@@ -671,6 +671,9 @@ mouse-3: delete other windows"
 ;; helm-follow-mode （C-c C-f で ON/OFF）の前回の状態を維持する
 ;; ↑らしいけど、実際はチラ見がかってにプレビューされる状態になる
 (setq helm-follow-mode-persistent t)
+;; ;; 正規表現を有効にする
+;; (setq helm-ag-use-emacs-lisp-regexp t)
+
 ;; helm で M-x を実行
 (define-key global-map (kbd "M-x")     'helm-M-x)
 
@@ -868,18 +871,16 @@ mouse-3: delete other windows"
 (autoload 'vbnet-mode "vbnet-mode" "Mode for editing VB.NET code." t)
 (setq auto-mode-alist (append '(("\\.\\(frm\\|bas\\|cls\\|vb\\)$" .
                                  vbnet-mode)) auto-mode-alist))
+
 (defun my-vbnet-mode-fn ()
   "My hook for VB.NET mode"
-  (interactive)
-  (turn-on-font-lock)
-  (turn-on-auto-revert-mode)
-  (setq indent-tabs-mode t)
-  (setq vbnet-mode-indent 4)
-  (setq vbnet-want-imenu t)
-  ;; (require 'flymake)
-  ;; (flymake-mode 1)
+  (setq indent-tabs-mode t
+        tab-width 4)
+  (remove-hook 'local-write-file-hooks 'vbnet-untabify t)
   )
 (add-hook 'vbnet-mode-hook 'my-vbnet-mode-fn)
+;; vbnet-mode.el の (add-hook 'local-write-file-hooks 'vbnet-untabify) を無効にするため用
+;; これ無効にしないとファイル保存時にハードタブをソフトタブに見たままに変更し保存してしまう。
 
 ;;----------------------------------------------------------
 ;; makefile-gmake-mode
