@@ -7,4 +7,5 @@ kkcrc
 server/
 session.*
 abbrev_defs
+.DS_Store
 
