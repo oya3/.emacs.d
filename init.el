@@ -860,6 +860,7 @@ mouse-3: delete other windows"
              ;; (setq c-basic-offset 4)
              ;; (setq c-tab-always-indent t)
              ;; (local-set-key (kbd "RET") 'newline-and-indent)
+	     (auto-complete-mode)
              )
           )
 ;; (setq csharp-want-imenu nil)
