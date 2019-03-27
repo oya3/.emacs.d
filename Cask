@@ -32,6 +32,7 @@
 (depends-on "indent-guide")
 (depends-on "indent-tools")
 (depends-on "dimmer")
+(depends-on "neotree")
 ;;(depends-on "visual-basic-mode")
 ;;(depends-on "vbnet-mode")
 

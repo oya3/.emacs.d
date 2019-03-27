@@ -66,6 +66,13 @@
 ;; C-q C-i: タブ
 ;; C-q C-j: 改行
 ;;
+;; --- neotree ---
+;; 画面左側にソースツリーを表示する
+;; M-x neotree-toggle 表示／非表示 切り替え
+;;     --- neotree にカーソルがある状態 ---
+;;     C-x { : ツリー幅を縮める
+;;     C-x } : ツリー幅を広める
+;;
 ;; --- magit ---
 ;; M-x magit-status : git status を実施
 ;;     --- status中コマンド ---
@@ -375,6 +382,30 @@
 
 ;; タイトルバーに編集中のファイルのパス名を表示
 (setq frame-title-format (format "emacs@%s : %%f" (system-name)))
+
+;; neotree 設定
+;; 
+;; - neotree-toggle toggle/hide NeoTree window
+;; - neotree-stretch-toggle Maximize / Minimize
+;; - n next line ， p previous line。
+;; - SPC or RET or TAB Open current item if it is a file. Fold/Unfold current item if it is a directory.
+;; - U Go up a directory
+;; - g Refresh
+;; - A Maximize/Minimize the NeoTree Window
+;; - H Toggle display hidden files
+;; - C-c C-n Create a file or create a directory if filename ends with a ‘/’
+;; - C-c C-d Delete a file or a directory.
+;; - C-c C-r Rename a file or a directory.
+;; - C-c C-c Change the root directory.
+;; - C-c C-p Copy a file or a directory.
+;;
+;; C-x }, C-x { でwindowサイズを変更できるよにする
+(setq neo-window-fixed-size nil)
+;; neotreeでファイルを新規作成した場合のそのファイルを開く
+(setq neo-create-file-auto-open t)
+;; delete-other-window で neotree ウィンドウを消さない
+(setq neo-persist-show t)
+
 
 ;;----------------------------------------------------------
 ;; 矩形選択
