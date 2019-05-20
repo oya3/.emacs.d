@@ -130,6 +130,7 @@
 ;; for mac
 (when (eq system-type 'darwin)
   (require 'cask)
+  (define-key global-map [?¥] [?\\])  ;; ¥の代わりにバックスラッシュを入力する
   )
 ;; for windows and linux
 (when (not (eq system-type 'darwin))
@@ -185,6 +186,23 @@
 
 ;; Proxy の設定
 ;; (setq url-proxy-services '(("http" . "Proxy:Port")))
+
+;; 【Emacs】Mac/Win及びGUI/CUIで初期設定ファイルを兼用する
+;;  環境確認方法がわかる
+;;  - https://www.yokoweb.net/2016/12/25/emacs-mac-win-select/#toc3
+;; ;; mac でかつターミナルの場合のみ、alt と command 切り替え
+;; (when (eq system-type 'darwin)
+;;   (if (not window-system) (progn
+;;     ;; ←CUI用設定を、ここに記述
+;;     ;; CommandとOptionを入れ替える
+;;     (setq mac-command-modifier 'meta)
+;;     (setq mac-option-modifier 'alt)
+;;     (setq mac-command-modifier 'alt)
+;;     (setq mac-option-modifier 'meta)
+;;     (setq ns-command-modifier (quote meta))
+;;     (setq ns-alternate-modifier (quote super))
+;;   ))
+;; )
 
 ;; 起動時のディレクトリの変更
 (setq default-directory "~/")
@@ -834,7 +852,14 @@ mouse-3: delete other windows"
              ;; (helm-gtags-mode)
              )
           )
-
+;;----------------------------------------------------------
+;; python-mode
+(add-hook 'python-mode-hook
+    '(lambda ()
+        (setq python-indent 2)
+        (setq indent-tabs-mod nil)
+        ;; (define-key (current-local-map) "\C-h" 'python-backspace)
+    ))
 ;;----------------------------------------------------------
 ;; js-mode
 (add-hook 'js-mode-hook
