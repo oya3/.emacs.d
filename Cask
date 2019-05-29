@@ -14,6 +14,7 @@
 (depends-on "helm-gtags")
 
 (depends-on "scss-mode")
+(depends-on "jade-mode")
 (depends-on "haml-mode")
 (depends-on "yaml-mode")
 (depends-on "ruby-mode")
