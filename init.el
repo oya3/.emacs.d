@@ -145,7 +145,8 @@
 
 
 ;; ;; 日本語環境(言語設定)
-;; ;; (set-language-environment "Japanese")
+(set-language-environment "Japanese")
+
 ;; (set-default-coding-systems 'utf-8-unix) ; デフォルトの文字コード
 ;; (prefer-coding-system 'utf-8-unix)
 ;; ----------------------------------------------------------------------
