@@ -144,10 +144,16 @@
   (server-start))
 
 
-;; 日本語環境
-(set-language-environment "Japanese")
-(set-default-coding-systems 'utf-8-unix) ; デフォルトの文字コード
-(prefer-coding-system 'utf-8-unix)
+;; ;; 日本語環境(言語設定)
+;; ;; (set-language-environment "Japanese")
+;; (set-default-coding-systems 'utf-8-unix) ; デフォルトの文字コード
+;; (prefer-coding-system 'utf-8-unix)
+;; ----------------------------------------------------------------------
+;; ;; 上の設定を euc-jp 環境の場合、以下に変更するといいことがあるかも
+;; ;; --->
+;; (set-default-coding-systems 'euc-jp)
+;; (prefer-coding-system 'euc-jp)
+;; ;; <---
 
 ;; PATH 追加
 ;; - Windows で Linuxコマンド を使える！ msys2！
@@ -215,6 +221,13 @@
 ;; 行番号はシステムを使う
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
+;;----------------------------------------------------------
+;; 行番号表示
+;; (global-linum-mode t)
+;; (setq linum-format "%d ")
+;; (set-face-attribute 'linum nil
+;; 		    :foreground "#a9a9a9"
+;; 		    :height 0.9)
 
 ;;----------------------------------------------------------
 ;; undo redo 設定
@@ -238,10 +251,12 @@
 
 ;;----------------------------------------------------------
 ;; mouse 設定
-(xterm-mouse-mode t)
-(mouse-wheel-mode t)
-(global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 3)))
-(global-set-key [mouse-5] '(lambda () (interactive) (scroll-up   3)))
+(if window-system (progn
+		    (xterm-mouse-mode t)
+		    (mouse-wheel-mode t)
+		    (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 3)))
+		    (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up   3)))
+		    ))
 
 ;;----------------------------------------------------------
 ;; フォント設定
@@ -575,9 +590,10 @@ mouse-3: delete other windows"
         ;; character ?\xBB at that column followed by a TAB which goes to
         ;; the next TAB column.
         ;; If this is a problem for you, please, comment the line below.
-;;        (space-mark ?\u0020 [?\xB7])  ; 半角スペース
-        (newline-mark ?\n   [?\u21B5 ?\n]) ; 改行記号
-;;        (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t]) ; タブマーク
+        ;; (space-mark ?\u0020 [?\xB7])  ; 半角スペース
+        ;; (newline-mark ?\n   [?\u21B5 ?\n]) ; 改行記号
+        (newline-mark ?\n   [?↓ ?\n]) ; 改行記号
+	;; (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t]) ; タブマーク
         )
       )
 
@@ -602,9 +618,8 @@ mouse-3: delete other windows"
 
 ;;----------------------------------------------------------
 ;; git-gutter+ git 変更分を表示
-(require 'git-gutter-fringe+)
+(require 'git-gutter+)
 (global-git-gutter+-mode t)
-;; (git-gutter-fr+-minimal)
 
 ;;----------------------------------------------------------
 ;; カレントのファイルパスをコピーする
@@ -636,13 +651,6 @@ mouse-3: delete other windows"
 ;; (global-auto-revert-mode 1) ;; 勝手に読み直す。emasc側で変更があるとセーブできなくなる
 (global-auto-revert-mode t)
 
-;;----------------------------------------------------------
-;; 行番号表示
-;; (global-linum-mode t)
-;; (setq linum-format "%d ")
-;; (set-face-attribute 'linum nil
-;; 		    :foreground "#a9a9a9"
-;; 		    :height 0.9)
 
 ;;----------------------------------------------------------
 ;; インクリメンタルサーチ
@@ -727,6 +735,8 @@ mouse-3: delete other windows"
 
 ;; helm で M-x を実行
 (define-key global-map (kbd "M-x")     'helm-M-x)
+;; helm で M-y を実行
+(define-key global-map (kbd "M-y") 'helm-show-kill-ring)
 
 ;; (1) を実施せずに、入力 utf-8 書き出しが cp932 に強制する
 ;; windowsのみ
