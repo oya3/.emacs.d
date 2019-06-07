@@ -232,8 +232,8 @@
 ;;----------------------------------------------------------
 ;; undo redo 設定
 ;; http://d.hatena.ne.jp/khiker/20100123/undo_tree
-(require 'undo-tree)
-(global-undo-tree-mode)
+;; (require 'undo-tree)
+;; (global-undo-tree-mode)
 (global-set-key (kbd "M-/") 'undo-tree-redo)
 
 ;;----------------------------------------------------------
