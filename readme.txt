@@ -1,1 +1,1 @@
-Cask �t�@�C���ɓ��{��R�����g�Ƃ��s�v�Ȃ��̂��L�ڂ���� Cask install �����s����ꍇ������̂Œ��ӂ��邱�ƁB
+Cask ファイルに日本語コメントとか不要なものを記載すると Cask install が失敗する場合があるので注意すること。
