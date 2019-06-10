@@ -406,6 +406,8 @@
 ;; delete-other-window で neotree ウィンドウを消さない
 (setq neo-persist-show t)
 
+;; タブの挙動
+(setq indent-line-function 'tab-to-tab-stop)
 
 ;;----------------------------------------------------------
 ;; 矩形選択
@@ -886,7 +888,7 @@ mouse-3: delete other windows"
           '(lambda()
              ;; (setq c-set-style "cc-mode")
              ;; (c-set-offset 'innamespace 0)
-             ;; (setq tab-width 4)
+             (setq tab-width 4)
              (setq indent-tabs-mode nil)
              ;; (setq c-basic-offset 4)
              ;; (setq c-tab-always-indent t)
