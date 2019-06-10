@@ -978,6 +978,9 @@ mouse-3: delete other windows"
 (add-hook 'makefile-mode-hook 'hard-tabs)
 (add-hook 'makefile-gmake-mode-hook 'hard-tabs)
 (add-hook 'makefile-bsdmake-mode-hook 'hard-tabs)
+(setq auto-mode-alist (append '(("\\(make\\|makefile\\)\\.\\(def\\|target\\|targets\\|bin\\|lib\\)$" .
+                                 makefile-mode)) auto-mode-alist))
+
 
 ;; 大文字／小文字変換。なんか以下が必要っぽい
 (put 'upcase-region 'disabled nil)
