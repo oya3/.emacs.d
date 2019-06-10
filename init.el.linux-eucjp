@@ -144,17 +144,10 @@
   (server-start))
 
 
-;; ;; 日本語環境(言語設定)
-(set-language-environment "Japanese")
-
-;; (set-default-coding-systems 'utf-8-unix) ; デフォルトの文字コード
-;; (prefer-coding-system 'utf-8-unix)
-;; ----------------------------------------------------------------------
-;; ;; 上の設定を euc-jp 環境の場合、以下に変更するといいことがあるかも
-;; ;; --->
-;; (set-default-coding-systems 'euc-jp)
-;; (prefer-coding-system 'euc-jp)
-;; ;; <---
+;; 日本語環境
+;;; (set-language-environment "Japanese")
+(set-default-coding-systems 'euc-jp) ; デフォルトの文字コード
+(prefer-coding-system 'euc-jp)
 
 ;; PATH 追加
 ;; - Windows で Linuxコマンド を使える！ msys2！
@@ -188,7 +181,7 @@
 ;; (prefer-coding-system 'utf-8)
 ;; (set-file-name-coding-system 'cp932)
 ;; (set-keyboard-coding-system 'cp932)
-;; (set-terminal-coding-system 'cp932)
+;; (set-terminal-coding-system 'euc-jp-unix)
 ;; (set-buffer-file-coding-system 'cp932)
 
 ;; Proxy の設定
@@ -222,19 +215,12 @@
 ;; 行番号はシステムを使う
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
-;;----------------------------------------------------------
-;; 行番号表示
-;; (global-linum-mode t)
-;; (setq linum-format "%d ")
-;; (set-face-attribute 'linum nil
-;; 		    :foreground "#a9a9a9"
-;; 		    :height 0.9)
 
 ;;----------------------------------------------------------
 ;; undo redo 設定
 ;; http://d.hatena.ne.jp/khiker/20100123/undo_tree
-;; (require 'undo-tree)
-;; (global-undo-tree-mode)
+;;; (require 'undo-tree)
+;;; (global-undo-tree-mode)
 (global-set-key (kbd "M-/") 'undo-tree-redo)
 
 ;;----------------------------------------------------------
@@ -252,12 +238,10 @@
 
 ;;----------------------------------------------------------
 ;; mouse 設定
-(if window-system (progn
-		    (xterm-mouse-mode t)
-		    (mouse-wheel-mode t)
-		    (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 3)))
-		    (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up   3)))
-		    ))
+;;; (xterm-mouse-mode t)
+;;; (mouse-wheel-mode t)
+;;; (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 3)))
+;;; (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up   3)))
 
 ;;----------------------------------------------------------
 ;; フォント設定
@@ -362,7 +346,7 @@
 ;; アクティブバッファー強調表示
 (when (require 'dimmer nil t)
   (setq dimmer-fraction 0.6)
-  (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar") 
+  (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar")
   (dimmer-mode 1))
 (with-eval-after-load "dimmer"
   (defun dimmer-off ()
@@ -418,7 +402,7 @@
 (setq frame-title-format (format "emacs@%s : %%f" (system-name)))
 
 ;; neotree 設定
-;; 
+;;
 ;; - neotree-toggle toggle/hide NeoTree window
 ;; - neotree-stretch-toggle Maximize / Minimize
 ;; - n next line ， p previous line。
@@ -440,8 +424,6 @@
 ;; delete-other-window で neotree ウィンドウを消さない
 (setq neo-persist-show t)
 
-;; タブの挙動
-(setq indent-line-function 'tab-to-tab-stop)
 
 ;;----------------------------------------------------------
 ;; 矩形選択
@@ -571,7 +553,7 @@ mouse-3: delete other windows"
 ;;                     (add-to-list 'default-frame-alist '(alpha . 90))
 ;;                     ))
 
-;;----------------------------------------------------------
+;; ----------------------------------------------------------
 ;; 空白関係
 (require 'whitespace)
 (setq whitespace-style '(
@@ -593,14 +575,13 @@ mouse-3: delete other windows"
         ;; character ?\xBB at that column followed by a TAB which goes to
         ;; the next TAB column.
         ;; If this is a problem for you, please, comment the line below.
-        ;; (space-mark ?\u0020 [?\xB7])  ; 半角スペース
-        ;; (newline-mark ?\n   [?\u21B5 ?\n]) ; 改行記号
+;;        (space-mark ?\u0020 [?\xB7])  ; 半角スペース
         (newline-mark ?\n   [?↓ ?\n]) ; 改行記号
-	;; (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t]) ; タブマーク
+;;        (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t]) ; タブマーク
         )
       )
 
-;;----------------------------------------------------------
+;; ----------------------------------------------------------
 ;; スペース（全角／半角）はを可視化
 (setq whitespace-space-regexp "\\([\x0020|\u3000]+\\)")
 
@@ -621,8 +602,9 @@ mouse-3: delete other windows"
 
 ;;----------------------------------------------------------
 ;; git-gutter+ git 変更分を表示
-(require 'git-gutter+)
-(global-git-gutter+-mode t)
+;;; (require 'git-gutter-fringe+)
+;;; (global-git-gutter+-mode t)
+;; (git-gutter-fr+-minimal)
 
 ;;----------------------------------------------------------
 ;; カレントのファイルパスをコピーする
@@ -654,6 +636,13 @@ mouse-3: delete other windows"
 ;; (global-auto-revert-mode 1) ;; 勝手に読み直す。emasc側で変更があるとセーブできなくなる
 (global-auto-revert-mode t)
 
+;;----------------------------------------------------------
+;; 行番号表示
+;; (global-linum-mode t)
+;; (setq linum-format "%d ")
+;; (set-face-attribute 'linum nil
+;; 		    :foreground "#a9a9a9"
+;; 		    :height 0.9)
 
 ;;----------------------------------------------------------
 ;; インクリメンタルサーチ
@@ -738,19 +727,17 @@ mouse-3: delete other windows"
 
 ;; helm で M-x を実行
 (define-key global-map (kbd "M-x")     'helm-M-x)
-;; helm で M-y を実行
-(define-key global-map (kbd "M-y") 'helm-show-kill-ring)
 
 ;; (1) を実施せずに、入力 utf-8 書き出しが cp932 に強制する
 ;; windowsのみ
-(when (eq system-type 'windows-nt)
-  (defun set-rw-coding-system:around (orig-func &rest args)
-    (let ((coding-system-for-read  'utf-8-dos) ; 行末の ^M を避けるため -dos が必要
-          (coding-system-for-write 'cp932-dos))
-      (apply orig-func args)          ; オリジナル関数を呼び出し
-      ))
-  (advice-add 'process-file :around #'set-rw-coding-system:around)
-  )
+;;; (when (eq system-type 'windows-nt)
+;;;   (defun set-rw-coding-system:around (orig-func &rest args)
+;;;     (let ((coding-system-for-read  'utf-8-dos) ; 行末の ^M を避けるため -dos が必要
+;;;           (coding-system-for-write 'cp932-dos))
+;;;       (apply orig-func args)          ; オリジナル関数を呼び出し
+;;;       ))
+;;;   (advice-add 'process-file :around #'set-rw-coding-system:around)
+;;;   )
 ;; (setq default-process-coding-system '(utf-8-unix . cp932-dos))
 
 ;; ;; helm で find-files を実行
@@ -924,7 +911,7 @@ mouse-3: delete other windows"
           '(lambda()
              ;; (setq c-set-style "cc-mode")
              ;; (c-set-offset 'innamespace 0)
-             (setq tab-width 4)
+             ;; (setq tab-width 4)
              (setq indent-tabs-mode nil)
              ;; (setq c-basic-offset 4)
              ;; (setq c-tab-always-indent t)
@@ -993,4 +980,3 @@ mouse-3: delete other windows"
 (setq gdb-use-separate-io-buffer t)
 ;; t にすると mini buffer に値が表示される
 (setq gud-tooltip-echo-area nil)
-
