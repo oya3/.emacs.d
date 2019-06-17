@@ -8,6 +8,8 @@
 ;;       q   : quit
 ;;       p/n : undo <-> redo
 ;;       f/b : 枝移動
+;; C-c C-f: カーソル行がファイルパスの場合、そのファイルを開けて移動する
+;;
 ;; C-c > : インデント調整起動
 ;; C-x C-b : バッファーリスト表示
 ;; C-x C-b : バッファー一覧表示
@@ -50,6 +52,7 @@
 ;; C-w : マークから現在位置までの範囲を削除する
 ;; M-w : マークから現在位置までの範囲をキルリング（貼り付け用のバッファ）にコピー
 ;; C-y : キルリングの最新の内容を貼り付ける
+;; M-y  : helm で M-y を実行(キリングバッファー一覧が表示され、選択してペーストできる）
 
 ;; C-d : カーソルの文字を削除（デリート）
 ;; M-d : カーソルの単語を削除（削除した単語はキルリングに蓄積）
@@ -223,7 +226,7 @@
 ;; )
 
 ;; 起動時のディレクトリの変更
-(setq default-directory "~/")
+;; (setq default-directory "~/")
 
 
 ;;(set-default-coding-systems 'utf-8) ; デフォルトの文字コード
@@ -371,19 +374,21 @@
 
 
 ;; アクティブバッファー強調表示
-(when (require 'dimmer nil t)
-  (setq dimmer-fraction 0.6)
-  (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar") 
-  (dimmer-mode 1))
-(with-eval-after-load "dimmer"
-  (defun dimmer-off ()
-    (dimmer-mode -1)
-    (dimmer-process-all))
-  (defun dimmer-on ()
-    (dimmer-mode 1)
-    (dimmer-process-all))
-  (add-hook 'focus-out-hook #'dimmer-off)
-  (add-hook 'focus-in-hook #'dimmer-on))
+(if window-system (progn
+		    (when (require 'dimmer nil t)
+		      (setq dimmer-fraction 0.6)
+		      (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar") 
+		      (dimmer-mode 1))
+		    (with-eval-after-load "dimmer"
+		      (defun dimmer-off ()
+			(dimmer-mode -1)
+			(dimmer-process-all))
+		      (defun dimmer-on ()
+			(dimmer-mode 1)
+			(dimmer-process-all))
+		      (add-hook 'focus-out-hook #'dimmer-off)
+		      (add-hook 'focus-in-hook #'dimmer-on))
+		    ))
 
 ;; desktop-save-mode 終了時のフレーム状態を保存
 (if window-system (progn
@@ -749,8 +754,10 @@ mouse-3: delete other windows"
 
 ;; helm で M-x を実行
 (define-key global-map (kbd "M-x")     'helm-M-x)
-;; helm で M-y を実行
+;; helm で M-y を実行(キリングバッファー一覧が表示され、選択してペーストできる）
 (define-key global-map (kbd "M-y") 'helm-show-kill-ring)
+;; カーソル行がファイルパスの場合、そのファイルを開けて移動する
+(define-key global-map (kbd "C-c C-f") 'helm-find-files)
 
 ;; (1) を実施せずに、入力 utf-8 書き出しが cp932 に強制する
 ;; windowsのみ
@@ -989,7 +996,7 @@ mouse-3: delete other windows"
 (add-hook 'makefile-mode-hook 'hard-tabs)
 (add-hook 'makefile-gmake-mode-hook 'hard-tabs)
 (add-hook 'makefile-bsdmake-mode-hook 'hard-tabs)
-(setq auto-mode-alist (append '(("\\(make\\|makefile\\)\\.\\(def\\|target\\|targets\\|bin\\|lib\\)$" .
+(setq auto-mode-alist (append '(("\\(make\\.\\|makefile\\).*$" .
                                  makefile-mode)) auto-mode-alist))
 
 
