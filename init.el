@@ -112,6 +112,8 @@
 ;;     C-c r                     : 検索結果再表示    'helm-resume
 ;;     C-c p                     : 検索元に戻る      'helm-ag-pop-stack
 ;;     C-x b                     : バッファー一覧表示 'helm-buffers-list
+;;                               :                    C-@ : マーク＆アンマーク
+;;                               :                    M-D : kill buffers
 ;;     C-l                       : 一階層上がる
 ;;     helm-ag-pop-stack         : ジャンプ前に戻る
 ;; 参考サイト
@@ -722,6 +724,7 @@ mouse-3: delete other windows"
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+(define-key global-map (kbd "C-x b")   'helm-buffers-list) ; buffer to switch をやめて buffer-list に変更 
 
 (helm-mode 1)
 ;; - Windows NTEmacs で ag (The Silver Searcher) を使う
