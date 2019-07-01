@@ -137,6 +137,8 @@
 ;; - Emacsの設定ファイルをOSの判定をして共有する方法｜system-type
 ;;   https://nagayasu-shinya.com/emacs-system-type/
 (message "OS is %s." system-type)
+(message "HOME is %s." (getenv "HOME"))
+(message "PATH is %s." (getenv "PATH"))
 
 (setenv "LC_MESSAGES" "C")
 
@@ -324,8 +326,24 @@
   ;; (setq use-default-font-for-symbols nil)
   )
 
+;; linux
 (when (eq system-type 'gnu/linux)
   (set-face-font 'default "ricty-12")
+  )
+
+;; cygwin
+(when (eq system-type 'cygwin)
+  ;; (set-face-font 'default "MeiryoKe_Gothic")
+  ;; (set-face-font 'default "ＭＳ ゴシック-12")
+  ;; (set-face-font 'default "Ricty Diminished-12")
+  (set-face-font 'default "Ricty Diminished-12")
+  (setenv "PATH"
+	  (concat
+	   (concat (getenv "HOME") "/.emacs.d/bin:")
+	   (getenv "PATH")))
+  (setq exec-path (parse-colon-path (getenv "PATH"))) ;; 実行パスも同じにする
+  ;; windowsの場合のみ
+  (setq-default buffer-file-coding-system 'japanese-cp932-dos)
   )
 
 ;; 画面が1980x1080場合、[110]
