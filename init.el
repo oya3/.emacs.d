@@ -75,7 +75,8 @@
 ;; C-q C-j: 改行
 ;;
 ;; --- カレントディレクトリ ---
-;; M-x pwd : 現在のディレクトリにカレントディレクトリを変更する
+;; M-x pwd : 現在のカレントディレクトリを確認する
+;; M-x cd  : 現在のカレントディレクトリを変更する
 ;; 
 ;; --- gcc コンパイル ---
 ;; M-x compile : カレントディレクトリでmakeを実行
@@ -181,6 +182,8 @@
 ;;   https://nagayasu-shinya.com/emacs-msys2-path/
 ;; (message "oya debug: system-type: %s" system-type)
 (when (eq system-type 'windows-nt)
+  (set-default-coding-systems 'utf-8-unix) ; デフォルトの文字コード
+  (prefer-coding-system 'utf-8-unix)
 
   ;; MSYS2 のコマンドを使えるようにする.
   (setenv "PATH"
