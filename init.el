@@ -167,7 +167,6 @@
 
 ;; ;; 日本語環境(言語設定)
 (set-language-environment "Japanese")
-
 ;; (set-default-coding-systems 'utf-8-unix) ; デフォルトの文字コード
 ;; (prefer-coding-system 'utf-8-unix)
 ;; ----------------------------------------------------------------------
@@ -1039,3 +1038,11 @@ mouse-3: delete other windows"
 ;; t にすると mini buffer に値が表示される
 (setq gud-tooltip-echo-area nil)
 
+;; Visual Studio Debugger Key Bindings
+(global-set-key (kbd "<f10>") 'gud-next)
+(global-set-key (kbd "<f11>") 'gud-step)
+(global-set-key [(f9)] 'gud-break)
+(global-set-key [(shift f9)] 'gud-remove)
+(global-set-key [(control f5)] 'gud-run)
+(global-set-key [(f5)] 'gud-cont)
+(global-set-key [(shift f5)] 'gud)
