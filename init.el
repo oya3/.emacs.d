@@ -10,7 +10,9 @@
 ;;       f/b : 枝移動
 ;; C-c C-f: カーソル行がファイルパスの場合、そのファイルを開けて移動する
 ;;
-;; C-c > : インデント調整起動
+;; M-x string-rectangle : 選択した行の先頭に任意の文字列を挿入することが可能（インデントにも利用できる）
+;;
+;; C-c > : インデント調整
 ;; C-x C-b : バッファーリスト表示
 ;; C-x C-b : バッファー一覧表示
 ;; C-c t b : 旧バッファー一覧
@@ -481,8 +483,11 @@
 ;; delete-other-window で neotree ウィンドウを消さない
 (setq neo-persist-show t)
 
-;; タブの挙動
+;; タブの挙動(一般的なタブの挙動）
 (setq indent-line-function 'tab-to-tab-stop)
+
+;; バックデリート有効
+(global-set-key "\C-h" 'delete-backward-char)
 
 ;;----------------------------------------------------------
 ;; 矩形選択
