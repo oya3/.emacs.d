@@ -8,5 +8,6 @@ server/
 session.*
 abbrev_defs
 recentf
+transient/
 .DS_Store
 
