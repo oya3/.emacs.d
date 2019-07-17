@@ -8,7 +8,7 @@
 ;;       q   : quit
 ;;       p/n : undo <-> redo
 ;;       f/b : 枝移動
-;; C-c C-f: カーソル行がファイルパスの場合、そのファイルを開けて移動する
+;; C-x C-f: ファイル選択＆カーソル行がファイルパスの場合、そのファイルを開けて移動する
 ;;
 ;; M-x string-rectangle : 選択した行の先頭に任意の文字列を挿入することが可能（インデントにも利用できる）
 ;;
@@ -48,6 +48,7 @@
 ;; C-z : １ページ進む
 ;; M-> : ファイル末尾
 
+;; 選択＆削除＆コピー＆ペースト
 ;; C-@ : 選択開始
 ;; C-SPACE : 選択開始
 ;; C-RET : 矩形選択開始 + (M-n : 連番付加)
@@ -124,7 +125,8 @@
 ;;   http://qiita.com/l3msh0/items/97909d6e2c92af3acc00#1-9
 ;;
 ;; 文字コード自動判定が間違ったとき
-;; C-x RET r (revert-buffer-with-coding-system) で 文字コードを指定しなおすことで対処できる。
+;; C-x RET r (coding system for visited file) で 文字コードを指定しなおすことで対処できる。
+;; C-x RET f (coding system for saving file) で 文字コードを指定しなおすことで対処できる。
 ;;
 ;; windows 専用設定だけど、どうも26.1では動かない気がする。。。
 ;; SETX /M ALTERNATE_EDITOR "C:\tools\emacs\bin\runemacs.exe"
@@ -166,7 +168,6 @@
 (unless (server-running-p)
   (server-start)
   )
-
 
 ;; ;; 日本語環境(言語設定)
 (set-language-environment "Japanese")
@@ -239,7 +240,6 @@
 ;; 起動時のディレクトリの変更
 ;; (setq default-directory "~/")
 
-
 ;;(set-default-coding-systems 'utf-8) ; デフォルトの文字コード
 ;;(prefer-coding-system 'utf-8)
 ;;(set-default 'buffer-file-coding-system 'japanese-cp932-dos)
@@ -272,8 +272,8 @@
 (require 'indent-tools)
 (global-set-key (kbd "C-c >") 'indent-tools-hydra/body)
 (add-hook 'python-mode-hook
-	  (lambda () (define-key python-mode-map (kbd "C-c >") 'indent-tools-hydra/body))
-	  )
+          (lambda () (define-key python-mode-map (kbd "C-c >") 'indent-tools-hydra/body))
+          )
 
 ;;----------------------------------------------------------
 ;; mouse 設定
@@ -398,7 +398,6 @@
 ;; dracula theme
 ;;(add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
 (load-theme 'dracula t)
-
 
 ;; アクティブバッファー強調表示
 (if window-system (progn
@@ -642,7 +641,7 @@ mouse-3: delete other windows"
         ;; (space-mark ?\u0020 [?\xB7])  ; 半角スペース
         ;; (newline-mark ?\n   [?\u21B5 ?\n]) ; 改行記号
         (newline-mark ?\n   [?↓ ?\n]) ; 改行記号
-	;; (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t]) ; タブマーク
+        ;; (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t]) ; タブマーク
         )
       )
 
@@ -748,13 +747,95 @@ mouse-3: delete other windows"
 ;; helm
 (require 'helm)
 (require 'helm-config)
-
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
-(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-(define-key global-map (kbd "C-x b")   'helm-buffers-list) ; buffer to switch をやめて buffer-list に変更 
-
 (helm-mode 1)
+
+;; 旧設定 2018/07/16 まで
+;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ;; rebind tab to run persistent action
+;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ;; make TAB work in terminal
+;; (define-key helm-map (kbd "C-z")  'helm-select-action) ;; list actions using C-z
+;; (define-key global-map (kbd "M-x")     'helm-M-x) ;; helm で M-x を実行
+;; (define-key global-map (kbd "M-y") 'helm-show-kill-ring) ;; helm で M-y を実行(キリングバッファー一覧が表示され、選択してペーストできる）
+;; (define-key global-map (kbd "C-c C-f") 'helm-find-files) ;; カーソル行がファイルパスの場合、そのファイルを開けて移動する
+;; (define-key global-map (kbd "C-x b") 'helm-buffers-list) ;; buffer to switch をやめて helm-buffer-list をやめて helm-mini に変更 
+;; (define-key helm-find-files-map (kbd "C-h") 'delete-backward-char) ;; delete backword
+
+;; 新設定 2018/07/17から
+(define-key global-map (kbd "M-x")     'helm-M-x)
+(define-key global-map (kbd "C-x C-f") 'helm-find-files)
+(define-key global-map (kbd "C-x C-r") 'helm-recentf)
+(define-key global-map (kbd "M-y")     'helm-show-kill-ring)
+(define-key global-map (kbd "C-c i")   'helm-imenu)
+(define-key global-map (kbd "C-x b")   'helm-mini)
+(define-key global-map (kbd "M-r")     'helm-resume)
+(define-key global-map (kbd "C-M-h")   'helm-apropos)
+(define-key helm-map (kbd "C-h") 'delete-backward-char)
+(define-key helm-find-files-map (kbd "C-h") 'delete-backward-char)
+(define-key helm-find-files-map (kbd "TAB") 'helm-execute-persistent-action)
+(define-key helm-read-file-map (kbd "TAB") 'helm-execute-persistent-action)
+
+;; Disable helm in some functions
+;; (add-to-list 'helm-completing-read-handlers-alist '(find-file . nil))
+;; (add-to-list 'helm-completing-read-handlers-alist '(write-file . nil))
+(add-to-list 'helm-completing-read-handlers-alist '(find-alternate-file . nil))
+(add-to-list 'helm-completing-read-handlers-alist '(find-tag . nil))
+
+(setq helm-buffer-details-flag nil)
+
+;; Emulate `kill-line' in helm minibuffer
+(setq helm-delete-minibuffer-contents-from-point t)
+(defadvice helm-delete-minibuffer-contents (before emulate-kill-line activate)
+  "Emulate `kill-line' in helm minibuffer"
+  (kill-new (buffer-substring (point) (field-end))))
+
+(defadvice helm-ff-kill-or-find-buffer-fname (around execute-only-if-file-exist activate)
+  "Execute command only if CANDIDATE exists"
+  (when (file-exists-p candidate)
+    ad-do-it))
+
+(setq helm-ff-fuzzy-matching nil)
+(defadvice helm-ff--transform-pattern-for-completion (around my-transform activate)
+  "Transform the pattern to reflect my intention"
+  (let* ((pattern (ad-get-arg 0))
+         (input-pattern (file-name-nondirectory pattern))
+         (dirname (file-name-directory pattern)))
+    (setq input-pattern (replace-regexp-in-string "\\." "\\\\." input-pattern))
+    (setq ad-return-value
+          (concat dirname
+                  (if (string-match "^\\^" input-pattern)
+                      ;; '^' is a pattern for basename
+                      ;; and not required because the directory name is prepended
+                      (substring input-pattern 1)
+                    (concat ".*" input-pattern))))))
+
+(defun helm-buffers-list-pattern-transformer (pattern)
+  (if (equal pattern "")
+      pattern
+    (let* ((first-char (substring pattern 0 1))
+           (pattern (cond ((equal first-char "*")
+                           (concat " " pattern))
+                          ((equal first-char "=")
+                           (concat "*" (substring pattern 1)))
+                          (t
+                           pattern))))
+      ;; Escape some characters
+      (setq pattern (replace-regexp-in-string "\\." "\\\\." pattern))
+      (setq pattern (replace-regexp-in-string "\\*" "\\\\*" pattern))
+      pattern)))
+
+(unless helm-source-buffers-list
+  (setq helm-source-buffers-list
+        (helm-make-source "Buffers" 'helm-source-buffers)))
+(add-to-list 'helm-source-buffers-list
+             '(pattern-transformer helm-buffers-list-pattern-transformer))
+
+(defadvice helm-ff-sort-candidates (around no-sort activate)
+  "Don't sort candidates in a confusing order!"
+  (setq ad-return-value (ad-get-arg 0)))
+
+;; --- helm setting end ---
+
+(setq helm-buffer-max-length 50) ; buffer 名を広くする
+
 ;; - Windows NTEmacs で ag (The Silver Searcher) を使う
 ;;   http://extra-vision.blogspot.com/2016/01/ntemacs-ag-silver-searcher.html
 
@@ -782,13 +863,6 @@ mouse-3: delete other windows"
 (setq helm-follow-mode-persistent t)
 ;; ;; 正規表現を有効にする
 ;; (setq helm-ag-use-emacs-lisp-regexp t)
-
-;; helm で M-x を実行
-(define-key global-map (kbd "M-x")     'helm-M-x)
-;; helm で M-y を実行(キリングバッファー一覧が表示され、選択してペーストできる）
-(define-key global-map (kbd "M-y") 'helm-show-kill-ring)
-;; カーソル行がファイルパスの場合、そのファイルを開けて移動する
-(define-key global-map (kbd "C-c C-f") 'helm-find-files)
 
 ;; (1) を実施せずに、入力 utf-8 書き出しが cp932 に強制する
 ;; windowsのみ
@@ -978,7 +1052,7 @@ mouse-3: delete other windows"
              ;; (setq c-basic-offset 4)
              ;; (setq c-tab-always-indent t)
              ;; (local-set-key (kbd "RET") 'newline-and-indent)
-	     (auto-complete-mode)
+             (auto-complete-mode)
              )
           )
 ;; (setq csharp-want-imenu nil)
@@ -1029,7 +1103,6 @@ mouse-3: delete other windows"
 (add-hook 'makefile-bsdmake-mode-hook 'hard-tabs)
 (setq auto-mode-alist (append '(("\\(make\\.\\|makefile\\).*$" .
                                  makefile-mode)) auto-mode-alist))
-
 
 ;; 大文字／小文字変換。なんか以下が必要っぽい
 (put 'upcase-region 'disabled nil)
