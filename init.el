@@ -749,7 +749,7 @@ mouse-3: delete other windows"
 (require 'helm-config)
 (helm-mode 1)
 
-;; 旧設定 2018/07/16 まで
+;; ;; 旧設定 2018/07/16 まで
 ;; (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ;; rebind tab to run persistent action
 ;; (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ;; make TAB work in terminal
 ;; (define-key helm-map (kbd "C-z")  'helm-select-action) ;; list actions using C-z
@@ -779,7 +779,7 @@ mouse-3: delete other windows"
 (add-to-list 'helm-completing-read-handlers-alist '(find-alternate-file . nil))
 (add-to-list 'helm-completing-read-handlers-alist '(find-tag . nil))
 
-(setq helm-buffer-details-flag nil)
+;; (setq helm-buffer-details-flag nil)
 
 ;; Emulate `kill-line' in helm minibuffer
 (setq helm-delete-minibuffer-contents-from-point t)
@@ -1021,6 +1021,8 @@ mouse-3: delete other windows"
           '(lambda()
              (setq c-set-style "stroustrup")
              (c-set-offset 'innamespace 0)
+             (c-set-offset 'brace-list-open 0)
+             (c-set-offset 'brace-list-intro 4)
              (setq tab-width 4)
              (setq indent-tabs-mode t)
              (setq c-basic-offset 4)
@@ -1033,6 +1035,8 @@ mouse-3: delete other windows"
           '(lambda()
              (setq c-set-style "stroustrup")
              (c-set-offset 'innamespace 0)
+             (c-set-offset 'brace-list-open 0)
+             (c-set-offset 'brace-list-intro 4)
              (setq tab-width 4)
              (setq indent-tabs-mode t)
              (setq c-basic-offset 4)
