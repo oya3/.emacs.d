@@ -483,7 +483,7 @@
 (setq neo-persist-show t)
 
 ;; タブの挙動(一般的なタブの挙動）
-(setq indent-line-function 'tab-to-tab-stop)
+;; (setq indent-line-function 'tab-to-tab-stop)
 
 ;; バックデリート有効
 (global-set-key "\C-h" 'delete-backward-char)
