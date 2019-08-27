@@ -491,8 +491,8 @@
 ;; delete-other-window で neotree ウィンドウを消さない
 (setq neo-persist-show t)
 
-;; タブの挙動(一般的なタブの挙動）
-;; (setq indent-line-function 'tab-to-tab-stop)
+;; タブの挙動(一般的なタブの挙動） ※これを無効にすると、tab-mark が表示されなくなる
+(setq indent-line-function 'tab-to-tab-stop)
 
 ;; バックデリート有効
 (global-set-key "\C-h" 'delete-backward-char)
