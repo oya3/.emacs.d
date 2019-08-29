@@ -649,8 +649,9 @@ mouse-3: delete other windows"
         ;; If this is a problem for you, please, comment the line below.
         ;; (space-mark ?\u0020 [?\xB7])  ; 半角スペース
         ;; (newline-mark ?\n   [?\u21B5 ?\n]) ; 改行記号
-        (newline-mark ?\n   [?↓ ?\n]) ; 改行記号
+        (newline-mark ?\n   [?$ ?\n]) ; 改行記号
         ;; (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t]) ; タブマーク
+        (tab-mark ?\t [?> ?\t]) ; タブマーク
         )
       )
 
