@@ -873,6 +873,8 @@ mouse-3: delete other windows"
 (setq helm-follow-mode-persistent t)
 ;; ;; 正規表現を有効にする
 ;; (setq helm-ag-use-emacs-lisp-regexp t)
+;; helm ag 編集画面は一覧に表示させる
+(setq helm-white-buffer-regexp-list '("helm-ag-edit"))
 
 ;; (1) を実施せずに、入力 utf-8 書き出しが cp932 に強制する
 ;; windowsのみ

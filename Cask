@@ -4,6 +4,7 @@
 ;;(depends-on "")
 ;; (depends-on "gtags-mode")
 
+(depends-on "esup")
 (depends-on "magit")
 (depends-on "dracula-theme")
 (depends-on "auto-complete")
