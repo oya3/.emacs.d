@@ -9,4 +9,4 @@ abbrev_defs
 recentf
 transient/
 .DS_Store
-
+server/**/*

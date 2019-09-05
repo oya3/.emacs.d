@@ -173,7 +173,7 @@
 ; server start for emacs-client
 (require 'server)
 (defun server-ensure-safe-dir (dir) "Noop" t)
-(setq server-socket-dir "~/.emacs.d")
+(setq server-socket-dir "~/.emacs.d/server")
 (unless (server-running-p)
   (server-start)
   )
