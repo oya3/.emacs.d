@@ -322,8 +322,8 @@
 (when (eq system-type 'windows-nt)
   ;; (set-face-font 'default "MeiryoKe_Gothic")
   ;; (set-face-font 'default "ＭＳ ゴシック-12")
+  (set-face-font 'default "Ricty Diminished for Powerline-12")
   ;; (set-face-font 'default "Ricty Diminished-12")
-  (set-face-font 'default "Ricty Diminished-12")
   ;;
   ;; (set-face-attribute 'default nil :family "Inconsolata" :height 110)
   ;; ;; (set-face-attribute 'default nil :family "Consolas" :height 104)

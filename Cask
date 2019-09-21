@@ -31,7 +31,7 @@
 (depends-on "visual-regexp-steroids")
 (depends-on "pcre2el")
 (depends-on "markdown-mode")
-(depends-on "undo-tree")
+;; (depends-on "undo-tree")
 (depends-on "indent-guide")
 (depends-on "indent-tools")
 (depends-on "dimmer")
