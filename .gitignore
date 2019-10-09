@@ -1,6 +1,7 @@
 .cask/
 auto-save-list/
 elpa/
+inits/
 .emacs.desktop*
 ac-comphist.dat
 kkcrc
