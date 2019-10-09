@@ -1,7 +1,6 @@
 .cask/
 auto-save-list/
 elpa/
-inits/
 .emacs.desktop*
 ac-comphist.dat
 kkcrc
@@ -11,3 +10,4 @@ recentf
 transient/
 .DS_Store
 server/**/*
+*~
