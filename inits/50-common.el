@@ -362,32 +362,29 @@
 (cua-mode t)
 (setq cua-enable-cua-keys nil) ;; 変なキーバインド禁止
 
-;;----------------------------------------------------------
-;; tabbar
 ;; tabbar上でウィールマウスボタンで削除
 (defun my-tabbar-buffer-help-on-tab (tab)
   "Return the help string shown when mouse is onto TAB."
   (if tabbar--buffer-show-groups
       (let* ((tabset (tabbar-tab-tabset tab))
-             (tab (tabbar-selected-tab tabset)))
-        (format "mouse-1: switch to buffer %S in group [%s]"
-                (buffer-name (tabbar-tab-value tab)) tabset))
+	     (tab (tabbar-selected-tab tabset)))
+	(format "mouse-1: switch to buffer %S in group [%s]"
+		(buffer-name (tabbar-tab-value tab)) tabset))
     (format "\
 mouse-1: switch to buffer %S\n\
 mouse-2: kill this buffer\n\
 mouse-3: delete other windows"
-            (buffer-name (tabbar-tab-value tab)))))
+	    (buffer-name (tabbar-tab-value tab)))))
 
-;;----------------------------------------------------------
 ;; tabar上でマウスで選択
-(defun My-tabbar-buffer-select-tab (event tab)
+(defun my-tabbar-buffer-select-tab (event tab)
   "On mouse EVENT, select TAB."
   (let ((mouse-button (event-basic-type event))
-        (buffer (tabbar-tab-value tab)))
+	(buffer (tabbar-tab-value tab)))
     (cond
      ((eq mouse-button 'mouse-2)
       (with-current-buffer buffer
-        (kill-buffer)))
+	(kill-buffer)))
      ((eq mouse-button 'mouse-3)
       (delete-other-windows))
      (t
@@ -820,7 +817,9 @@ mouse-3: delete other windows"
 ;;----------------------------------------------------------
 ;; gtags-mode をやめて helm-gtags に変更 2016/01/05
 ;; helm-gtags
-;; (use-package helm-gtags)
+(use-package helm-gtags
+  :ensure t
+  )
 ;; path指定
 ;; 'root(タグファイルがあるディレクトリを頂点としたパス)
 ;; 'absolete(絶対パス)
