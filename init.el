@@ -18,7 +18,7 @@
 
 ;; (add-to-list 'load-path "~/.emacs.d/elisp")
 
-(setq use-package-always-ensure t)
+;; (setq use-package-always-ensure t)
 
 ;;;;; init-loader
 (use-package init-loader
