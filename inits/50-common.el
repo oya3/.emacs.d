@@ -545,7 +545,6 @@ mouse-3: delete other windows"
 (use-package git-gutter+
 	     :ensure t
 	     )
-
 (global-git-gutter+-mode t)
 
 ;;----------------------------------------------------------
@@ -618,6 +617,9 @@ mouse-3: delete other windows"
 	     :ensure t
 	     )
 (use-package visual-regexp-steroids
+	     :ensure t
+	     )
+(use-package pcre2el
 	     :ensure t
 	     )
 ;; (setq vr/engine 'python)                ;python regexpならばこれ
@@ -956,6 +958,9 @@ mouse-3: delete other windows"
 
 ;;------------------------------------------------------------------------------
 ;; csharp mode
+(use-package csharp-mode
+	     :ensure t
+	     )
 (add-hook 'csharp-mode-hook
           '(lambda()
              ;; (setq c-set-style "cc-mode")
