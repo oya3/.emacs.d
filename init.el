@@ -1,6 +1,6 @@
-(setq url-proxy-services
-      '(("http" . "172.17.10.213:8080")
-	("https" . "172.17.10.213:8080")))
+;;(setq url-proxy-services
+;;      '(("http" . "172.17.10.213:8080")
+;;	("https" . "172.17.10.213:8080")))
 
 (require 'package)
 (setq package-archives
@@ -19,7 +19,6 @@
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
 ;; (setq use-package-always-ensure t)
-
 ;; (require 'initchart)
 ;; (initchart-record-execution-time-of load file)
 ;; (initchart-record-execution-time-of require feature)
