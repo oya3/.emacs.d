@@ -1022,6 +1022,12 @@ mouse-3: delete other windows"
 (setq auto-mode-alist (append '(("\\(make\\.\\|makefile\\).*$" .
                                  makefile-mode)) auto-mode-alist))
 
+;;----------------------------------------------------------
+;; markdown-mode
+(use-package markdown-mode
+	     :ensure t
+	     )
+
 ;; 大文字／小文字変換。なんか以下が必要っぽい
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
