@@ -262,28 +262,28 @@
   (load-theme 'dracula t)
   )
 
-;; アクティブバッファー強調表示
-(if window-system (progn
-		    ;;		    (when (require 'dimmer nil t)
-		    ;;		      (setq dimmer-fraction 0.6)
-		    ;;		      (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar") 
-		    ;;		      (dimmer-mode 1))
-		    (use-package dimmer
-		      :ensure t
-		      :config
-		      (setq dimmer-fraction 0.6)
-		      (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar")
-		      (dimmer-mode 1))
-		    (with-eval-after-load "dimmer"
-		      (defun dimmer-off ()
-			(dimmer-mode -1)
-			(dimmer-process-all))
-		      (defun dimmer-on ()
-			(dimmer-mode 1)
-			(dimmer-process-all))
-		      (add-hook 'focus-out-hook #'dimmer-off)
-		      (add-hook 'focus-in-hook #'dimmer-on))
-		    ))
+;; ;; アクティブバッファー強調表示
+;; (if window-system (progn
+;; 		    ;;		    (when (require 'dimmer nil t)
+;; 		    ;;		      (setq dimmer-fraction 0.6)
+;; 		    ;;		      (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar") 
+;; 		    ;;		      (dimmer-mode 1))
+;; 		    (use-package dimmer
+;; 		      :ensure t
+;; 		      :config
+;; 		      (setq dimmer-fraction 0.6)
+;; 		      (setq dimmer-exclusion-regexp "^\\*helm\\|^ \\*Minibuf\\|^\\*Calendar")
+;; 		      (dimmer-mode 1))
+;; 		    (with-eval-after-load "dimmer"
+;; 		      (defun dimmer-off ()
+;; 			(dimmer-mode -1)
+;; 			(dimmer-process-all))
+;; 		      (defun dimmer-on ()
+;; 			(dimmer-mode 1)
+;; 			(dimmer-process-all))
+;; 		      (add-hook 'focus-out-hook #'dimmer-off)
+;; 		      (add-hook 'focus-in-hook #'dimmer-on))
+;; 		    ))
 
 ;; desktop-save-mode 終了時のフレーム状態を保存
 (if window-system (progn
@@ -356,6 +356,52 @@
 
 ;; バックデリート有効
 (global-set-key "\C-h" 'delete-backward-char)
+
+;; 文字エンコーディングの文字列表現
+;; - モードラインの文字エンコーディング表示をわかりやすくする
+;;   https://qiita.com/kai2nenobu/items/ddf94c0e5a36919bc6db
+(defun my-coding-system-name-mnemonic (coding-system)
+  (let* ((base (coding-system-base coding-system))
+         (name (symbol-name base)))
+    (cond ((string-prefix-p "utf-8" name) "U8")
+          ((string-prefix-p "utf-16" name) "U16")
+          ((string-prefix-p "utf-7" name) "U7")
+          ((string-prefix-p "japanese-shift-jis" name) "SJIS")
+          ((string-match "cp\\([0-9]+\\)" name) (match-string 1 name))
+          ((string-match "japanese-iso-8bit" name) "EUC")
+          (t "???")
+          )))
+
+(defun my-coding-system-bom-mnemonic (coding-system)
+  (let ((name (symbol-name coding-system)))
+    (cond ((string-match "be-with-signature" name) "[BE]")
+          ((string-match "le-with-signature" name) "[LE]")
+          ((string-match "-with-signature" name) "[BOM]")
+          (t ""))))
+
+(defun my-buffer-coding-system-mnemonic ()
+  "Return a mnemonic for `buffer-file-coding-system'."
+  (let* ((code buffer-file-coding-system)
+         (name (my-coding-system-name-mnemonic code))
+         ;; (name code)
+         (bom (my-coding-system-bom-mnemonic code)))
+    (format "%s%s" name bom)))
+
+;; `mode-line-mule-info' の文字エンコーディングの文字列表現を差し替える
+(setq-default mode-line-mule-info
+              (cl-substitute '(:eval (my-buffer-coding-system-mnemonic))
+                             "%z" mode-line-mule-info :test 'equal))
+
+;;----------------------------------------------------------
+;; line-move 高速化 (カーソル移動を高速化)
+;; 以下の手順で line-move が遅いことが判断できる
+;;  M-x: profiler-start
+;;   ~ 何かしら操作 ~
+;;  M-x: profiler-report
+;; 
+;; - Emacs point(cursor) movement lag
+;;   https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag
+(setq auto-window-vscroll nil)
 
 ;;----------------------------------------------------------
 ;; 矩形選択
