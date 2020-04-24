@@ -401,6 +401,10 @@
 ;; 
 ;; - Emacs point(cursor) movement lag
 ;;   https://emacs.stackexchange.com/questions/28736/emacs-pointcursor-movement-lag
+;; - 非常に遅いEmacsをトラブルシューティングするにはどうすればよいですか？
+;;   https://qastack.jp/emacs/5359/how-can-i-troubleshoot-a-very-slow-emacs
+;; - 非常に長い行がEmacsを遅くするのを防ぐにはどうすればよいですか？
+;;   https://qastack.jp/emacs/598/how-do-i-prevent-extremely-long-lines-making-emacs-slow
 (setq auto-window-vscroll nil)
 
 ;;----------------------------------------------------------
