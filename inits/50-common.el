@@ -344,6 +344,13 @@
 ;; - C-c C-c Change the root directory.
 ;; - C-c C-p Copy a file or a directory.
 ;;
+(use-package all-the-icons
+	     :ensure t
+	     )
+(use-package neotree
+	     :ensure t
+	     )
+
 ;; C-x }, C-x { でwindowサイズを変更できるよにする
 (setq neo-window-fixed-size nil)
 ;; neotreeでファイルを新規作成した場合のそのファイルを開く
