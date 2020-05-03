@@ -1,4 +1,5 @@
 .cask/
+.cache/
 auto-save-list/
 elpa/
 .emacs.desktop*
@@ -11,3 +12,5 @@ transient/
 .DS_Store
 server/**/*
 *~
+.#*
+
