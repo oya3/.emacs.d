@@ -1,5 +1,10 @@
-﻿- init.el.for.cask
-Cask ファイルに日本語コメントとか不要なものを記載すると Cask install が失敗する場合があるので注意すること。
+﻿- 準備 -
+-- omnisharpを利用する場合 --
+(1) 以下を実施しomnisharp server をインストールする（一度のみ実施する）
+    M-x: omnisharp-install-server
+    .emacs.d/.cache/omnisharp/server/v1.34.5/... にインストールされる
+(2) ソリューション単位にomnisharpを開始する（起動するたびに実行する必要がある）
+    M-x: omnisharp-start-omnisharp-server RET <sln ディレクトリを選択> RET
 
 - command list
 C-s : インクリメンタルサーチ
@@ -23,7 +28,7 @@ C-c t b : 旧バッファー一覧
           d : delete
           x : 実行
 M-g g : 指定行にジャンプ
-helm imenu : 関数一覧表示
+counsel-imenu : 関数一覧表示
 C-x k : バッファー削除
 C-x 0 : カーソルのあるウィンドウを閉じる　
 C-x 1 : 他のウィンドウを全て閉じる　　　　
@@ -108,32 +113,14 @@ M-x magit-status : git status を実施
     s   : stage
     u   : unstage
     c c : commit (C-x # : コミットログ記載完了時に実行するコマンド)
---- helm ---
-* do リアルタイムで検索結果が表示される
-* do の場合、日本語検索がうまく動作しない。日本語検索の場合は、ag を利用する。
-M-i :いつでもどこでもカレントバッファーをhelm検索
-M-x helm-(do-)ag              : カレントディレクトリ配下のグレップ検索
-    helm-(do-)ag-project-root : .svn, .git, .hg プロジェクト配下のグレップ検索
-    helm-resume               : 直前の検索結果を呼び出す
-    helm-ls-git-ls            : .git 管理下のファイル一覧
-    cd                        : カレントディレクトリ変更
-    --- 検索結果表示中 ---
-    改行                      : 該当ファイルにジャンプ
-    C-j(C-z)                  : 該当ファイルを表示(ちょい見)
-    C-c C-e                   : 編集開始
-    C-c C-c                   : 編集内容を各ファイルに保存
-    C-c C-k                   : 編集内容を破棄
-    C-c i                     : 関数／定数 一覧   'helm-imenu
-    C-c r                     : 検索結果再表示    'helm-resume
-    C-c p                     : 検索元に戻る      'helm-ag-pop-stack
-    C-x b                     : バッファー一覧表示 'helm-buffers-list
-                              :                    C-@ : マーク＆アンマーク
-                              :                    M-D : kill buffers
-    C-l                       : 一階層上がる
-    helm-ag-pop-stack         : ジャンプ前に戻る
-参考サイト
-* 来年も使いたいelispランキング2013
-  http://qiita.com/l3msh0/items/97909d6e2c92af3acc00#1-9
+
+--- ivy ---
+M-x counsel-rg : utf8 文字列検索（超高速）
+M-x counsel-pt : マルチ言語対応検索（現在動作しない）
+ 検索後コマンド
+ C-c C-o: 検索編集前モード -> "w" キー押下で編集モードになる
+ C-c C-c: 編集結果をファイルに反映
+
 
 文字コード自動判定が間違ったとき
 C-x RET r (coding system for visited file) で 文字コードを指定しなおすことで対処できる。

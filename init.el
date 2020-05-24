@@ -680,12 +680,18 @@ mouse-3: delete other windows"
 (setq omn​​isharp-company-strip-trailing-brackets nil)
 (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
 
-
 (defun my-emacs-lisp-mode-setup ()
   (setq indent-tabs-mode nil)
   )
 
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-setup t)
+
+;; ------------------------------------------------------------------------------
+;; Meadow時代のofficeファイルをテキスト化するパッケージ（独自改良版）
+(use-package xdoc2txt
+  :load-path "~/.emacs.d/elisp"
+  )
+
 
 ;;--- end of my settings ---
 (custom-set-variables
