@@ -29,21 +29,11 @@
 
 (setq exec-path (parse-colon-path (getenv "PATH"))) ;; 実行パスも同じにする
 
+(message "PATH is %s." (getenv "PATH"))
+
 ;; ;;----------------------------------------------------------
 ;; ;; 文字コード指定
-;; (set-language-environment "Japanese")
-;; (when (eq system-type 'windows-nt)
-;;   (set-default-coding-systems 'utf-8-unix) ; デフォルトの文字コード
-;;   (prefer-coding-system 'utf-8-unix)
-;;   )
-
-;; ;;----------------------------------------------------------
-;; (prefer-coding-system 'utf-8)
-;; (set-file-name-coding-system 'cp932)
-;; (set-keyboard-coding-system 'cp932)
-;; (set-terminal-coding-system 'cp932)
-
-(require 'cl-lib)
+(require 'cl-lib) ;; emacs 標準
 (setenv "LANG" "ja_JP.UTF-8")
 ;; IME の設定をした後には実行しないこと
 ;; (set-language-environment "Japanese")
@@ -116,12 +106,6 @@
 (setq-default truncate-partial-width-windows t)
 
 ;;----------------------------------------------------------
-;; ウィンドウ移動
-;; shift ↑↓←→
-(setq windmove-wrap-around t)
-(windmove-default-keybindings)
-
-;;----------------------------------------------------------
 ;; ;; 勝手にウィンドウを分割するのをやめる
 ;; (setq split-width-threshold nil)
 ;; (setq split-height-threshold nil)
@@ -129,6 +113,18 @@
 ;;----------------------------------------------------------
 ;; タイトルバーに編集中のファイルのパス名を表示
 (setq frame-title-format (format "emacs@%s : %%f" (system-name)))
+
+;;----------------------------------------------------------
+;; ウィンドウ移動
+;; shift ↑↓←→
+(setq windmove-wrap-around t)
+(windmove-default-keybindings)
+
+;;----------------------------------------------------------
+;; シフト＋矢印で範囲選択
+;; (require 'pc-select)
+;; (setq pc-select-selection-keys-only t)
+;; (pc-selection-mode 1)
 
 ;;----------------------------------------------------------
 ;; 矩形選択
@@ -187,7 +183,7 @@
 ;; 
 ;; - neotree-toggle toggle/hide NeoTree window
 ;; - neotree-stretch-toggle Maximize / Minimize
-;; - n next line ， p previous line。
+;; - n next line ， p previous line
 ;; - SPC or RET or TAB Open current item if it is a file. Fold/Unfold current item if it is a directory.
 ;; - U Go up a directory
 ;; - g Refresh
@@ -200,11 +196,11 @@
 ;; - C-c C-p Copy a file or a directory.
 ;;
 (use-package all-the-icons
-	     :ensure t
-	     )
+  :ensure t
+  )
 (use-package neotree
-	     :ensure t
-	     )
+  :ensure t
+  )
 ;; C-x }, C-x { でwindowサイズを変更できるよにする
 (setq neo-window-fixed-size nil)
 ;; neotreeでファイルを新規作成した場合のそのファイルを開く
@@ -220,42 +216,6 @@
 ;; バックデリート有効
 (global-set-key "\C-h" 'delete-backward-char)
 
-;;----------------------------------------------------------
-;; 文字エンコーディングの文字列表現
-;; - モードラインの文字エンコーディング表示をわかりやすくする
-;;   https://qiita.com/kai2nenobu/items/ddf94c0e5a36919bc6db
-(defun my-coding-system-name-mnemonic (coding-system)
-  (let* ((base (coding-system-base coding-system))
-         (name (symbol-name base)))
-    (cond ((string-prefix-p "utf-8" name) "U8")
-          ((string-prefix-p "utf-16" name) "U16")
-          ((string-prefix-p "utf-7" name) "U7")
-          ((string-prefix-p "japanese-shift-jis" name) "SJIS")
-          ((string-match "cp\\([0-9]+\\)" name) (match-string 1 name))
-          ((string-match "japanese-iso-8bit" name) "EUC")
-          (t "???")
-          )))
-
-(defun my-coding-system-bom-mnemonic (coding-system)
-  (let ((name (symbol-name coding-system)))
-    (cond ((string-match "be-with-signature" name) "[BE]")
-          ((string-match "le-with-signature" name) "[LE]")
-          ((string-match "-with-signature" name) "[BOM]")
-          (t ""))))
-
-(defun my-buffer-coding-system-mnemonic ()
-  "Return a mnemonic for `buffer-file-coding-system'."
-  (let* ((code buffer-file-coding-system)
-         (name (my-coding-system-name-mnemonic code))
-         ;; (name code)
-         (bom (my-coding-system-bom-mnemonic code)))
-    (format "%s%s" name bom)))
-
-;; ;;----------------------------------------------------------
-;; ;; `mode-line-mule-info' の文字エンコーディングの文字列表現を差し替える
-;; (setq-default mode-line-mule-info
-;;               (cl-substitute '(:eval (my-buffer-coding-system-mnemonic))
-;;                              "%z" mode-line-mule-info :test 'equal))
 
 ;;----------------------------------------------------------
 ;; tabbar上でウィールマウスボタンで削除
@@ -263,25 +223,25 @@
   "Return the help string shown when mouse is onto TAB."
   (if tabbar--buffer-show-groups
       (let* ((tabset (tabbar-tab-tabset tab))
-	     (tab (tabbar-selected-tab tabset)))
-	(format "mouse-1: switch to buffer %S in group [%s]"
-		(buffer-name (tabbar-tab-value tab)) tabset))
+             (tab (tabbar-selected-tab tabset)))
+        (format "mouse-1: switch to buffer %S in group [%s]"
+                (buffer-name (tabbar-tab-value tab)) tabset))
     (format "\
 mouse-1: switch to buffer %S\n\
 mouse-2: kill this buffer\n\
 mouse-3: delete other windows"
-	    (buffer-name (tabbar-tab-value tab)))))
+            (buffer-name (tabbar-tab-value tab)))))
 
 ;;----------------------------------------------------------
 ;; tabar上でマウスで選択
 (defun my-tabbar-buffer-select-tab (event tab)
   "On mouse EVENT, select TAB."
   (let ((mouse-button (event-basic-type event))
-	(buffer (tabbar-tab-value tab)))
+        (buffer (tabbar-tab-value tab)))
     (cond
      ((eq mouse-button 'mouse-2)
       (with-current-buffer buffer
-	(kill-buffer)))
+        (kill-buffer)))
      ((eq mouse-button 'mouse-3)
       (delete-other-windows))
      (t
@@ -292,27 +252,27 @@ mouse-3: delete other windows"
 ;;----------------------------------------------------------
 ;; tabbarはwindowシステムの場合のみ
 (if window-system (progn
-		    ;; tabbar有効化
-		    (use-package tabbar
-		      :ensure t
-		      ;; :bind (("M-<right>" . tabbar-forward-tab)
-		      ;; 	 ("M-<left>" . tabbar-backward-tab))
-		      :config
-		      (tabbar-mode 1)
-		      ;; タブ上でマウスホイール操作無効
-		      (tabbar-mwheel-mode -1)
-		      ;; 画像を使わないことで軽量化する
-		      (setq tabbar-use-images nil)
-		      ;; タブグループを１つにする（これしないと読み込み度にウィンドウが分割される？）
-		      (setq tabbar-buffer-groups-function nil)
-		      ;; 独自マウス操作
-		      (setq tabbar-help-on-tab-function 'my-tabbar-buffer-help-on-tab)
-		      (setq tabbar-select-tab-function 'my-tabbar-buffer-select-tab)
-		      )
-		    ;; バッファ切り替え
-		    (global-set-key [\M-right] 'tabbar-forward-tab)
-		    (global-set-key [\M-left] 'tabbar-backward-tab)
-		    ))
+                    ;; tabbar有効化
+                    (use-package tabbar
+                      :ensure t
+                      ;; :bind (("M-<right>" . tabbar-forward-tab)
+                      ;;      ("M-<left>" . tabbar-backward-tab))
+                      :config
+                      (tabbar-mode 1)
+                      ;; タブ上でマウスホイール操作無効
+                      (tabbar-mwheel-mode -1)
+                      ;; 画像を使わないことで軽量化する
+                      (setq tabbar-use-images nil)
+                      ;; タブグループを１つにする（これしないと読み込み度にウィンドウが分割される？）
+                      (setq tabbar-buffer-groups-function nil)
+                      ;; 独自マウス操作
+                      (setq tabbar-help-on-tab-function 'my-tabbar-buffer-help-on-tab)
+                      (setq tabbar-select-tab-function 'my-tabbar-buffer-select-tab)
+                      )
+                    ;; バッファ切り替え
+                    (global-set-key [\M-right] 'tabbar-forward-tab)
+                    (global-set-key [\M-left] 'tabbar-backward-tab)
+                    ))
 
 ;;----------------------------------------------------------
 ;; マウス マークセット
@@ -371,8 +331,8 @@ mouse-3: delete other windows"
 ;;----------------------------------------------------------
 ;; 空白関係
 (use-package whitespace
-	     :ensure t
-	     )
+  :ensure t
+  )
 
 (setq whitespace-style '(
                          face           ; faceで可視化
@@ -401,26 +361,78 @@ mouse-3: delete other windows"
         )
       )
 
-;;----------------------------------------------------------
-;; スペース（全角／半角）はを可視化
-(setq whitespace-space-regexp "\\([\x0020|\u3000]+\\)")
+;; ;;----------------------------------------------------------
+;; ;; スペース（全角／半角）はを可視化
+;; (setq whitespace-space-regexp "\\([\x0020|\u3000]+\\)")
 
-(set-face-foreground 'whitespace-tab "#808000") ; "#4e9b4d")
-(set-face-background 'whitespace-tab 'nil)
-(set-face-underline  'whitespace-tab t)
-(set-face-foreground 'whitespace-space "#808000") ; "#4e9b4d")
-(set-face-background 'whitespace-space 'nil)
-(set-face-bold-p 'whitespace-space t)
-(set-face-foreground 'whitespace-newline  "#808000") ; "DimGray")
-(set-face-background 'whitespace-newline 'nil)
-(setq whitespace-action '(auto-cleanup)) ; 保存前に自動でクリーンアップ
+;; (set-face-foreground 'whitespace-tab "#808000") ; "#4e9b4d")
+;; (set-face-background 'whitespace-tab 'nil)
+;; (set-face-underline  'whitespace-tab t)
+;; (set-face-foreground 'whitespace-space "#808000") ; "#4e9b4d")
+;; (set-face-background 'whitespace-space 'nil)
+;; (set-face-bold-p 'whitespace-space t)
+;; (set-face-foreground 'whitespace-newline  "#808000") ; "DimGray")
+;; (set-face-background 'whitespace-newline 'nil)
+;; (setq whitespace-action '(auto-cleanup)) ; 保存前に自動でクリーンアップ
 (global-whitespace-mode 1)
+
+
+;;----------------------------------------------------------
+;; 改行コードを表示する
+(setq eol-mnemonic-dos "(CRLF)")
+(setq eol-mnemonic-mac "(CR)")
+(setq eol-mnemonic-unix "(LF)")
+
+;;----------------------------------------------------------
+;; 文字エンコーディングの文字列表現
+;; - モードラインの文字エンコーディング表示をわかりやすくする
+;;   https://qiita.com/kai2nenobu/items/ddf94c0e5a36919bc6db
+(defun my-coding-system-name-mnemonic (coding-system)
+  (let* ((base (coding-system-base coding-system))
+         (name (symbol-name base)))
+    (cond ((string-prefix-p "utf-8" name) "U8")
+          ((string-prefix-p "utf-16" name) "U16")
+          ((string-prefix-p "utf-7" name) "U7")
+          ((string-prefix-p "japanese-shift-jis" name) "SJIS")
+          ((string-match "cp\\([0-9]+\\)" name) (match-string 1 name))
+          ((string-match "japanese-iso-8bit" name) "EUC")
+          (t "???")
+          )))
+
+(defun my-coding-system-bom-mnemonic (coding-system)
+  (let ((name (symbol-name coding-system)))
+    (cond ((string-match "be-with-signature" name) "[BE]")
+          ((string-match "le-with-signature" name) "[LE]")
+          ((string-match "-with-signature" name) "[BOM]")
+          (t ""))))
+
+(defun my-buffer-coding-system-mnemonic ()
+  "Return a mnemonic for `buffer-file-coding-system'."
+  (let* ((code buffer-file-coding-system)
+         (name (my-coding-system-name-mnemonic code))
+         ;; (name code)
+         (bom (my-coding-system-bom-mnemonic code)))
+    (format "%s%s" name bom)))
+
+;; `mode-line-mule-info' の文字エンコーディングの文字列表現を差し替える
+(setq-default mode-line-mule-info
+              (cl-substitute '(:eval (my-buffer-coding-system-mnemonic))
+                             "%z" mode-line-mule-info :test 'equal))
 
 ;;----------------------------------------------------------
 ;; 行番号
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode))
 
+;;----------------------------------------------------------
+;; beep音を消す
+(defun my-bell-function ()
+  (unless (memq this-command
+        '(isearch-abort abort-recursive-edit exit-minibuffer
+              keyboard-quit mwheel-scroll down up next-line previous-line
+              backward-char forward-char))
+    (ding)))
+(setq ring-bell-function 'my-bell-function)
 
 ;;----------------------------------------------------------
 ;; カレントのファイルパスをコピーする
@@ -459,14 +471,14 @@ mouse-3: delete other windows"
 ;; - visual-regexp-steroids.el : 【正規表現革命】isearchや置換でPerl/Pythonの正規表現を使おうぜ！
 ;;   http://emacs.rubikitch.com/visual-regexp-steroids/
 (use-package visual-regexp
-	     :ensure t
-	     )
+  :ensure t
+  )
 (use-package visual-regexp-steroids
-	     :ensure t
-	     )
+  :ensure t
+  )
 (use-package pcre2el
-	     :ensure t
-	     )
+  :ensure t
+  )
 ;; (setq vr/engine 'python)                ;python regexpならばこれ
 (setq vr/engine 'pcre2el)               ;elispでPCREから変換
 (global-set-key (kbd "M-%") 'vr/query-replace)
@@ -478,6 +490,11 @@ mouse-3: delete other windows"
 (global-set-key (kbd "C-M-s") 'vr/isearch-forward)
 
 ;;----------------------------------------------------------
+(use-package wgrep
+  :ensure t
+  )
+(setq wgrep-auto-save-buffer t)
+
 (use-package fzf
   :ensure t
   )
@@ -536,8 +553,8 @@ mouse-3: delete other windows"
 ;;----------------------------------------------------------
 ;; git-gutter+ git 変更分を表示
 (use-package git-gutter+
-	     :ensure t
-	     )
+  :ensure t
+  )
 (global-git-gutter+-mode t)
 
 ;;----------------------------------------------------------
@@ -638,8 +655,7 @@ mouse-3: delete other windows"
 
 (defun my-csharp-mode-setup ()
   (setq auto-mode-alist
-	(append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
-  
+        (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
   (omnisharp-mode)
   (company-mode)
   (flycheck-mode)
@@ -663,6 +679,13 @@ mouse-3: delete other windows"
 
 (setq omn​​isharp-company-strip-trailing-brackets nil)
 (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
+
+
+(defun my-emacs-lisp-mode-setup ()
+  (setq indent-tabs-mode nil)
+  )
+
+(add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-setup t)
 
 ;;--- end of my settings ---
 (custom-set-variables
