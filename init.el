@@ -6,8 +6,8 @@
 (require 'package)
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
-	("melpa" . "http://melpa.org/packages/")
-	("org" . "http://orgmode.org/elpa/")))
+        ("melpa" . "http://melpa.org/packages/")
+        ("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -29,7 +29,7 @@
 
 (setq exec-path (parse-colon-path (getenv "PATH"))) ;; 実行パスも同じにする
 
-(message "PATH is %s." (getenv "PATH"))
+;; (message "PATH is %s." (getenv "PATH"))
 
 ;; ;;----------------------------------------------------------
 ;; ;; 文字コード指定
@@ -503,6 +503,10 @@ mouse-3: delete other windows"
   :ensure t
   )
 
+(use-package ivy
+  :ensure t
+  )
+
 (when (require 'ivy nil t)
 
   ;; M-o を ivy-hydra-read-action に割り当てる．
@@ -556,6 +560,13 @@ mouse-3: delete other windows"
   :ensure t
   )
 (global-git-gutter+-mode t)
+
+;;----------------------------------------------------------
+(use-package magit
+  :ensure t)
+
+(with-eval-after-load "magit"
+  (setq magit-completing-read-function 'ivy-completing-read))
 
 ;;----------------------------------------------------------
 ;; flycheck
