@@ -3,6 +3,10 @@
 (message "PATH is %s." (getenv "PATH"))
 (setenv "LC_MESSAGES" "C")
 
+;; (setq url-proxy-services
+;;       '(("http" . "172.17.10.213:8080")
+;;         ("https" . "172.17.10.213:8080")))
+
 (require 'package)
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
@@ -425,14 +429,17 @@ mouse-3: delete other windows"
   (global-display-line-numbers-mode))
 
 ;;----------------------------------------------------------
-;; beep音を消す
-(defun my-bell-function ()
-  (unless (memq this-command
-        '(isearch-abort abort-recursive-edit exit-minibuffer
-              keyboard-quit mwheel-scroll down up next-line previous-line
-              backward-char forward-char))
-    (ding)))
-(setq ring-bell-function 'my-bell-function)
+;; ;; beep音を消す
+;; (defun my-bell-function ()
+;;   (unless (memq this-command
+;;         '(isearch-abort abort-recursive-edit exit-minibuffer
+;;               keyboard-quit mwheel-scroll down up next-line previous-line
+;;               backward-char forward-char))
+;;     (ding)))
+;; (setq ring-bell-function 'my-bell-function)
+
+;; 警告音もフラッシュも全て無効(警告音が完全に鳴らなくなるので注意)
+(setq ring-bell-function 'ignore)
 
 ;;----------------------------------------------------------
 ;; カレントのファイルパスをコピーする
