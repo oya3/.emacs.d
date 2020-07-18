@@ -564,6 +564,34 @@ mouse-3: delete other windows"
   ;; キーバインドは一例です．好みに変えましょう．
   (global-set-key (kbd "M-s M-s") 'swiper-thing-at-point))
 
+
+;;----------------------------------------------------------
+;; シンボルハイライト
+(use-package symbol-overlay
+  :ensure t
+  )
+(when (require 'symbol-overlay nil t)
+  (add-hook 'prog-mode-hook #'symbol-overlay-mode)
+  (add-hook 'markdown-mode-hook #'symbol-overlay-mode)
+  (global-set-key (kbd "M-i") 'symbol-overlay-put)
+  (define-key symbol-overlay-map (kbd "p") 'symbol-overlay-jump-prev) ;; 次のシンボルへ
+  (define-key symbol-overlay-map (kbd "n") 'symbol-overlay-jump-next) ;; 前のシンボルへ
+  (define-key symbol-overlay-map (kbd "C-g") 'symbol-overlay-remove-all) ;; ハイライトキャンセル
+  )
+
+;;----------------------------------------------------------
+;; dumb-jump
+(use-package dumb-jump
+  :ensure t
+  )
+(require 'dumb-jump)
+(setq dumb-jump-mode t)
+(setq dumb-jump-selector 'ivy) ;; 候補選択をivyに任せます
+(setq dumb-jump-force-searcher 'rg)
+(setq dumb-jump-use-visible-window nil)
+(define-key global-map [(super d)] 'dumb-jump-go) ;; go-to-definition!
+(define-key global-map [(super shift d)] 'dumb-jump-back)
+
 ;;----------------------------------------------------------
 ;; git-gutter+ git 変更分を表示
 (use-package git-gutter+
