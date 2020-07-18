@@ -1,5 +1,8 @@
 ﻿- 準備 -
--- omnisharpを利用する場合 --
+-- ripgrep(rg) install
+> $ sudp snap install ripgrep --classic
+
+-- omnisharpを利用する場合 for windows --
 (1) 以下を実施しomnisharp server をインストールする（一度のみ実施する）
     M-x: omnisharp-install-server
     .emacs.d/.cache/omnisharp/server/v1.34.5/... にインストールされる
@@ -22,8 +25,8 @@ C-x w: 別名ファイル保存
 M-x string-rectangle : 選択した行の先頭に任意の文字列を挿入することが可能（インデントにも利用できる）
 
 C-c > : インデント調整
-C-x C-b : バッファーリスト表示
-C-x C-b : バッファー一覧表示
+C-x C-b : バッファーリスト表示(counsel-switch-buffer)
+          C-k: バッファー削除
 C-c t b : 旧バッファー一覧
           d : delete
           x : 実行

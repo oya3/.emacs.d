@@ -24,44 +24,45 @@
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
 ;;----------------------------------------------------------
-;; パス指定
-(setenv "PATH"
-        (concat
-         "C:\\msys64\\mingw64\\bin" ";"
-         (concat (getenv "HOME") "\\.emacs.d\\bin;")
-         (getenv "PATH")))
-
-(setq exec-path (parse-colon-path (getenv "PATH"))) ;; 実行パスも同じにする
-
-;; (message "PATH is %s." (getenv "PATH"))
-
-;; ;;----------------------------------------------------------
-;; ;; 文字コード指定
+;; 文字コード指定
 (require 'cl-lib) ;; emacs 標準
 (setenv "LANG" "ja_JP.UTF-8")
-;; IME の設定をした後には実行しないこと
-;; (set-language-environment "Japanese")
-(prefer-coding-system 'utf-8-unix)
-(set-file-name-coding-system 'cp932)
-(setq locale-coding-system 'utf-8-unix)
-;; プロセスが出力する文字コードを判定して、process-coding-system の DECODING の設定値を決定する
-(setq default-process-coding-system '(undecided-dos . utf-8-unix))
-;; サブプロセスに渡すパラメータの文字コードを cp932 にする
-(cl-loop for (func args-pos) in '((call-process        4)
-                                  (call-process-region 6)
-                                  (start-process       3))
-         do (eval `(advice-add ',func
-                               :around (lambda (orig-fun &rest args)
-                                         (setf (nthcdr ,args-pos args)
-                                               (mapcar (lambda (arg)
-                                                         (if (multibyte-string-p arg)
-                                                             (encode-coding-string arg 'cp932)
-                                                           arg))
-                                                       (nthcdr ,args-pos args)))
-                                         (apply orig-fun args))
-                               '((depth . 99)))))
 
-
+;;----------------------------------------------------------
+;; windows 
+(when (eq system-type 'windows-nt)
+  ;;----------------------------------------------------------
+  ;; パス指定
+  (setenv "PATH"
+          (concat
+           "C:\\msys64\\mingw64\\bin" ";"
+           (concat (getenv "HOME") "\\.emacs.d\\bin;")
+           (getenv "PATH")))
+  (setq exec-path (parse-colon-path (getenv "PATH"))) ;; 実行パスも同じにする
+  
+  ;; IME の設定をした後には実行しないこと
+  ;; (set-language-environment "Japanese")
+  (prefer-coding-system 'utf-8-unix)
+  (set-file-name-coding-system 'cp932)
+  (setq locale-coding-system 'utf-8-unix)
+  ;; プロセスが出力する文字コードを判定して、process-coding-system の DECODING の設定値を決定する
+  (setq default-process-coding-system '(undecided-dos . utf-8-unix))
+  ;; サブプロセスに渡すパラメータの文字コードを cp932 にする
+  (cl-loop for (func args-pos) in '((call-process        4)
+                                    (call-process-region 6)
+                                    (start-process       3))
+           do (eval `(advice-add ',func
+                                 :around (lambda (orig-fun &rest args)
+                                           (setf (nthcdr ,args-pos args)
+                                                 (mapcar (lambda (arg)
+                                                           (if (multibyte-string-p arg)
+                                                               (encode-coding-string arg 'cp932)
+                                                             arg))
+                                                         (nthcdr ,args-pos args)))
+                                           (apply orig-fun args))
+                                 '((depth . 99)))))
+  
+  )
 
 ;;----------------------------------------------------------
 ;; *.~ とかのバックアップファイルを作らない
@@ -515,14 +516,16 @@ mouse-3: delete other windows"
   )
 
 (when (require 'ivy nil t)
-
   ;; M-o を ivy-hydra-read-action に割り当てる．
   (when (require 'ivy-hydra nil t)
     (setq ivy-read-action-function #'ivy-hydra-read-action))
-
+  
   ;; `ivy-switch-buffer' (C-x b) のリストに recent files と bookmark を含める．
+  ;; https://tam5917.hatenablog.com/entry/2019/12/31/094621
+  ;; (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
+  (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
   (setq ivy-use-virtual-buffers t)
-
+  
   ;; ミニバッファでコマンド発行を認める
   (when (setq enable-recursive-minibuffers t)
     (minibuffer-depth-indicate-mode 1)) ;; 何回層入ったかプロンプトに表示．
@@ -656,47 +659,51 @@ mouse-3: delete other windows"
 ;;      (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
 
 
-;; omnisharp を利用する場合、初回だけ以下を実施する必要がある
-;;  M-x: omnisharp-install-server
-;; 実施すると、
-;; .emacs.d\.cache\omnisharp\server
-;; にomnisharpに必要な .net 環境がインストールされる。
-;; 2020/5/1 時点では v1.34.5 ディレクトリが作成される。
-;; そこに .net 環境がインストールされる。(\.emacs.d\.cache\omnisharp\server\v1.34.5\...)
-(use-package omnisharp
-  :ensure t
-  )
-
-;;--- c# ---
-(eval-after-load 'company
-  '(add-to-list 'company-backends 'company-omnisharp))
-
-(defun my-csharp-mode-setup ()
-  (setq auto-mode-alist
-        (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
-  (omnisharp-mode)
-  (company-mode)
-  (flycheck-mode)
-  (turn-on-eldoc-mode)
+;;----------------------------------------------------------
+;; windows 
+(when (eq system-type 'windows-nt)
+  ;; omnisharp を利用する場合、初回だけ以下を実施する必要がある
+  ;;  M-x: omnisharp-install-server
+  ;; 実施すると、
+  ;; .emacs.d\.cache\omnisharp\server
+  ;; にomnisharpに必要な .net 環境がインストールされる。
+  ;; 2020/5/1 時点では v1.34.5 ディレクトリが作成される。
+  ;; そこに .net 環境がインストールされる。(\.emacs.d\.cache\omnisharp\server\v1.34.5\...)
+  (use-package omnisharp
+    :ensure t
+    )
   
-  (setq indent-tabs-mode nil)
-  (setq c-syntactic-indentation t)
-  (c-set-style "ellemtel")
-  (setq c-basic-offset 4)
-  (setq truncate-lines t)
-  (setq tab-width 4)
-  (setq evil-shift-width 4)
-
-  ;csharp-mode README.md recommends this too
-  ;(electric-pair-mode 1)       ;; Emacs 24
-  ;(electric-pair-local-mode 1) ;; Emacs 25
-
-  (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
-  (local-set-key (kbd "C-c C-c") 'recompile)
+  ;;--- c# ---
+  (eval-after-load 'company
+    '(add-to-list 'company-backends 'company-omnisharp))
+  
+  (defun my-csharp-mode-setup ()
+    (setq auto-mode-alist
+          (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
+    (omnisharp-mode)
+    (company-mode)
+    (flycheck-mode)
+    (turn-on-eldoc-mode)
+    
+    (setq indent-tabs-mode nil)
+    (setq c-syntactic-indentation t)
+    (c-set-style "ellemtel")
+    (setq c-basic-offset 4)
+    (setq truncate-lines t)
+    (setq tab-width 4)
+    (setq evil-shift-width 4)
+    
+    ;; csharp-mode README.md recommends this too
+    ;; (electric-pair-mode 1)       ;; Emacs 24
+    ;; (electric-pair-local-mode 1) ;; Emacs 25
+    
+    (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
+    (local-set-key (kbd "C-c C-c") 'recompile)
+    )
+  
+  (setq omn​​isharp-company-strip-trailing-brackets nil)
+  (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
   )
-
-(setq omn​​isharp-company-strip-trailing-brackets nil)
-(add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
 
 (defun my-emacs-lisp-mode-setup ()
   (setq indent-tabs-mode nil)
@@ -712,17 +719,3 @@ mouse-3: delete other windows"
 
 
 ;;--- end of my settings ---
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (flycheck-mode yasnippet use-package omnisharp dracula-theme company-irony-c-headers company-irony))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
