@@ -736,6 +736,20 @@ mouse-3: delete other windows"
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-setup t)
 
 ;; ------------------------------------------------------------------------------
+;; markdown
+(use-package markdown-mode
+  :ensure t
+  )
+(when (require 'markdown-mode nil t)
+  (autoload 'markdown-mode "markdown-mode"
+    "Major mode for editing Markdown files" t)
+  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
+  ;; コードブロックのハイライト化
+  (setq markdown-fontify-code-blocks-natively t)
+  )
+
+;; ------------------------------------------------------------------------------
 ;; Meadow時代のofficeファイルをテキスト化するパッケージ（独自改良版）
 (use-package xdoc2txt
   :load-path "~/.emacs.d/elisp"
