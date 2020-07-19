@@ -1,5 +1,5 @@
 ﻿- 準備 -
--- ripgrep(rg) install
+-- ripgrep(rg) install for ubuntu
 > $ sudp snap install ripgrep --classic
 
 -- omnisharpを利用する場合 for windows --
