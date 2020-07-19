@@ -124,6 +124,10 @@ M-x counsel-pt : マルチ言語対応検索（現在動作しない）
  C-c C-o: 検索編集前モード -> "w" キー押下で編集モードになる
  C-c C-c: 編集結果をファイルに反映
 
+--- dumb-jump
+https://github.com/jacktasia/dumb-jump
+M-. : 定義ジャンプ
+M-, : ジャンプ元に戻る
 
 文字コード自動判定が間違ったとき
 C-x RET r (coding system for visited file) で 文字コードを指定しなおすことで対処できる。

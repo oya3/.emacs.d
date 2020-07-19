@@ -584,13 +584,9 @@ mouse-3: delete other windows"
 (use-package dumb-jump
   :ensure t
   )
-(require 'dumb-jump)
-(setq dumb-jump-mode t)
-(setq dumb-jump-selector 'ivy) ;; 候補選択をivyに任せます
-(setq dumb-jump-force-searcher 'rg)
-(setq dumb-jump-use-visible-window nil)
-(define-key global-map [(super d)] 'dumb-jump-go) ;; go-to-definition!
-(define-key global-map [(super shift d)] 'dumb-jump-back)
+(when (require 'dumb-jump nil t)
+  (add-to-list 'xref-backend-functions #'dumb-jump-xref-activate)
+  )
 
 ;;----------------------------------------------------------
 ;; git-gutter+ git 変更分を表示
