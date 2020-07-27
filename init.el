@@ -750,6 +750,16 @@ mouse-3: delete other windows"
   )
 
 ;; ------------------------------------------------------------------------------
+;; yaml-mode
+(use-package yaml-mode
+  :ensure t
+  )
+(when (require 'yaml-mode nil t)
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+  )
+
+;; ------------------------------------------------------------------------------
 ;; Meadow時代のofficeファイルをテキスト化するパッケージ（独自改良版）
 (use-package xdoc2txt
   :load-path "~/.emacs.d/elisp"
