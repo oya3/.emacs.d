@@ -368,17 +368,16 @@ mouse-3: delete other windows"
 
 ;; ;;----------------------------------------------------------
 ;; ;; スペース（全角／半角）はを可視化
-;; (setq whitespace-space-regexp "\\([\x0020|\u3000]+\\)")
-
-;; (set-face-foreground 'whitespace-tab "#808000") ; "#4e9b4d")
-;; (set-face-background 'whitespace-tab 'nil)
-;; (set-face-underline  'whitespace-tab t)
-;; (set-face-foreground 'whitespace-space "#808000") ; "#4e9b4d")
-;; (set-face-background 'whitespace-space 'nil)
-;; (set-face-bold-p 'whitespace-space t)
-;; (set-face-foreground 'whitespace-newline  "#808000") ; "DimGray")
-;; (set-face-background 'whitespace-newline 'nil)
-;; (setq whitespace-action '(auto-cleanup)) ; 保存前に自動でクリーンアップ
+(setq whitespace-space-regexp "\\([\x0020|\u3000]+\\)")
+(set-face-foreground 'whitespace-tab "#808000") ; "#4e9b4d")
+(set-face-background 'whitespace-tab 'nil)
+(set-face-underline  'whitespace-tab t)
+(set-face-foreground 'whitespace-space "#808000") ; "#4e9b4d")
+(set-face-background 'whitespace-space 'nil)
+(set-face-bold-p 'whitespace-space t)
+(set-face-foreground 'whitespace-newline  "#808000") ; "DimGray")
+(set-face-background 'whitespace-newline 'nil)
+(setq whitespace-action '(auto-cleanup)) ; 保存前に自動でクリーンアップ
 (global-whitespace-mode 1)
 
 
