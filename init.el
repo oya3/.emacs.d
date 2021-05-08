@@ -26,7 +26,10 @@
 ;;----------------------------------------------------------
 ;; 文字コード指定
 (require 'cl-lib) ;; emacs 標準
-(setenv "LANG" "ja_JP.UTF-8")
+(set-language-environment "Japanese")
+(prefer-coding-system 'utf-8)
+;; (setenv "LANG" "ja_JP.UTF-8")
+(set-coding-system-priority 'utf-8 'euc-jp 'iso-2022-jp 'cp932)
 
 ;;----------------------------------------------------------
 ;; windows 
@@ -212,6 +215,8 @@
 (setq neo-create-file-auto-open t)
 ;; delete-other-window で neotree ウィンドウを消さない
 (setq neo-persist-show t)
+;; 隠しファイルを無効(neotree-hidden-file-toggle)
+(setq neo-show-hidden-files t)
 
 ;;----------------------------------------------------------
 ;; タブの挙動(一般的なタブの挙動） ※これを無効にすると、tab-mark が表示されなくなる
@@ -221,6 +226,9 @@
 ;; バックデリート有効
 (global-set-key "\C-h" 'delete-backward-char)
 
+;;----------------------------------------------------------
+;; 改行時の勝手インデント禁止
+(when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
 
 ;;----------------------------------------------------------
 ;; tabbar上でウィールマウスボタンで削除
@@ -295,6 +303,11 @@ mouse-3: delete other windows"
     (end-of-line)
     (comment-or-uncomment-region (region-beginning) (region-end))))
 (global-set-key (kbd "C-;") 'one-line-comment)
+
+;;----------------------------------------------------------
+;; タブは半角スペースにする
+;;----------------------------------------------------------
+(setq-default tab-width 4 indent-tabs-mode nil)
 
 ;;----------------------------------------------------------
 ;; カラム数表示
