@@ -748,6 +748,33 @@ mouse-3: delete other windows"
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-setup t)
 
 ;; ------------------------------------------------------------------------------
+;; M-x : pyvenv-activate : プロジェクトルートディレクトリ選択
+;; elpy
+(use-package elpy
+  :ensure t
+  :init
+  (elpy-enable)
+  :config
+  ;; (remove-hook 'elpy-modules 'elpy-module-highlight-indentation) ;; インデントハイライトの無効化
+  (remove-hook 'elpy-modules 'elpy-module-flymake) ;; flymakeの無効化
+  (setq elpy-rpc-backend "jedi")
+  (add-hook 'elpy-mode-hook
+    '(lambda ()
+       (auto-complete-mode -1)
+       (define-key company-active-map (kbd "C-n") 'company-select-next)
+       (define-key company-active-map (kbd "C-p") 'company-select-previous)
+       (define-key company-active-map (kbd "<tab>") 'company-complete))))
+
+
+(use-package py-autopep8
+  :ensure t
+  :config
+  (setq py-autopep8-options '("--max-line-length=200"))
+  (setq flycheck-flake8-maximum-line-length 200)
+  (py-autopep8-enable-on-save)
+  )
+
+;; ------------------------------------------------------------------------------
 ;; markdown
 (use-package markdown-mode
   :ensure t
@@ -785,8 +812,7 @@ mouse-3: delete other windows"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-    (omnisharp csharp-mode company-irony company-irony-c-headers company irony yasnippet magit git-gutter+ dumb-jump symbol-overlay counsel fzf wgrep pcre2el visual-regexp-steroids visual-regexp tabbar neotree all-the-icons dracula-theme use-package))))
+   '(omnisharp csharp-mode company-irony company-irony-c-headers company irony yasnippet magit git-gutter+ dumb-jump symbol-overlay counsel fzf wgrep pcre2el visual-regexp-steroids visual-regexp tabbar neotree all-the-icons dracula-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
