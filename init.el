@@ -32,6 +32,10 @@
 (set-coding-system-priority 'utf-8 'euc-jp 'iso-2022-jp 'cp932)
 
 ;;----------------------------------------------------------
+;; 終了時のバッファ内容を保持
+(desktop-save-mode t)
+
+;;----------------------------------------------------------
 ;; windows 
 (when (eq system-type 'windows-nt)
   ;;----------------------------------------------------------
@@ -748,7 +752,20 @@ mouse-3: delete other windows"
 (add-hook 'emacs-lisp-mode-hook 'my-emacs-lisp-mode-setup t)
 
 ;; ------------------------------------------------------------------------------
+;; python 補完機能
+;; 準備：$ pip install jedi flake8 importmagic autopep8 yapf
 ;; M-x : pyvenv-activate : プロジェクトルートディレクトリ選択
+;; F1: 補完候補表示中に選択している要素のマニュアルを見る
+
+;; 以下は不要
+;; (el-get-bundle company-jedi :depends (company-mode))
+;; (use-package company-jedi
+;;   :ensure t
+;;   )
+;; (defun my/python-mode-hook ()
+;;   (add-to-list 'company-backends 'company-jedi))
+;; (add-hook 'python-mode-hook 'my/python-mode-hook)
+
 ;; elpy
 (use-package elpy
   :ensure t
@@ -758,13 +775,14 @@ mouse-3: delete other windows"
   ;; (remove-hook 'elpy-modules 'elpy-module-highlight-indentation) ;; インデントハイライトの無効化
   (remove-hook 'elpy-modules 'elpy-module-flymake) ;; flymakeの無効化
   (setq elpy-rpc-backend "jedi")
+  ;; (setq jedi:complete-on-dot t)
+  ;; (add-hook 'python-mode-hook 'jedi:setup)
   (add-hook 'elpy-mode-hook
     '(lambda ()
        (auto-complete-mode -1)
        (define-key company-active-map (kbd "C-n") 'company-select-next)
        (define-key company-active-map (kbd "C-p") 'company-select-previous)
        (define-key company-active-map (kbd "<tab>") 'company-complete))))
-
 
 (use-package py-autopep8
   :ensure t
@@ -773,6 +791,11 @@ mouse-3: delete other windows"
   (setq flycheck-flake8-maximum-line-length 200)
   (py-autopep8-enable-on-save)
   )
+
+;; (custom-set-variables
+;;  '(flycheck-python-flake8-executable "python3")
+;;  '(flycheck-python-pycompile-executable "python3")
+;;  '(flycheck-python-pylint-executable "python3"))
 
 ;; ------------------------------------------------------------------------------
 ;; markdown
@@ -806,16 +829,3 @@ mouse-3: delete other windows"
 
 
 ;;--- end of my settings ---
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(omnisharp csharp-mode company-irony company-irony-c-headers company irony yasnippet magit git-gutter+ dumb-jump symbol-overlay counsel fzf wgrep pcre2el visual-regexp-steroids visual-regexp tabbar neotree all-the-icons dracula-theme use-package)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
