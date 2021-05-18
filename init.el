@@ -757,8 +757,8 @@ mouse-3: delete other windows"
 ;; M-x : pyvenv-activate : プロジェクトルートディレクトリ選択
 ;; F1: 補完候補表示中に選択している要素のマニュアルを見る
 
-;; 以下は不要
-;; (el-get-bundle company-jedi :depends (company-mode))
+;; ;; 以下は不要
+;; ;; (el-get-bundle company-jedi :depends (company-mode))
 ;; (use-package company-jedi
 ;;   :ensure t
 ;;   )
