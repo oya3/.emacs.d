@@ -774,6 +774,8 @@ mouse-3: delete other windows"
   :config
   ;; (remove-hook 'elpy-modules 'elpy-module-highlight-indentation) ;; インデントハイライトの無効化
   (remove-hook 'elpy-modules 'elpy-module-flymake) ;; flymakeの無効化
+  (setq elpy-rpc-python-command "python3")
+  (setq elpy-rpc-virtualenv-path 'current)
   (setq elpy-rpc-backend "jedi")
   ;; (setq jedi:complete-on-dot t)
   ;; (add-hook 'python-mode-hook 'jedi:setup)
@@ -829,3 +831,16 @@ mouse-3: delete other windows"
 
 
 ;;--- end of my settings ---
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(jedi yaml-mode markdown-mode py-autopep8 elpy omnisharp csharp-mode company-irony company-irony-c-headers company irony yasnippet magit git-gutter+ dumb-jump symbol-overlay counsel fzf wgrep pcre2el visual-regexp-steroids visual-regexp tabbar neotree all-the-icons dracula-theme use-package)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
