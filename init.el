@@ -165,6 +165,13 @@
   (set-face-font 'default "Ricty Diminished for Powerline-12")
   )
 
+;;----------------------------------------------------------
+;; grep, find を windows でも使えるようにmsys側を指定する for windows
+(when (eq system-type 'windows-nt)
+  (setq find-program "\"C:\\msys64\\usr\\bin\\find.exe\""
+        grep-program "\"C:\\msys64\\usr\\bin\\grep.exe\""
+        null-device "/dev/null")
+  )
 
 ;;----------------------------------------------------------
 ;; font size zoom
