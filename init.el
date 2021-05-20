@@ -628,6 +628,7 @@ mouse-3: delete other windows"
 ;;----------------------------------------------------------
 ;; flycheck
 (use-package flycheck
+  :ensure t
   :config
   (when (locate-library "flycheck-irony")
     (flycheck-irony-setup))
