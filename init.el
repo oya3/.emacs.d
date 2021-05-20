@@ -761,7 +761,8 @@ mouse-3: delete other windows"
 
 ;; ------------------------------------------------------------------------------
 ;; python 補完機能
-;; 準備：$ pip install jedi flake8 importmagic autopep8 yapf
+;; 準備：$ pip install jedi flake8 importmagic autopep8 yapf black
+;; M-x : elpy-config : elpy の状況確認画面が表示される
 ;; M-x : pyvenv-activate : プロジェクトルートディレクトリ選択
 ;; F1: 補完候補表示中に選択している要素のマニュアルを見る
 
