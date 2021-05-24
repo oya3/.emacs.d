@@ -44,8 +44,16 @@
           (concat
            "C:\\msys64\\mingw64\\bin" ";"
            (concat (getenv "HOME") "\\.emacs.d\\bin;")
+           ;; (concat (getenv "HOME") "\\.rbenv\\versions\\2.5.8\\bin;")
            (getenv "PATH")))
   (setq exec-path (parse-colon-path (getenv "PATH"))) ;; 実行パスも同じにする
+
+  ;; ;;shell for msys64/mingw64
+  ;; (setq shell-file-name "C:\\msys64\\usr\\bin\\bash.exe")
+  ;; (setenv "SHELL" shell-file-name)
+  ;; (setq explicit-shell-file-name shell-file-name)
+  ;; ;; (setq explicit-shell-file-name "C:\\msys64\\usr\\bin\\bash.exe")
+  ;; ;; (setq explicit-bash.exe-args '("--login" "-i"))
   
   ;; IME の設定をした後には実行しないこと
   ;; (set-language-environment "Japanese")
@@ -635,12 +643,63 @@ mouse-3: delete other windows"
   (global-flycheck-mode t)
   )
 
+;; ------------------------------------------------------------------------------
+;; cc-mode
 (use-package cc-mode
   :ensure t
   )
+
+
+(use-package rbenv
+  :ensure t
+  :config
+  (setq rbenv-installation-dir "~/.rbenv")
+  )
+
+;; ------------------------------------------------------------------------------
+;; robe
+(use-package robe
+  :ensure t
+  :config
+  (add-hook 'ruby-mode-hook 'robe-mode)
+  (autoload 'robe-mode "robe" "Code navigation, documentation lookup and completion for Ruby" t nil)
+  (eval-after-load 'company
+    '(push 'company-robe company-backends))
+  (add-hook 'ruby-mode-hook (lambda()
+                              (company-mode)
+                              (setq company-auto-expand t)
+                              (setq company-transformers '(company-sort-by-backend-importance)) ;; ソート順
+                              (setq company-idle-delay 0) ; 遅延なしにすぐ表示
+                              (setq company-minimum-prefix-length 1) ; 何文字打つと補完動作を行うか設定
+                              (setq company-selection-wrap-around t) ; 候補の最後の次は先頭に戻る
+                              (setq completion-ignore-case t)
+                              (setq company-dabbrev-downcase nil)
+                              (global-set-key (kbd "C-M-i") 'company-complete)
+                              ;; C-n, C-pで補完候補を次/前の候補を選択
+                              (define-key company-active-map (kbd "C-n") 'company-select-next)
+                              (define-key company-active-map (kbd "C-p") 'company-select-previous)
+                              (define-key company-active-map (kbd "C-s") 'company-filter-candidates) ;; C-sで絞り込む
+                              (define-key company-active-map [tab] 'company-complete-selection) ;; TABで候補を設定
+                              (define-key emacs-lisp-mode-map (kbd "C-M-i") 'company-complete) ;; 各種メジャーモードでも C-M-iで company-modeの補完を使う
+                              ))
+  )
+
+;; ------------------------------------------------------------------------------
+;; yasnippet
 (use-package yasnippet
   :ensure t
+  :diminish yas-minor-mode
+  :bind (:map yas-minor-mode-map
+              ("C-x i i" . yas-insert-snippet)
+              ("C-x i n" . yas-new-snippet)
+              ("C-x i v" . yas-visit-snippet-file)
+              ("C-x i l" . yas-describe-tables)
+              ("C-x i g" . yas-reload-all))              
+  :config
+  (yas-global-mode 1)
+  (setq yas-prompt-functions '(yas-ido-prompt))
   )
+
 
 ;;(yas-global-mode)
 
@@ -846,7 +905,7 @@ mouse-3: delete other windows"
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(jedi yaml-mode markdown-mode py-autopep8 elpy omnisharp csharp-mode company-irony company-irony-c-headers company irony yasnippet magit git-gutter+ dumb-jump symbol-overlay counsel fzf wgrep pcre2el visual-regexp-steroids visual-regexp tabbar neotree all-the-icons dracula-theme use-package)))
+   '(robe jedi yaml-mode markdown-mode py-autopep8 elpy omnisharp csharp-mode company-irony company-irony-c-headers company irony yasnippet magit git-gutter+ dumb-jump symbol-overlay counsel fzf wgrep pcre2el visual-regexp-steroids visual-regexp tabbar neotree all-the-icons dracula-theme use-package)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
