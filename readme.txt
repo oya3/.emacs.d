@@ -132,3 +132,8 @@ M-, : ジャンプ元に戻る
 文字コード自動判定が間違ったとき
 C-x RET r (coding system for visited file) で 文字コードを指定しなおすことで対処できる。
 C-x RET f (coding system for saving file) で 文字コードを指定しなおすことで対処できる。
+
+--- elpy ---
+;; M-x : elpy-config : elpy の状況確認画面が表示される
+;; M-x : pyvenv-activate : プロジェクトルートディレクトリ選択(venvディレクトリを示せばOKのはず）
+;;                         linux の場合、source venv/bin/activate しているディレクトリからemacsを起動すれば pyvenv-activate は不要

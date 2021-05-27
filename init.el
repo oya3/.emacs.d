@@ -335,31 +335,7 @@ mouse-3: delete other windows"
 
 ;;----------------------------------------------------------
 ;; カーソル位置(現在行)をハイライト
-(defface hlline-face3
-  '((((class color)
-      (background dark))
-     (:background "gray20"))
-    ;; :underline "#404040"))
-    (((class color)
-      (background light))
-     (:background "ForestGreen"))
-    (t
-     ()))
-  "*Face used by hl-line.")
-(setq hl-line-face 'hlline-face3)
 (global-hl-line-mode t)
-;; 以下のハイライトを利用するとカーソル移動が早くなるらしいけど。。。まったく一緒だったので使わない
-;; (use-package hl-line)
-;; ;;; hl-lineを無効にするメジャーモードを指定する
-;; (defvar global-hl-line-timer-exclude-modes '(todotxt-mode))
-;; (defun global-hl-line-timer-function ()
-;;   (unless (memq major-mode global-hl-line-timer-exclude-modes)
-;;     (global-hl-line-unhighlight-all)
-;;     (let ((global-hl-line-mode t))
-;;       (global-hl-line-highlight))))
-;; (setq global-hl-line-timer
-;;       (run-with-idle-timer 0.05 t 'global-hl-line-timer-function))
-;; ;; (cancel-timer global-hl-line-timer)
 
 ;;----------------------------------------------------------
 ;; 対応する括弧をハイライト
@@ -658,10 +634,16 @@ mouse-3: delete other windows"
 
 ;; ------------------------------------------------------------------------------
 ;; robe
+;; robe に必要なgem
+;;  $ gem install pry pry-nav pry-doc
+;; 起動方法
+;;  M-x: inf-ruby
+;;  M-x; robe-start
 (use-package robe
   :ensure t
   :config
   (add-hook 'ruby-mode-hook 'robe-mode)
+  (add-hook 'robe-mode-hook 'ac-robe-setup)
   (autoload 'robe-mode "robe" "Code navigation, documentation lookup and completion for Ruby" t nil)
   (eval-after-load 'company
     '(push 'company-robe company-backends))
