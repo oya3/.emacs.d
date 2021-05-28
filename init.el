@@ -850,6 +850,29 @@ mouse-3: delete other windows"
 ;;  '(flycheck-python-pylint-executable "python3"))
 
 ;; ------------------------------------------------------------------------------
+;; vue-mode
+(use-package vue-mode
+  :ensure t
+  :config
+  (setq mmm-submode-decoration-level 0)
+  ;; (setq vue-html-tab-width 2)
+  (setq vue-css-tab-width 2)
+  (setq css-indent-offset 2)
+  ;; (add-hook 'vue-mode-hook
+  ;;           (lambda ()
+  ;;             (setq vue-html-tab-width 2)))
+  ;; (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+  ;; (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+  )
+
+;; ------------------------------------------------------------------------------
+;; js-mode
+(add-hook 'js-mode-hook
+          (lambda ()
+            (make-local-variable 'js-indent-level)
+            (setq js-indent-level 2)))
+
+;; ------------------------------------------------------------------------------
 ;; markdown
 (use-package markdown-mode
   :ensure t
