@@ -312,7 +312,6 @@ mouse-3: delete other windows"
 
 ;;----------------------------------------------------------
 ;; リージョン コメント＆アンコメント
-(global-set-key (kbd "C-c ;") 'comment-or-uncomment-region)
 ;; １行コメント＆アンコメント
 (defun one-line-comment ()
   (interactive)
@@ -321,7 +320,7 @@ mouse-3: delete other windows"
     (set-mark (point))
     (end-of-line)
     (comment-or-uncomment-region (region-beginning) (region-end))))
-(global-set-key (kbd "C-;") 'one-line-comment)
+(global-set-key (kbd "C-c ;") 'one-line-comment)
 
 ;;----------------------------------------------------------
 ;; タブは半角スペースにする
