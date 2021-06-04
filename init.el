@@ -79,6 +79,41 @@
   
   )
 
+;; ;;----------------------------
+;; ;; terminal 時のマウス設定
+;; ;; https://nodamotoki.hatenablog.com/entry/2016/11/12/155311
+;; ;; https://www.yokoweb.net/2016/12/25/emacs-mac-win-select/
+;; (if (not window-system) (progn
+;;                           (xterm-mouse-mode t)
+;;                           (setq x-select-enable-clipboard t)
+;;                           ))
+;; ;; (mouse-wheel-mode t)
+;; ;; (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 3)))
+;; ;; (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up   3)))
+
+;;----------------------------
+;; クリップボードに反映する
+;; https://blog.misosi.ru/2017/01/17/osc52e-el/
+(if (not window-system) (progn
+                          (require 'osc52e)
+                          (osc52-set-cut-function)
+                          
+                          ;; (custom-set-variables '(osc52-multiplexer 'tmux))
+                          ;; ;; (custom-set-variables '(osc52-multiplexer 'screen)) ;; screenを使っている場合はこっち
+                          
+                          ;; ;; osc52e自体はリージョンを送る関数は提供していないので、自分で定義する
+                          ;; (defun osc52-send-region-to-clipboard (START END)
+                          ;;   "Copy the region to the system clipboard using the OSC 52 escape sequence."
+                          ;;   (interactive "r")
+                          ;;   (osc52-interprogram-cut-function (buffer-substring-no-properties
+                          ;;                                     START END)))
+                          
+                          ;; ;; 適当にバインドする
+                          ;; (global-set-key (kbd "C-x M-w") 'osc52-send-region-to-clipboard)
+))
+
+
+
 ;;----------------------------------------------------------
 ;; *.~ とかのバックアップファイルを作らない
 (setq make-backup-files nil)
@@ -850,6 +885,9 @@ mouse-3: delete other windows"
 
 ;; ------------------------------------------------------------------------------
 ;; vue-mode
+(setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+(setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+
 (use-package vue-mode
   :ensure t
   :config
@@ -857,6 +895,7 @@ mouse-3: delete other windows"
   ;; (setq vue-html-tab-width 2)
   (setq vue-css-tab-width 2)
   (setq css-indent-offset 2)
+  (setq js-indent-level 2)
   ;; (add-hook 'vue-mode-hook
   ;;           (lambda ()
   ;;             (setq vue-html-tab-width 2)))

@@ -107,8 +107,9 @@ M-x compile : カレントディレクトリでmakeを実行
 画面左側にソースツリーを表示する
 M-x neotree-toggle 表示／非表示 切り替え
     --- neotree にカーソルがある状態 ---
-    C-x { : ツリー幅を縮める
-    C-x } : ツリー幅を広める
+    C-x {   : ツリー幅を縮める
+    C-x }   : ツリー幅を広める
+    C-c C-c : ルートディレクトリを変更する
 
 --- magit ---
 M-x magit-status : git status を実施
