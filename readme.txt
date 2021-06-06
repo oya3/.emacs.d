@@ -1,5 +1,8 @@
 ﻿- 準備 -
 -- ripgrep(rg) install for ubuntu
+# https://gihyo.jp/admin/serial/01/ubuntu-recipe/0579
+> $ sudo apt install ripgrep
+          or
 > $ sudp snap install ripgrep --classic
 
 -- omnisharpを利用する場合 for windows --

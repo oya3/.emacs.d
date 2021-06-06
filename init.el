@@ -468,7 +468,12 @@ mouse-3: delete other windows"
 ;;----------------------------------------------------------
 ;; 行番号
 (when (version<= "26.0.50" emacs-version )
-  (global-display-line-numbers-mode))
+  (global-display-line-numbers-mode)
+  (set-face-attribute 'line-number nil
+                      :foreground "#555")
+  (set-face-attribute 'line-number-current-line nil
+                      :foreground "#bbb")
+)
 
 ;;----------------------------------------------------------
 ;; ;; beep音を消す
