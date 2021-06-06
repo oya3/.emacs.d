@@ -12,6 +12,11 @@
 (2) ソリューション単位にomnisharpを開始する（起動するたびに実行する必要がある）
     M-x: omnisharp-start-omnisharp-server RET <sln ディレクトリを選択> RET
 
+- mouse 操作 for only terminal
+左ボタン押しながら選択開始、左ボタン離すと選択終了。再度、左ボタン(右ボタンでも可能）押下でクリップボードにコピー
+選択状態で、右ボタンダブルクリックで選択エリア切り取り。
+shift + 右ボタンでペースト。
+
 - command list
 C-s : インクリメンタルサーチ
 C-M-s : 正規表現インクリメンタルサーチ
