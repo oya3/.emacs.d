@@ -32,10 +32,6 @@
 (set-coding-system-priority 'utf-8 'euc-jp 'iso-2022-jp 'cp932)
 
 ;;----------------------------------------------------------
-;; 終了時のバッファ内容を保持
-(desktop-save-mode t)
-
-;;----------------------------------------------------------
 ;; windows 
 (when (eq system-type 'windows-nt)
   ;;----------------------------------------------------------
@@ -85,6 +81,8 @@
 ;; https://www.yokoweb.net/2016/12/25/emacs-mac-win-select/
 (if (not window-system) (progn
                           (xterm-mouse-mode t)
+                          (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 3)))
+                          (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up   3)))
                           ))
 
 ;;----------------------------
@@ -929,6 +927,10 @@ mouse-3: delete other windows"
   :load-path "~/.emacs.d/elisp"
   )
 
+
+;; ;;----------------------------------------------------------
+;; ;; 終了時のバッファ内容を保持
+;; (desktop-save-mode t)
 
 ;;--- end of my settings ---
 (custom-set-variables
