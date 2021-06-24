@@ -917,7 +917,7 @@ mouse-3: delete other windows"
   :ensure t
   )
 (when (require 'web-mode nil t)
-  (add-to-list auto-mode-alist '("¥¥.html?¥¥'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   )
 
 ;; ------------------------------------------------------------------------------
