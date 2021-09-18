@@ -94,11 +94,10 @@
 ;;                           (require 'osc52e)
 ;;                           (osc52-set-cut-function)
 ;;                           ))
-
-;; ;; osc52e.el から拡張されたやつ$
-;; ;; https://blog.misosi.ru/2017/01/17/osc52e-el/$
-;; (use-package clipetty$
-;;   :ensure t$
+;; ;; osc52e.el から拡張されたやつ
+;; ;; https://blog.misosi.ru/2017/01/17/osc52e-el/
+;; (use-package clipetty
+;;   :ensure t
 ;;   :bind ("M-w" . clipetty-kill-ring-save))
 
 
