@@ -32,7 +32,7 @@
 (set-coding-system-priority 'utf-8 'euc-jp 'iso-2022-jp 'cp932)
 
 ;;----------------------------------------------------------
-;; windows 
+;; windows
 (when (eq system-type 'windows-nt)
   ;;----------------------------------------------------------
   ;; パス指定
@@ -75,30 +75,29 @@
   
   )
 
-;; ;;----------------------------
-;; ;; terminal 時のマウス設定
-;; ;; 2021/09/18 emacs27.1 では、以下の設定を有効にするとマウス操作でコピーできなくなるので削除
-;; ;; https://nodamotoki.hatenablog.com/entry/2016/11/12/155311
-;; ;; https://www.yokoweb.net/2016/12/25/emacs-mac-win-select/
-;; (if (not window-system) (progn
-;;                           (xterm-mouse-mode t)
-;;                           (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 3)))
-;;                           (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up   3)))
-;;                           ))
+;;----------------------------
+;; terminal 時のマウス設定
+;; https://nodamotoki.hatenablog.com/entry/2016/11/12/155311
+;; https://www.yokoweb.net/2016/12/25/emacs-mac-win-select/
+(if (not window-system) (progn
+                          (xterm-mouse-mode t)
+                          (mouse-wheel-mode t)
+                          (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 3)))
+                          (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up   3)))
+                          ))
 
 ;; ;;----------------------------
 ;; ;; クリップボードに反映する
-;; ;; 2021/09/18 emacs27.1 では以下の設定なくてもコピー＆ペーストをマウスで実現できるので無効化する
 ;; ;; https://blog.misosi.ru/2017/01/17/osc52e-el/
 ;; (if (not window-system) (progn
 ;;                           (require 'osc52e)
 ;;                           (osc52-set-cut-function)
 ;;                           ))
-;; ;; osc52e.el から拡張されたやつ
-;; ;; https://blog.misosi.ru/2017/01/17/osc52e-el/
-;; (use-package clipetty
-;;   :ensure t
-;;   :bind ("M-w" . clipetty-kill-ring-save))
+;; osc52e.el から拡張されたやつ
+;; https://blog.misosi.ru/2017/01/17/osc52e-el/
+(use-package clipetty
+  :ensure t
+  :bind ("M-w" . clipetty-kill-ring-save))
 
 
 ;;----------------------------------------------------------
