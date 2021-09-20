@@ -920,10 +920,13 @@ mouse-3: delete other windows"
 ;; web-mode(html)
 (use-package web-mode
   :ensure t
-  )
-(when (require 'web-mode nil t)
+  :config
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "#D0D0D0")
   )
+;; (when (require 'web-mode nil t)
+;;   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+;;   )
 
 ;; ------------------------------------------------------------------------------
 ;; yaml-mode
