@@ -82,6 +82,7 @@
 (if (not window-system) (progn
                           (xterm-mouse-mode t)
                           (mouse-wheel-mode t)
+                          (menu-bar-mode -1)
                           (global-set-key [mouse-4] '(lambda () (interactive) (scroll-down 3)))
                           (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up   3)))
                           ))
@@ -923,6 +924,7 @@ mouse-3: delete other windows"
   :config
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "#D0D0D0")
+  (set-face-attribute 'web-mode-doctype-face nil :foreground "#D0D0F0")
   )
 ;; (when (require 'web-mode nil t)
 ;;   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
