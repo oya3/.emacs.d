@@ -172,7 +172,7 @@
 ;; 矩形選択
 (cua-mode t)
 (setq cua-enable-cua-keys nil) ;; 変なキーバインド禁止
-
+(define-key global-map (kbd "C-x @") 'cua-set-rectangle-mark)
 
 
 ;;----------------------------------------------------------
@@ -333,7 +333,12 @@ mouse-3: delete other windows"
 (setq mouse-drag-copy-region t)
 
 ;;----------------------------------------------------------
+;; コメント追加を無効
+(global-unset-key "\M-;")
+;;(global-set-key (kbd "C-c ;") 'indent-for-comment)
+
 ;; リージョン コメント＆アンコメント
+(global-set-key (kbd "C-c ;") 'comment-or-uncomment-region)
 ;; １行コメント＆アンコメント
 (defun one-line-comment ()
   (interactive)
@@ -342,7 +347,7 @@ mouse-3: delete other windows"
     (set-mark (point))
     (end-of-line)
     (comment-or-uncomment-region (region-beginning) (region-end))))
-(global-set-key (kbd "C-c ;") 'one-line-comment)
+(global-set-key (kbd "M-;") 'one-line-comment)
 
 ;;----------------------------------------------------------
 ;; タブは半角スペースにする
