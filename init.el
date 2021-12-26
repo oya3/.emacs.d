@@ -649,6 +649,7 @@ mouse-3: delete other windows"
   (when (locate-library "flycheck-irony")
     (flycheck-irony-setup))
   (global-flycheck-mode t)
+  (setq flycheck-checker-error-threshold 500)
   )
 
 ;; ------------------------------------------------------------------------------
