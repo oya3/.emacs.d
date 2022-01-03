@@ -379,27 +379,27 @@ mouse-3: delete other windows"
 ;                         trailing       ; 行末
                          tabs           ; タブ
                          tab-mark       ;
-                         spaces         ; スペース
-                         space-mark     ; 表示のマッピング
+;                         spaces         ; スペース
+;                         space-mark     ; 表示のマッピング
 ;                         empty
                          newline        ; 改行
                          newline-mark
                          ))
 
-(setq whitespace-display-mappings
-      '((space-mark ?\u3000 [?\u25a1])
-        ;; WARNING: the mapping below has a problem.
-        ;; When a TAB occupies exactly one column, it will display the
-        ;; character ?\xBB at that column followed by a TAB which goes to
-        ;; the next TAB column.
-        ;; If this is a problem for you, please, comment the line below.
-        ;; (space-mark ?\u0020 [?\xB7])  ; 半角スペース
-        ;; (newline-mark ?\n   [?\u21B5 ?\n]) ; 改行記号
-        (newline-mark ?\n   [?$ ?\n]) ; 改行記号
-        ;; (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t]) ; タブマーク
-        (tab-mark ?\t [?> ?\t]) ; タブマーク
-        )
-      )
+;; (setq whitespace-display-mappings
+;;       '((space-mark ?\u3000 [?\u25a1])
+;;         ;; WARNING: the mapping below has a problem.
+;;         ;; When a TAB occupies exactly one column, it will display the
+;;         ;; character ?\xBB at that column followed by a TAB which goes to
+;;         ;; the next TAB column.
+;;         ;; If this is a problem for you, please, comment the line below.
+;;         ;; (space-mark ?\u0020 [?\xB7])  ; 半角スペース
+;;         ;; (newline-mark ?\n   [?\u21B5 ?\n]) ; 改行記号
+;;         (newline-mark ?\n   [?$ ?\n]) ; 改行記号
+;;         ;; (tab-mark ?\t [?\u00BB ?\t] [?\\ ?\t]) ; タブマーク
+;;         (tab-mark ?\t [?> ?\t]) ; タブマーク
+;;         )
+;;       )
 
 ;; ;;----------------------------------------------------------
 ;; ;; スペース（全角／半角）はを可視化
