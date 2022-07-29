@@ -463,9 +463,9 @@ mouse-3: delete other windows"
 (when (version<= "26.0.50" emacs-version )
   (global-display-line-numbers-mode)
   (set-face-attribute 'line-number nil
-                      :foreground "#555")
+                      :foreground "#aaa")
   (set-face-attribute 'line-number-current-line nil
-                      :foreground "#bbb")
+                      :foreground "#fff")
 )
 
 ;;----------------------------------------------------------
@@ -945,6 +945,18 @@ mouse-3: delete other windows"
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
   (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
   )
+
+;; ------------------------------------------------------------------------------
+;; csv-mode
+(use-package csv-mode
+  :ensure t
+  )
+;; csv-align-fields(C-c C-a)
+;; csv-unalign-fields(C-c C-u)
+;; (when (require 'csv-mode nil t)
+;;   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+;;   (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+;;   )
 
 ;; ------------------------------------------------------------------------------
 ;; Meadow時代のofficeファイルをテキスト化するパッケージ（独自改良版）

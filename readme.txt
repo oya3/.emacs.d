@@ -133,6 +133,7 @@ M-x counsel-pt : マルチ言語対応検索（現在動作しない）
  検索後コマンド
  C-c C-o: 検索編集前モード -> "w" キー押下で編集モードになる
  C-c C-c: 編集結果をファイルに反映
+ C-x d  : ディレクトリ選択
 
 --- dumb-jump
 https://github.com/jacktasia/dumb-jump
