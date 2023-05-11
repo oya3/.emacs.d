@@ -877,7 +877,7 @@ mouse-3: delete other windows"
   :config
   (setq py-autopep8-options '("--max-line-length=200"))
   (setq flycheck-flake8-maximum-line-length 200)
-  (py-autopep8-enable-on-save)
+  (py-autopep8-mode)
   )
 
 ;; (custom-set-variables
@@ -970,6 +970,17 @@ mouse-3: delete other windows"
 ;;   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 ;;   (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 ;;   )
+
+;; web-mode
+(use-package web-mode
+  :ensure t
+  )
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(defun my-web-mode-hook ()
+  "Hooks for Web mode."
+  (setq web-mode-markup-indent-offset 2)
+)
+(add-hook 'web-mode-hook  'my-web-mode-hook)
 
 ;; ------------------------------------------------------------------------------
 ;; Meadow時代のofficeファイルをテキスト化するパッケージ（独自改良版）
