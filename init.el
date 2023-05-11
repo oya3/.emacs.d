@@ -227,6 +227,9 @@
 ;; スクロール時にカーソル位置を一定にする
 (setq scroll-preserve-screen-position 'always)
 
+;; エスケープ文字表示
+(setq ctl-arrow nil)
+
 ;;----------------------------------------------------------
 ;; neotree 設定
 ;; 
@@ -900,14 +903,24 @@ mouse-3: delete other windows"
   ;;             (setq vue-html-tab-width 2)))
   ;; (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
   ;; (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+  ;; vue-modeでESLintを有効化する
   )
+
+;; vue-modeでのESLintの有効化
+(flycheck-add-mode 'javascript-eslint 'vue-mode)
 
 ;; ------------------------------------------------------------------------------
 ;; js-mode
+;;  # eslint をとりあえず global に導入
+;;  $ npm install -g eslint
 (add-hook 'js-mode-hook
           (lambda ()
+            (flycheck-mode)
+            (setq-local flycheck-checker 'javascript-eslint)
             (make-local-variable 'js-indent-level)
-            (setq js-indent-level 2)))
+            (setq js-indent-level 2)
+            )
+          )
 
 ;; ------------------------------------------------------------------------------
 ;; markdown
@@ -964,6 +977,7 @@ mouse-3: delete other windows"
   :load-path "~/.emacs.d/elisp"
   )
 
+(setq require-final-newline nil)
 
 ;; ;;----------------------------------------------------------
 ;; ;; 終了時のバッファ内容を保持
