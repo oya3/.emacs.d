@@ -911,18 +911,27 @@ mouse-3: delete other windows"
 ;; vue-modeでのESLintの有効化
 (flycheck-add-mode 'javascript-eslint 'vue-mode)
 
-;; ------------------------------------------------------------------------------
-;; js-mode
-;;  # eslint をとりあえず global に導入
-;;  $ npm install -g eslint
-(add-hook 'js-mode-hook
-          (lambda ()
-            (flycheck-mode)
-            (setq-local flycheck-checker 'javascript-eslint)
-            (make-local-variable 'js-indent-level)
-            (setq js-indent-level 2)
-            )
-          )
+;; ;; ------------------------------------------------------------------------------
+;; ;; js-mode
+;; ;;  # eslint をとりあえず global に導入
+;; ;;  $ npm install -g eslint
+;; (add-hook 'js-mode-hook
+;;           (lambda ()
+;;             (flycheck-mode)
+;;             (setq-local flycheck-checker 'javascript-eslint)
+;;             (make-local-variable 'js-indent-level)
+;;             (setq js-indent-level 2)
+;;             )
+;;           )
+(use-package js2-mode
+  :ensure t
+  :mode (("\\.js\\'" . js2-mode))
+  :config
+  (setq js2-basic-offset 2)
+  )
+
+(flycheck-add-mode 'javascript-eslint 'js2-mode)
+
 
 ;; ------------------------------------------------------------------------------
 ;; markdown
