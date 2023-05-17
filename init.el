@@ -650,10 +650,10 @@ mouse-3: delete other windows"
 ;; flycheck
 (use-package flycheck
   :ensure t
+  :init (global-flycheck-mode)
   :config
   (when (locate-library "flycheck-irony")
     (flycheck-irony-setup))
-  (global-flycheck-mode t)
   (setq flycheck-checker-error-threshold 500)
   )
 
