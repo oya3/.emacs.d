@@ -629,6 +629,7 @@ mouse-3: delete other windows"
   :ensure t
   :config
   (add-to-list 'xref-backend-functions #'dumb-jump-xref-activate)
+  (setq dumb-jump-selector 'ivy)
   )
 
 ;;----------------------------------------------------------
