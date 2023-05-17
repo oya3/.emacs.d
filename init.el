@@ -252,7 +252,10 @@
   )
 (use-package neotree
   :ensure t
+  :config
+  (add-hook 'emacs-startup-hook 'neotree-toggle)
   )
+
 ;; C-x }, C-x { でwindowサイズを変更できるよにする
 (setq neo-window-fixed-size nil)
 ;; neotreeでファイルを新規作成した場合のそのファイルを開く
