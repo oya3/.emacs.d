@@ -896,6 +896,7 @@ mouse-3: delete other windows"
   :ensure t
   :config
   (setq mmm-submode-decoration-level 0)
+  (setq mmm-global-mode 'maybe)
   ;; (setq vue-html-tab-width 2)
   (setq vue-css-tab-width 2)
   (setq css-indent-offset 2)
