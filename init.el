@@ -604,18 +604,17 @@ mouse-3: delete other windows"
 ;;----------------------------------------------------------
 (use-package swiper
   :ensure t
-  )
-(when (require 'swiper nil t)
+  :config
   ;; キーバインドは一例です．好みに変えましょう．
-  (global-set-key (kbd "M-s M-s") 'swiper-thing-at-point))
+  (global-set-key (kbd "M-s M-s") 'swiper-thing-at-point)
+  )
 
 
 ;;----------------------------------------------------------
 ;; シンボルハイライト
 (use-package symbol-overlay
   :ensure t
-  )
-(when (require 'symbol-overlay nil t)
+  :config
   (add-hook 'prog-mode-hook #'symbol-overlay-mode)
   (add-hook 'markdown-mode-hook #'symbol-overlay-mode)
   (global-set-key (kbd "M-i") 'symbol-overlay-put)
@@ -628,8 +627,7 @@ mouse-3: delete other windows"
 ;; dumb-jump
 (use-package dumb-jump
   :ensure t
-  )
-(when (require 'dumb-jump nil t)
+  :config
   (add-to-list 'xref-backend-functions #'dumb-jump-xref-activate)
   )
 
@@ -642,10 +640,10 @@ mouse-3: delete other windows"
 
 ;;----------------------------------------------------------
 (use-package magit
-  :ensure t)
-
-(with-eval-after-load "magit"
-  (setq magit-completing-read-function 'ivy-completing-read))
+  :ensure t
+  :config
+  (setq magit-completing-read-function 'ivy-completing-read)
+  )
 
 ;;----------------------------------------------------------
 ;; flycheck
@@ -929,8 +927,7 @@ mouse-3: delete other windows"
 ;; markdown
 (use-package markdown-mode
   :ensure t
-  )
-(when (require 'markdown-mode nil t)
+  :config
   (autoload 'markdown-mode "markdown-mode"
     "Major mode for editing Markdown files" t)
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
@@ -948,16 +945,12 @@ mouse-3: delete other windows"
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "#D0D0D0")
   (set-face-attribute 'web-mode-doctype-face nil :foreground "#D0D0F0")
   )
-;; (when (require 'web-mode nil t)
-;;   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-;;   )
 
 ;; ------------------------------------------------------------------------------
 ;; yaml-mode
 (use-package yaml-mode
   :ensure t
-  )
-(when (require 'yaml-mode nil t)
+  :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
   (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
   )
@@ -975,15 +968,17 @@ mouse-3: delete other windows"
 ;;   )
 
 ;; web-mode
-(use-package web-mode
-  :ensure t
-  )
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (defun my-web-mode-hook ()
   "Hooks for Web mode."
   (setq web-mode-markup-indent-offset 2)
 )
-(add-hook 'web-mode-hook  'my-web-mode-hook)
+
+(use-package web-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-hook 'web-mode-hook  'my-web-mode-hook)
+  )
 
 ;; ------------------------------------------------------------------------------
 ;; Meadow時代のofficeファイルをテキスト化するパッケージ（独自改良版）
