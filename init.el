@@ -952,6 +952,26 @@ mouse-3: delete other windows"
 ;;   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
 ;;   )
 
+;; typescript
+(use-package tide
+  :ensure t
+  )
+(use-package typescript-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-mode))
+  (add-hook 'typescript-mode-hook
+            '(lambda ()
+               (interactive)
+               (tide-setup)
+               (flycheck-mode +1)
+               (tide-hl-identifier-mode +1)
+               (company-mode +1)
+               (eldoc-mode +1)
+               (setq typescript-indent-level 2)
+               ))
+  )
+
 ;; ------------------------------------------------------------------------------
 ;; yaml-mode
 (use-package yaml-mode
