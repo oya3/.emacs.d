@@ -935,6 +935,12 @@ mouse-3: delete other windows"
 ;;
 ;; (flycheck-add-mode 'javascript-eslint 'js2-mode)
 
+;; ------------------------------------------------------------------------------
+;; jade-mode
+(use-package jade-mode
+  :ensure t
+  :config
+  )
 
 ;; ------------------------------------------------------------------------------
 ;; markdown
