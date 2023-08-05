@@ -1,18 +1,3 @@
-(message "OS is %s." system-type)
-(message "HOME is %s." (getenv "HOME"))
-(message "PATH is %s." (getenv "PATH"))
-(setenv "LC_MESSAGES" "C")
-
-;; (setq url-proxy-services
-;;       '(("http" . "172.17.10.213:8080")
-;;         ("https" . "172.17.10.213:8080")))
-
-(require 'package)
-(setq package-archives
-      '(("gnu" . "http://elpa.gnu.org/packages/")
-        ("melpa" . "http://melpa.org/packages/")
-        ("org" . "http://orgmode.org/elpa/")))
-(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -87,6 +72,31 @@
                           (global-set-key [mouse-5] '(lambda () (interactive) (scroll-up   3)))
                           ))
 
+;; コピーバッファ共有 for mac
+;; 以下の実施が必要
+;; $ brew install reattach-to-user-namespace
+(when (eq system-type 'darwin)
+    (progn
+      (defun copy-from-osx ()
+    (shell-command-to-string "reattach-to-user-namespace pbpaste"))
+      (defun paste-to-osx (text &optional push)
+    (let ((process-connection-type nil))
+      (let ((proc (start-process "pbcopy" "*Messages*" "reattach-to-user-namespace" "pbcopy")))
+        (process-send-string proc text)
+        (process-send-eof proc))))
+      (setq interprogram-cut-function 'paste-to-osx)
+      (setq interprogram-paste-function 'copy-from-osx)
+    )
+    (message "This platform is not mac")
+)
+
+;; ;; CommandとOptionを入れ替える for mac
+;; (when (equal system-type 'darwin)
+;;   (when (memq window-system '(mac ns))
+;;     (setq mac-option-modifier 'meta)
+;;     (setq mac-command-modifier 'super)
+;;     )
+
 ;; ;;----------------------------
 ;; ;; クリップボードに反映する
 ;; ;; https://blog.misosi.ru/2017/01/17/osc52e-el/
@@ -98,8 +108,9 @@
 ;; https://blog.misosi.ru/2017/01/17/osc52e-el/
 (use-package clipetty
   :ensure t
-  :bind ("M-w" . clipetty-kill-ring-save))
-
+  :hook (after-init . global-clipetty-mode)
+  :bind ("M-w" . clipetty-kill-ring-save)
+  )
 
 ;;----------------------------------------------------------
 ;; *.~ とかのバックアップファイルを作らない
