@@ -1,3 +1,18 @@
+(message "OS is %s." system-type)
+(message "HOME is %s." (getenv "HOME"))
+(message "PATH is %s." (getenv "PATH"))
+(setenv "LC_MESSAGES" "C")
+
+;; (setq url-proxy-services
+;;       '(("http" . "172.17.10.213:8080")
+;;         ("https" . "172.17.10.213:8080")))
+
+(require 'package)
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+        ("melpa" . "http://melpa.org/packages/")
+        ("org" . "http://orgmode.org/elpa/")))
+(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
