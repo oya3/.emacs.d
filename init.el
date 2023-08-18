@@ -584,9 +584,7 @@ mouse-3: delete other windows"
 
 (use-package ivy
   :ensure t
-  )
-
-(when (require 'ivy nil t)
+  :config
   ;; M-o を ivy-hydra-read-action に割り当てる．
   (when (require 'ivy-hydra nil t)
     (setq ivy-read-action-function #'ivy-hydra-read-action))
@@ -611,7 +609,15 @@ mouse-3: delete other windows"
   (setq ivy-wrap t)
 
   ;; アクティベート
-  (ivy-mode 1))
+  (ivy-mode 1)
+  )
+
+(use-package ivy-rich
+  :ensure t
+  :config
+  (ivy-rich-mode 1)
+)
+
 
 (when (require 'counsel nil t)
 
