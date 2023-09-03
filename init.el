@@ -23,13 +23,14 @@
 
 (add-to-list 'load-path "~/.emacs.d/elisp")
 
-;;----------------------------------------------------------
-;; 文字コード指定
-(require 'cl-lib) ;; emacs 標準
-(set-language-environment "Japanese")
-(prefer-coding-system 'utf-8)
-;; (setenv "LANG" "ja_JP.UTF-8")
-(set-coding-system-priority 'utf-8 'euc-jp 'iso-2022-jp 'cp932)
+;; カーソル位置がずれるので無効。2023/9/4
+;; ;;----------------------------------------------------------
+;; ;; 文字コード指定
+;; (require 'cl-lib) ;; emacs 標準
+;; (set-language-environment "Japanese")
+;; (prefer-coding-system 'utf-8)
+;; ;; (setenv "LANG" "ja_JP.UTF-8")
+;; (set-coding-system-priority 'utf-8 'euc-jp 'iso-2022-jp 'cp932)
 
 ;;----------------------------------------------------------
 ;; windows
