@@ -296,6 +296,23 @@
 ;; タブの挙動(一般的なタブの挙動） ※これを無効にすると、tab-mark が表示されなくなる
 (setq indent-line-function 'tab-to-tab-stop)
 
+(when (boundp 'indent-rigidly-map)
+  ;; 矢印ではなく f b で簡単にインデントできるようにする
+  (define-key indent-rigidly-map (kbd "f") 'indent-rigidly-right-to-tab-stop)
+  (define-key indent-rigidly-map (kbd "b") 'indent-rigidly-left-to-tab-stop)
+
+  ;; 1文字ずつインデントする方は滅多に使わないので shift 付きにする
+  (define-key indent-rigidly-map (kbd "F") 'indent-rigidly-right)
+  (define-key indent-rigidly-map (kbd "B") 'indent-rigidly-left)
+
+  ;; C-x C-i を2連続でタイプした場合は使用頻度が高い右タブインデントに割り当て
+  (define-key indent-rigidly-map (kbd "C-x TAB") 'indent-rigidly-right-to-tab-stop)
+
+  ;; vi ライクなキーバインドにしたいときは h l を使うのもいいかも
+  ;; (define-key indent-rigidly-map (kbd "l") 'indent-rigidly-right-to-tab-stop)
+  ;; (define-key indent-rigidly-map (kbd "h") 'indent-rigidly-left-to-tab-stop)
+  )
+
 ;;----------------------------------------------------------
 ;; バックデリート有効
 (global-set-key "\C-h" 'delete-backward-char)
