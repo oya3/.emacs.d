@@ -35,15 +35,15 @@
 ;;----------------------------------------------------------
 ;; windows
 (when (eq system-type 'windows-nt)
-  ;;----------------------------------------------------------
-  ;; パス指定
-  (setenv "PATH"
-          (concat
-           "C:\\msys64\\mingw64\\bin" ";"
-           (concat (getenv "HOME") "\\.emacs.d\\bin;")
-           ;; (concat (getenv "HOME") "\\.rbenv\\versions\\2.5.8\\bin;")
-           (getenv "PATH")))
-  (setq exec-path (parse-colon-path (getenv "PATH"))) ;; 実行パスも同じにする
+  ;; ;;----------------------------------------------------------
+  ;; ;; パス指定
+  ;; (setenv "PATH"
+  ;;         (concat
+  ;;          "C:\\msys64\\mingw64\\bin" ";"
+  ;;          (concat (getenv "HOME") "\\.emacs.d\\bin;")
+  ;;          ;; (concat (getenv "HOME") "\\.rbenv\\versions\\2.5.8\\bin;")
+  ;;          (getenv "PATH")))
+  ;; (setq exec-path (parse-colon-path (getenv "PATH"))) ;; 実行パスも同じにする
 
   ;; ;;shell for msys64/mingw64
   ;; (setq shell-file-name "C:\\msys64\\usr\\bin\\bash.exe")
@@ -216,19 +216,19 @@
 ;;   https://qastack.jp/emacs/598/how-do-i-prevent-extremely-long-lines-making-emacs-slow
 (setq auto-window-vscroll nil)
 
-;;----------------------------------------------------------
-;; powerline フォント
-(when (eq system-type 'windows-nt)
-  (set-face-font 'default "Ricty Diminished for Powerline-12")
-  )
+;; ;;----------------------------------------------------------
+;; ;; powerline フォント
+;; (when (eq system-type 'windows-nt)
+;;   (set-face-font 'default "Ricty Diminished for Powerline-12")
+;;   )
 
-;;----------------------------------------------------------
-;; grep, find を windows でも使えるようにmsys側を指定する for windows
-(when (eq system-type 'windows-nt)
-  (setq find-program "\"C:\\msys64\\usr\\bin\\find.exe\""
-        grep-program "\"C:\\msys64\\usr\\bin\\grep.exe\""
-        null-device "/dev/null")
-  )
+;; ;;----------------------------------------------------------
+;; ;; grep, find を windows でも使えるようにmsys側を指定する for windows
+;; (when (eq system-type 'windows-nt)
+;;   (setq find-program "\"C:\\msys64\\usr\\bin\\find.exe\""
+;;         grep-program "\"C:\\msys64\\usr\\bin\\grep.exe\""
+;;         null-device "/dev/null")
+;;   )
 
 ;;----------------------------------------------------------
 ;; font size zoom
@@ -277,10 +277,15 @@
 (use-package all-the-icons
   :ensure t
   )
+
+;; neotree を表示してwindows 1 番目に移動する
 (use-package neotree
   :ensure t
   :config
-  (add-hook 'emacs-startup-hook 'neotree-toggle)
+  (add-hook 'emacs-startup-hook
+            (lambda ()
+              (neotree-toggle)
+              (other-window 1)))
   )
 
 ;; C-x }, C-x { でwindowサイズを変更できるよにする
@@ -828,58 +833,61 @@ mouse-3: delete other windows"
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 (define-key company-active-map (kbd "C-h") nil)
 
-(use-package csharp-mode
-  :ensure t
-  )
 ;;(autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
 ;;(setq auto-mode-alist
 ;;      (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
 
 
-;;----------------------------------------------------------
-;; windows 
-(when (eq system-type 'windows-nt)
-  ;; omnisharp を利用する場合、初回だけ以下を実施する必要がある
-  ;;  M-x: omnisharp-install-server
-  ;; 実施すると、
-  ;; .emacs.d\.cache\omnisharp\server
-  ;; にomnisharpに必要な .net 環境がインストールされる。
-  ;; 2020/5/1 時点では v1.34.5 ディレクトリが作成される。
-  ;; そこに .net 環境がインストールされる。(\.emacs.d\.cache\omnisharp\server\v1.34.5\...)
-  (use-package omnisharp
+;; emacs29から取り込まれているらしい
+(when (version< emacs-version "29")
+  (use-package csharp-mode
     :ensure t
     )
-  
-  ;;--- c# ---
-  (eval-after-load 'company
-    '(add-to-list 'company-backends 'company-omnisharp))
-  
-  (defun my-csharp-mode-setup ()
-    (setq auto-mode-alist
-          (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
-    (omnisharp-mode)
-    (company-mode)
-    (flycheck-mode)
-    (turn-on-eldoc-mode)
-    
-    (setq indent-tabs-mode nil)
-    (setq c-syntactic-indentation t)
-    (c-set-style "ellemtel")
-    (setq c-basic-offset 4)
-    (setq truncate-lines t)
-    (setq tab-width 4)
-    (setq evil-shift-width 4)
-    
-    ;; csharp-mode README.md recommends this too
-    ;; (electric-pair-mode 1)       ;; Emacs 24
-    ;; (electric-pair-local-mode 1) ;; Emacs 25
-    
-    (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
-    (local-set-key (kbd "C-c C-c") 'recompile)
+  ;;----------------------------------------------------------
+  ;; windows 
+  (when (eq system-type 'windows-nt)
+    ;; omnisharp を利用する場合、初回だけ以下を実施する必要がある
+    ;;  M-x: omnisharp-install-server
+    ;; 実施すると、
+    ;; .emacs.d\.cache\omnisharp\server
+    ;; にomnisharpに必要な .net 環境がインストールされる。
+    ;; 2020/5/1 時点では v1.34.5 ディレクトリが作成される。
+    ;; そこに .net 環境がインストールされる。(\.emacs.d\.cache\omnisharp\server\v1.34.5\...)
+    (use-package omnisharp
+      :ensure t
+      )
+
+    ;;--- c# ---
+    (eval-after-load 'company
+      '(add-to-list 'company-backends 'company-omnisharp))
+
+    (defun my-csharp-mode-setup ()
+      (setq auto-mode-alist
+            (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
+      (omnisharp-mode)
+      (company-mode)
+      (flycheck-mode)
+      (turn-on-eldoc-mode)
+
+      (setq indent-tabs-mode nil)
+      (setq c-syntactic-indentation t)
+      (c-set-style "ellemtel")
+      (setq c-basic-offset 4)
+      (setq truncate-lines t)
+      (setq tab-width 4)
+      (setq evil-shift-width 4)
+
+      ;; csharp-mode README.md recommends this too
+      ;; (electric-pair-mode 1)       ;; Emacs 24
+      ;; (electric-pair-local-mode 1) ;; Emacs 25
+
+      (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
+      (local-set-key (kbd "C-c C-c") 'recompile)
+      )
+
+    (setq omn​​isharp-company-strip-trailing-brackets nil)
+    (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
     )
-  
-  (setq omn​​isharp-company-strip-trailing-brackets nil)
-  (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
   )
 
 (defun my-emacs-lisp-mode-setup ()
