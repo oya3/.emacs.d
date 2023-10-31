@@ -51,6 +51,17 @@
   ;; (setq explicit-shell-file-name shell-file-name)
   ;; ;; (setq explicit-shell-file-name "C:\\msys64\\usr\\bin\\bash.exe")
   ;; ;; (setq explicit-bash.exe-args '("--login" "-i"))
+  ;; windows 側から起動した場合の対策
+  (let ((paths '("C:/Program Files/Git/mingw64/bin"
+                 "C:/Program Files/Git/usr/local/bin"
+                 "C:/Program Files/Git/usr/bin"
+                 "C:/Program Files/Git/usr/bin"
+                 "C:/Program Files/Git/mingw64/bin"
+                 "C:/Program Files/Git/usr/bin")))
+    (dolist (path paths)
+      (when (and (file-directory-p path)
+                 (not (member path exec-path)))
+        (add-to-list 'exec-path path))))
   
   ;; IME の設定をした後には実行しないこと
   ;; (set-language-environment "Japanese")
