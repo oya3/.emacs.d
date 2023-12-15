@@ -299,8 +299,12 @@
               (other-window 1)))
   )
 
+
 ;; C-x }, C-x { でwindowサイズを変更できるよにする
-(setq neo-window-fixed-size nil)
+;; windows は幅が広すぎるので固定を有効にしておく
+(unless (eq system-type 'windows-nt)
+  (setq neo-window-fixed-size nil)
+  )
 ;; neotreeでファイルを新規作成した場合のそのファイルを開く
 (setq neo-create-file-auto-open t)
 ;; delete-other-window で neotree ウィンドウを消さない
