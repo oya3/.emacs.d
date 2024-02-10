@@ -961,51 +961,29 @@ mouse-3: delete other windows"
 ;;  '(flycheck-python-pylint-executable "python3"))
 
 ;; ------------------------------------------------------------------------------
-;; vue-mode
-(setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
-(setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
-
-(use-package vue-mode
-  :ensure t
-  :config
-  (setq mmm-submode-decoration-level 0)
-  (setq mmm-global-mode 'maybe)
-  ;; (setq vue-html-tab-width 2)
-  (setq vue-css-tab-width 2)
-  (setq css-indent-offset 2)
-  (setq js-indent-level 2)
-  ;; (add-hook 'vue-mode-hook
-  ;;           (lambda ()
-  ;;             (setq vue-html-tab-width 2)))
-  ;; (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
-  ;; (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
-  ;; vue-modeでESLintを有効化する
-  )
-
-;; vue-modeでのESLintの有効化
-(flycheck-add-mode 'javascript-eslint 'vue-mode)
-
-;; ------------------------------------------------------------------------------
 ;; js-mode
 ;;  # eslint をとりあえず global に導入
-;;  $ npm install -g eslint
+;;  $ npm install -g eslint  # グローバルに入れておけば全体で使えるけど、プロジェクト単位でもいい
+;;  $ npx npx eslint --init  # 各プロジェクトに設定する
 (add-hook 'js-mode-hook
           (lambda ()
-            ;; (flycheck-mode)
-            ;; (setq-local flycheck-checker 'javascript-eslint)
+            (flycheck-mode)
+            (setq-local flycheck-checker 'javascript-eslint)
             (make-local-variable 'js-indent-level)
             (setq js-indent-level 2)
             )
           )
-;; (flycheck-add-mode 'javascript-eslint 'js-mode)
+(flycheck-add-mode 'javascript-eslint 'js-mode)
 
 ;; (use-package js2-mode
 ;;   :ensure t
 ;;   :mode (("\\.js\\'" . js2-mode))
 ;;   :config
+;;   (setq js-indent-level 2)
 ;;   (setq js2-basic-offset 2)
+;;   (setq js2-bounce-indent-p t)
 ;;   )
-;;
+
 ;; (flycheck-add-mode 'javascript-eslint 'js2-mode)
 
 ;; ------------------------------------------------------------------------------
@@ -1026,16 +1004,6 @@ mouse-3: delete other windows"
   (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
   ;; コードブロックのハイライト化
   (setq markdown-fontify-code-blocks-natively t)
-  )
-
-;; ------------------------------------------------------------------------------
-;; web-mode(html)
-(use-package web-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "#D0D0D0")
-  (set-face-attribute 'web-mode-doctype-face nil :foreground "#D0D0F0")
   )
 
 ;; typescript
@@ -1079,18 +1047,112 @@ mouse-3: delete other windows"
 ;;   (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 ;;   )
 
-;; web-mode
-(defun my-web-mode-hook ()
-  "Hooks for Web mode."
-  (setq web-mode-markup-indent-offset 2)
-)
+;; ------------------------------------------------------------------------------
+;; web-mode(html)
+;; (defun my-web-mode-hook ()
+;;   "Hooks for Web mode."
+;;   (setq web-mode-markup-indent-offset 2)
+;; )
 
 (use-package web-mode
   :ensure t
   :config
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-  (add-hook 'web-mode-hook  'my-web-mode-hook)
+  ;; (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "#D0D0D0")
+  ;; (set-face-attribute 'web-mode-doctype-face nil :foreground "#D0D0F0")
+  ;; (add-hook 'web-mode-hook  'my-web-mode-hook)
+  (setq web-mode-markup-indent-offset 2) ; HTMLタグのインデント
+  (setq web-mode-css-indent-offset 2)    ; CSSのインデント
+  (setq web-mode-code-indent-offset 2)  ; JS, PHP, Javaなどのインデント
   )
+
+;; slim-modeの設定
+(use-package slim-mode
+  :ensure t
+  :config
+  (setq slim-indent-offset 2))
+
+
+;; scss-modeの設定
+(use-package scss-mode
+  :ensure t
+  :config
+  (setq scss-compile-at-save nil) ; 自動コンパイルを無効にする
+  (setq css-indent-offset 2))     ; インデント幅を2スペースに設定
+
+
+;; ------------------------------------------------------------------------------
+;; vue-mode
+;; (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+;; (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+
+(use-package vue-mode
+  :ensure t
+  :config
+  (setq mmm-submode-decoration-level 0)
+  (setq mmm-global-mode 'maybe)
+  (setq vue-html-tab-width 2)
+  (setq vue-css-tab-width 2)
+  (setq css-indent-offset 2)
+  (setq js-indent-level 2)
+  ;; (add-hook 'vue-mode-hook
+  ;;           (lambda ()
+  ;;             (setq vue-html-tab-width 2)))
+  ;; (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+  ;; (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+  ;; vue-modeでESLintを有効化する
+  )
+
+
+;; ;; ************************************************************************
+;; ;; mmm-mode
+;; ;; ************************************************************************
+;; (use-package mmm-mode
+;;   :ensure t
+;;   :config
+;;   (setq mmm-global-mode 'maybe)
+;;   (mmm-add-classes
+;;    '((vue-embeded-slim-mode
+;;       :submode slim-mode
+;;       :front "^<template.*lang=\"pug\">\n"
+;;       :back "^</template>")
+;;      (vue-embeded-web-mode
+;;       :submode web-mode
+;;       :front "^<template>\n"
+;;       :back "^</template>\n")
+;;      (vue-js-mode
+;;        :submode js-mode
+;;        :front "<script[^>]*>[ \t]*\n"
+;;        :back "[ \t]*</script>")
+;;      ;; (vue-embeded-js-mode
+;;      ;;  :submode js-mode
+;;      ;;  :front "^<script.*>\n"
+;;      ;;  :back "^</script>\n")
+;;      ;; (vue-embeded-js-setup-mode
+;;      ;;  :submode js-mode
+;;      ;;  :front "^<script setup>\n"
+;;      ;;  :back "^</script>\n")  ; 新たに追加しました
+;;      (vue-embeded-scss-mode
+;;       :submode scss-mode
+;;       :front "^<style.*lang=\"scss\">\n"
+;;       :back "^</style>")
+;;      (vue-embeded-css-mode
+;;       :submode web-mode
+;;       :front "^<style>\n"
+;;       :back "^</style>")
+;;      ))
+;;   (mmm-add-mode-ext-class nil "\\.vue\\'" 'vue-embeded-slim-mode)
+;;   (mmm-add-mode-ext-class nil "\\.vue\\'" 'vue-embeded-web-mode)
+;;   (mmm-add-mode-ext-class nil "\\.vue\\'" 'vue-js-mode)
+;;   ;; (mmm-add-mode-ext-class nil "\\.vue\\'" 'vue-embeded-js-mode)
+;;   ;; (mmm-add-mode-ext-class nil "\\.vue\\'" 'vue-embeded-js-setup-mode)  ; 新たに追加しました
+;;   (mmm-add-mode-ext-class nil "\\.vue\\'" 'vue-embeded-scss-mode)
+;;   (mmm-add-mode-ext-class nil "\\.vue\\'" 'vue-embeded-css-mode)
+;;   )
+
+;; (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+;; (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
 
 ;; ------------------------------------------------------------------------------
 ;; Meadow時代のofficeファイルをテキスト化するパッケージ（独自改良版）
