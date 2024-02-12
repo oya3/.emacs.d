@@ -3,7 +3,7 @@
 # https://gihyo.jp/admin/serial/01/ubuntu-recipe/0579
 > $ sudo apt install ripgrep
           or
-> $ sudp snap install ripgrep --classic
+> $ sudo snap install ripgrep --classic
 
 -- omnisharpを利用する場合 for windows --
 (1) 以下を実施しomnisharp server をインストールする（一度のみ実施する）
@@ -127,13 +127,24 @@ M-x magit-status : git status を実施
     u   : unstage
     c c : commit (C-x # : コミットログ記載完了時に実行するコマンド)
 
+--- find-file-in-project ---
+M-x find-file-in-project
+
+--- recentf ---
+M-x recentf 過去に開いたファイル一覧表示／選択
+
 --- ivy ---
+M-x counsel-gitgrep: git登録内容から検索
 M-x counsel-rg : utf8 文字列検索（超高速）
 M-x counsel-pt : マルチ言語対応検索（現在動作しない）
  検索後コマンド
  C-c C-o: 検索編集前モード -> "w" キー押下で編集モードになる
  C-c C-c: 編集結果をファイルに反映
  C-x d  : ディレクトリ選択
+
+--- swiper ---
+M-x swiper: アクティブバッファの絞り込み検索
+M-x swiper-thing-at-point: 上記に加えて、カーソルにある単語検索
 
 --- dumb-jump
 https://github.com/jacktasia/dumb-jump

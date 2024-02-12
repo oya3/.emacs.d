@@ -3,6 +3,10 @@
 (message "PATH is %s." (getenv "PATH"))
 (setenv "LC_MESSAGES" "C")
 
+;; ログ表示
+;; https://www.grugrut.net/posts/my-emacs-init-el/
+(setq debug-on-error t)
+
 ;; (setq url-proxy-services
 ;;       '(("http" . "172.17.10.213:8080")
 ;;         ("https" . "172.17.10.213:8080")))
@@ -138,6 +142,43 @@
   :hook (after-init . global-clipetty-mode)
   :bind ("M-w" . clipetty-kill-ring-save)
   )
+
+;; ;; バッファを移動したときに、カーソル位置を一瞬だけ強調してわかりやすくする。
+;; (use-package beacon
+;;   :ensure t
+;;   :diminish beacon-mode
+;;   :config
+;;   (beacon-mode 1))
+
+;; ;; ヤンクした場合などに編集箇所を強調表示してわかりやすくする。
+;; ;; volatile-highlightsの設定
+;; (use-package volatile-highlights
+;;   :ensure t
+;;   :diminish volatile-highlights-mode
+;;   :config
+;;   (volatile-highlights-mode t))
+
+;; ;; インデント表示
+;; ;; highlight-indent-guidesの設定
+;; (use-package highlight-indent-guides
+;;   :ensure t
+;;   :diminish highlight-indent-guides-mode
+;;   :custom
+;;   (highlight-indent-guides-method 'character)
+;;   (highlight-indent-guides-auto-character-face-perc 20)
+;;   (highlight-indent-guides-character ?\|)
+;;   :hook
+;;   (prog-mode . highlight-indent-guides-mode))
+
+;; ;; ファイル最終行以降をわかりやすく
+;; ;; vim風に、最終行以降に~を表示する。 これはfringeに表示するので、行番号表示とずれてしまうのが難点。
+;; ;; vi風に空行に~を表示する
+;; (use-package vi-tilde-fringe
+;;   :ensure t
+;;   :diminish vi-tilde-fringe-mode
+;;   :commands vi-tilde-fringe-mode
+;;   :config
+;;   (global-vi-tilde-fringe-mode))
 
 ;;----------------------------------------------------------
 ;; *.~ とかのバックアップファイルを作らない
@@ -403,21 +444,35 @@ mouse-3: delete other windows"
 (setq mouse-drag-copy-region t)
 
 ;;----------------------------------------------------------
-;; コメント追加を無効
-(global-unset-key "\M-;")
-;;(global-set-key (kbd "C-c ;") 'indent-for-comment)
+;; ;; コメント追加を無効
+;; (global-unset-key "\M-;")
+;; ;;(global-set-key (kbd "C-c ;") 'indent-for-comment)
+
+;; ;; リージョン コメント＆アンコメント
+;; (global-set-key (kbd "C-c ;") 'comment-or-uncomment-region)
+;; ;; １行コメント＆アンコメント
+;; (defun one-line-comment ()
+;;   (interactive)
+;;   (save-excursion
+;;     (beginning-of-line)
+;;     (set-mark (point))
+;;     (end-of-line)
+;;     (comment-or-uncomment-region (region-beginning) (region-end))))
+;; (global-set-key (kbd "M-;") 'one-line-comment)
 
 ;; リージョン コメント＆アンコメント
-(global-set-key (kbd "C-c ;") 'comment-or-uncomment-region)
-;; １行コメント＆アンコメント
-(defun one-line-comment ()
+(global-unset-key "\M-;")
+(defun region-or-line-comment-or-uncomment ()
   (interactive)
-  (save-excursion
-    (beginning-of-line)
-    (set-mark (point))
-    (end-of-line)
-    (comment-or-uncomment-region (region-beginning) (region-end))))
-(global-set-key (kbd "M-;") 'one-line-comment)
+  (if (use-region-p)
+      (comment-or-uncomment-region (region-beginning) (region-end))
+    (save-excursion
+      (beginning-of-line)
+      (set-mark (point))
+      (end-of-line)
+      (comment-or-uncomment-region (region-beginning) (region-end)))))
+(global-set-key (kbd "M-;") 'region-or-line-comment-or-uncomment)
+
 
 ;;----------------------------------------------------------
 ;; タブは半角スペースにする
@@ -607,6 +662,11 @@ mouse-3: delete other windows"
 (global-set-key (kbd "C-M-s") 'vr/isearch-forward)
 
 ;;----------------------------------------------------------
+(use-package find-file-in-project
+  :ensure t
+  )
+
+;;----------------------------------------------------------
 (use-package wgrep
   :ensure t
   )
@@ -724,8 +784,37 @@ mouse-3: delete other windows"
   :config
   (when (locate-library "flycheck-irony")
     (flycheck-irony-setup))
-  (setq flycheck-checker-error-threshold 500)
+  ;; (setq flycheck-checker-error-threshold 500)
+  ;; (add-hook 'after-init-hook #'global-flycheck-mode)
   )
+
+;; ;; Flycheckをグローバルに有効にします
+;; (global-flycheck-mode)
+;; ;; ESLintをJavaScriptのチェッカーとして追加します
+;; (flycheck-add-mode 'javascript-eslint 'vue-mode)
+;; ;; Flycheckをvue-modeで有効にします
+;; (add-hook 'vue-mode-hook 'flycheck-mode)
+
+;; マウスをクリックしている間だけエラー表示
+(defun my-mouse-click (event)
+  (interactive "e")
+  (mouse-set-point event)
+  (when (bound-and-true-p flycheck-mode)
+    (flycheck-display-error-at-point)
+    )
+  )
+(global-set-key [down-mouse-1] 'my-mouse-click)
+
+;; (defun my-mouse-click (event)
+;;   (interactive "e")
+;;   (mouse-set-point event)
+;;   (when (bound-and-true-p flycheck-mode)
+;;     (flycheck-display-error-at-point)
+;;     (setq flycheck-display-errors-function
+;;           #'flycheck-display-error-messages)))
+
+;; (global-set-key [down-mouse-1] 'my-mouse-click)
+
 
 ;; ------------------------------------------------------------------------------
 ;; cc-mode
@@ -1102,6 +1191,15 @@ mouse-3: delete other windows"
   ;; (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
   ;; (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
   ;; vue-modeでESLintを有効化する
+  ;; (add-to-list 'vue-mode-hook #'smartparens-mode)
+  ;; (require 'lsp-ui)
+  ;; (require 'lsp-vue)
+  ;; (add-hook 'vue-mode-hook #'lsp-vue-mmm-enable)
+  ;; (with-eval-after-load 'lsp-ui (require 'lsp-ui-flycheck))
+  ;; (require 'company-lsp)
+  ;; (push 'company-lsp company-backends)
+  (flycheck-add-mode 'javascript-eslint 'vue-mode)
+  (add-hook 'vue-mode-hook 'flycheck-mode)
   )
 
 
