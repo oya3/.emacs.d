@@ -1021,20 +1021,32 @@ mouse-3: delete other windows"
   :ensure t
   :init
   (elpy-enable)
-  :config
-  ;; (remove-hook 'elpy-modules 'elpy-module-highlight-indentation) ;; インデントハイライトの無効化
-  (remove-hook 'elpy-modules 'elpy-module-flymake) ;; flymakeの無効化
-  (setq elpy-rpc-python-command "python3")
-  (setq elpy-rpc-virtualenv-path 'current)
-  (setq elpy-rpc-backend "jedi")
-  ;; (setq jedi:complete-on-dot t)
-  ;; (add-hook 'python-mode-hook 'jedi:setup)
   (add-hook 'elpy-mode-hook
     '(lambda ()
-       (auto-complete-mode -1)
+       ;; (auto-complete-mode -1)
        (define-key company-active-map (kbd "C-n") 'company-select-next)
        (define-key company-active-map (kbd "C-p") 'company-select-previous)
-       (define-key company-active-map (kbd "<tab>") 'company-complete))))
+       (define-key company-active-map (kbd "<tab>") 'company-complete)))
+)
+
+;; (use-package elpy
+;;   :ensure t
+;;   :init
+;;   (elpy-enable)
+;;   :config
+;;   ;; (remove-hook 'elpy-modules 'elpy-module-highlight-indentation) ;; インデントハイライトの無効化
+;;   (remove-hook 'elpy-modules 'elpy-module-flymake) ;; flymakeの無効化
+;;   (setq elpy-rpc-python-command "python3")
+;;   (setq elpy-rpc-virtualenv-path 'current)
+;;   (setq elpy-rpc-backend "jedi")
+;;   ;; (setq jedi:complete-on-dot t)
+;;   ;; (add-hook 'python-mode-hook 'jedi:setup)
+;;   (add-hook 'elpy-mode-hook
+;;     '(lambda ()
+;;        ;; (auto-complete-mode -1)
+;;        (define-key company-active-map (kbd "C-n") 'company-select-next)
+;;        (define-key company-active-map (kbd "C-p") 'company-select-previous)
+;;        (define-key company-active-map (kbd "<tab>") 'company-complete))))
 
 (use-package py-autopep8
   :ensure t
