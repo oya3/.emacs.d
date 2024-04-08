@@ -943,55 +943,53 @@ mouse-3: delete other windows"
 
 
 ;; emacs29から取り込まれているらしい
-(when (version< emacs-version "29")
-  (use-package csharp-mode
+;; (use-package csharp-mode
+;;   :ensure t
+;;   )
+;;----------------------------------------------------------
+;; windows 
+(when (eq system-type 'windows-nt)
+  ;; omnisharp を利用する場合、初回だけ以下を実施する必要がある
+  ;;  M-x: omnisharp-install-server
+  ;; 実施すると、
+  ;; .emacs.d\.cache\omnisharp\server
+  ;; にomnisharpに必要な .net 環境がインストールされる。
+  ;; 2020/5/1 時点では v1.34.5 ディレクトリが作成される。
+  ;; そこに .net 環境がインストールされる。(\.emacs.d\.cache\omnisharp\server\v1.34.5\...)
+  (use-package omnisharp
     :ensure t
     )
-  ;;----------------------------------------------------------
-  ;; windows 
-  (when (eq system-type 'windows-nt)
-    ;; omnisharp を利用する場合、初回だけ以下を実施する必要がある
-    ;;  M-x: omnisharp-install-server
-    ;; 実施すると、
-    ;; .emacs.d\.cache\omnisharp\server
-    ;; にomnisharpに必要な .net 環境がインストールされる。
-    ;; 2020/5/1 時点では v1.34.5 ディレクトリが作成される。
-    ;; そこに .net 環境がインストールされる。(\.emacs.d\.cache\omnisharp\server\v1.34.5\...)
-    (use-package omnisharp
-      :ensure t
-      )
 
-    ;;--- c# ---
-    (eval-after-load 'company
-      '(add-to-list 'company-backends 'company-omnisharp))
+  ;;--- c# ---
+  (eval-after-load 'company
+    '(add-to-list 'company-backends 'company-omnisharp))
 
-    (defun my-csharp-mode-setup ()
-      (setq auto-mode-alist
-            (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
-      (omnisharp-mode)
-      (company-mode)
-      (flycheck-mode)
-      (turn-on-eldoc-mode)
+  (defun my-csharp-mode-setup ()
+    (setq auto-mode-alist
+          (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
+    (omnisharp-mode)
+    (company-mode)
+    (flycheck-mode)
+    (turn-on-eldoc-mode)
 
-      (setq indent-tabs-mode nil)
-      (setq c-syntactic-indentation t)
-      (c-set-style "ellemtel")
-      (setq c-basic-offset 4)
-      (setq truncate-lines t)
-      (setq tab-width 4)
-      (setq evil-shift-width 4)
+    (setq indent-tabs-mode nil)
+    (setq c-syntactic-indentation t)
+    (c-set-style "ellemtel")
+    (setq c-basic-offset 4)
+    (setq truncate-lines t)
+    (setq tab-width 4)
+    (setq evil-shift-width 4)
 
-      ;; csharp-mode README.md recommends this too
-      ;; (electric-pair-mode 1)       ;; Emacs 24
-      ;; (electric-pair-local-mode 1) ;; Emacs 25
+    ;; csharp-mode README.md recommends this too
+    ;; (electric-pair-mode 1)       ;; Emacs 24
+    ;; (electric-pair-local-mode 1) ;; Emacs 25
 
-      (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
-      (local-set-key (kbd "C-c C-c") 'recompile)
-      )
-
-    (setq omn​​isharp-company-strip-trailing-brackets nil)
-    (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
+    (local-set-key (kbd "C-c r r") 'omnisharp-run-code-action-refactoring)
+    (local-set-key (kbd "C-c C-c") 'recompile)
     )
+
+  (setq omn​​isharp-company-strip-trailing-brackets nil)
+  (add-hook 'csharp-mode-hook 'my-csharp-mode-setup t)
   )
 
 (defun my-emacs-lisp-mode-setup ()
