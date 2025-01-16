@@ -3,6 +3,8 @@
 (message "PATH is %s." (getenv "PATH"))
 (setenv "LC_MESSAGES" "C")
 
+(setq package-check-signature nil)
+
 ;; ログ表示
 ;; https://www.grugrut.net/posts/my-emacs-init-el/
 (setq debug-on-error t)
@@ -762,12 +764,17 @@ mouse-3: delete other windows"
   (setq dumb-jump-selector 'ivy)
   )
 
-;;----------------------------------------------------------
-;; git-gutter+ git 変更分を表示
-(use-package git-gutter+
+;; ;;----------------------------------------------------------
+;; ;; git-gutter+ git 変更分を表示
+;; (use-package git-gutter+
+;;   :ensure t
+;;   )
+;; (global-git-gutter+-mode t)
+
+(use-package git-gutter
   :ensure t
-  )
-(global-git-gutter+-mode t)
+  :config
+  (global-git-gutter-mode +1))
 
 ;;----------------------------------------------------------
 (use-package magit
@@ -1164,6 +1171,7 @@ mouse-3: delete other windows"
   (setq web-mode-markup-indent-offset 2) ; HTMLタグのインデント
   (setq web-mode-css-indent-offset 2)    ; CSSのインデント
   (setq web-mode-code-indent-offset 2)  ; JS, PHP, Javaなどのインデント
+  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "#d0d0d0")  ; html タグカッコを強制白色にする
   )
 
 ;; slim-modeの設定
