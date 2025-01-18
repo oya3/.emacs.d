@@ -919,18 +919,25 @@ mouse-3: delete other windows"
 
 (use-package company
   :ensure t
-  )
-
-(use-package company-irony-c-headers
-  :ensure t
-  )
+  :config
+  ;; 補完が自動でポップアップしないように設定
+  (setq company-idle-delay nil)
+  ;; 補完候補の最大表示数
+  (setq company-tooltip-limit 20)
+  ;; ツールチップの表示位置を調整
+  (setq company-tooltip-align-annotations t)
+  ;; 全バッファで有効にする
+  (global-company-mode t))
 
 (use-package company-irony
   :ensure t
   :config
-  ;; companyの補完のバックエンドにironyを使用する.
-  (add-to-list 'company-backends '(company-irony-c-headers company-irony))
-  )
+  (add-to-list 'company-backends 'company-irony))
+
+(use-package company-irony-c-headers
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-irony-c-headers))
 
 (global-company-mode) ; 全バッファで有効にする
 
