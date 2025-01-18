@@ -139,6 +139,7 @@ M-x counsel-gitgrep: git登録内容から検索
 M-x counsel-rg : utf8 文字列検索（超高速）
 M-x counsel-pt : マルチ言語対応検索（現在動作しない）
  検索後コマンド
+ C-M-m  : チラ見
  C-c C-o: 検索編集前モード -> "w" キー押下で編集モードになる
  C-c C-c: 編集結果をファイルに反映
  C-x d  : ディレクトリ選択
@@ -151,6 +152,7 @@ M-x swiper-thing-at-point: 上記に加えて、カーソルにある単語検�
 https://github.com/jacktasia/dumb-jump
 M-. : 定義ジャンプ
 M-, : ジャンプ元に戻る
+M-? : 参照一覧
 
 文字コード自動判定が間違ったとき
 C-x RET r (coding system for visited file) で 文字コードを指定しなおすことで対処できる。
