@@ -123,6 +123,13 @@
     (message "This platform is not mac")
 )
 
+(when (eq system-type 'darwin)
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (exec-path-from-shell-initialize))
+  )
+
 ;; ;; CommandとOptionを入れ替える for mac
 ;; (when (equal system-type 'darwin)
 ;;   (when (memq window-system '(mac ns))
@@ -1201,6 +1208,35 @@ mouse-3: delete other windows"
 ;; (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
 ;; (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
 
+;; (use-package vue-mode
+;;   :ensure t
+;;   :config
+;;   (setq mmm-submode-decoration-level 0)
+;;   (setq mmm-global-mode 'maybe)
+;;   (setq vue-html-tab-width 2)
+;;   (setq vue-css-tab-width 2)
+;;   (setq css-indent-offset 2)
+;;   (setq js-indent-level 2)
+;;   ;; (add-hook 'vue-mode-hook
+;;   ;;           (lambda ()
+;;   ;;             (setq vue-html-tab-width 2)))
+;;   ;; (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+;;   ;; (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
+;;   ;; vue-modeでESLintを有効化する
+;;   ;; (add-to-list 'vue-mode-hook #'smartparens-mode)
+;;   ;; (require 'lsp-ui)
+;;   ;; (require 'lsp-vue)
+;;   ;; (add-hook 'vue-mode-hook #'lsp-vue-mmm-enable)
+;;   ;; (with-eval-after-load 'lsp-ui (require 'lsp-ui-flycheck))
+;;   ;; (require 'company-lsp)
+;;   ;; (push 'company-lsp company-backends)
+;;   (flycheck-add-mode 'javascript-eslint 'vue-mode)
+;;   (add-hook 'vue-mode-hook 'flycheck-mode)
+;;   )
+
+;; 以下の設定の場合、typescript, vls が必要なのでインストールしておくこと
+;; $ npm install -g typescript vls
+;; M-x: lsp-workspace-folders-add でvueプロジェクトルートを指定する(ただしvueファイルを一旦オープンしておく必要がある様子。そのあとリオープンしないとダメっぽい）
 (use-package vue-mode
   :ensure t
   :config
@@ -1210,22 +1246,30 @@ mouse-3: delete other windows"
   (setq vue-css-tab-width 2)
   (setq css-indent-offset 2)
   (setq js-indent-level 2)
-  ;; (add-hook 'vue-mode-hook
-  ;;           (lambda ()
-  ;;             (setq vue-html-tab-width 2)))
-  ;; (setq mmm-js-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
-  ;; (setq mmm-typescript-mode-enter-hook (lambda () (setq syntax-ppss-table nil)))
-  ;; vue-modeでESLintを有効化する
-  ;; (add-to-list 'vue-mode-hook #'smartparens-mode)
-  ;; (require 'lsp-ui)
-  ;; (require 'lsp-vue)
-  ;; (add-hook 'vue-mode-hook #'lsp-vue-mmm-enable)
-  ;; (with-eval-after-load 'lsp-ui (require 'lsp-ui-flycheck))
-  ;; (require 'company-lsp)
-  ;; (push 'company-lsp company-backends)
   (flycheck-add-mode 'javascript-eslint 'vue-mode)
   (add-hook 'vue-mode-hook 'flycheck-mode)
-  )
+)
+
+(use-package lsp-mode
+  :ensure t
+  :hook (vue-mode . lsp)
+  :commands lsp
+  :config
+  (setq lsp-clients-typescript-server "vls")
+  (setq lsp-auto-guess-root t))  ;; プロジェクトのルートディレクトリを自動的に推測
+
+;; (use-package company
+;;   :ensure t
+;;   :config
+;;   (setq company-tooltip-align-annotations t)
+;;   (setq company-tooltip-limit 20)
+;;   (global-company-mode))
+
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+(setq completion-styles '(basic substring))
 
 
 ;; ;; ************************************************************************

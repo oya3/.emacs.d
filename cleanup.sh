@@ -6,3 +6,4 @@ rm -rf transient
 rm -rf elpy
 rm -f .emacs.desktop
 rm -f recentf
+rm -f .lsp-session-v1 

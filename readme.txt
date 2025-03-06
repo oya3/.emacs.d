@@ -33,6 +33,7 @@ C-x w: 別名ファイル保存
 
 M-x string-rectangle : 選択した行の先頭に任意の文字列を挿入することが可能（インデントにも利用できる）
 
+# indent インデント
 # （破棄）C-c > : インデント調整(C-c < で逆向き) 
 C-x Tab : f,b(１文字単位), F,B(tab単位) でインデント
 C-x C-b : バッファーリスト表示(counsel-switch-buffer)
@@ -158,13 +159,24 @@ M-? : 参照一覧
 C-x RET r (coding system for visited file) で 文字コードを指定しなおすことで対処できる。
 C-x RET f (coding system for saving file) で 文字コードを指定しなおすことで対処できる。
 
---- elpy ---
+--- python elpy ---
 起動時に以下の問い合わせはYにしておくべき
 Automatically install the RPC dependencies from PyPI (needed for completion, autoformatting and documentation)? (Y or n) [please answer Y or n]
 ;; M-x : elpy-config : elpy の状況確認画面が表示される
 ;; M-x : pyvenv-activate : プロジェクトルートディレクトリ選択(venvディレクトリを示せばOKのはず）
 ;;                         linux の場合、source venv/bin/activate しているディレクトリからemacsを起動すれば pyvenv-activate は不要
 
+-- vue ---
+※windows版だとnodeのPATHが理解されないらしく正しく動作しない...
+以下のnodeパッケージをインストールしておかないと動作しない
+ $ npm install -g typescript vls
+また、初回vueファイルを開くと以下の問い合わせになる場合があるが、無視すればなんとかなるが、本来はjsonファイルを指定するべきで
+おそらくプロジェクトルートに配置しておけばいいが、backend, frontend のような複数のプロジェクトが１つのディレクトリに収まっている場合は上手く反応しない。。。
+> 1    Vetur can't find `tsconfig.json` or `jsconfig.json` in /home/developer/work/cnpj/kokusai/cnpj_fastapi-users-sqlalchemy. 
+> Learn More
+プロジェクトルートを指定する方法:
+M-x: lsp-workspace-folders-add  vueプロジェクトルートを指定する(ただしvueファイルを一旦オープンしておく必要がある様子。そのあとリオープンしないとダメっぽい）
+                                プロジェクトルートのパスは .emacs.d/.lsp-session-v1 に登録されている様子
 
 --- 色適用 face の調べ方 ---
 ;; 調べたい文字にカーソルを合わせて
