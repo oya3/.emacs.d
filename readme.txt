@@ -170,6 +170,8 @@ Automatically install the RPC dependencies from PyPI (needed for completion, aut
 ※windows版だとnodeのPATHが理解されないらしく正しく動作しない...
 以下のnodeパッケージをインストールしておかないと動作しない
  $ npm install -g typescript vls
+ # インストール先を確認するには
+ # $ npm list -g typescript で確認できる
 また、初回vueファイルを開くと以下の問い合わせになる場合があるが、無視すればなんとかなるが、本来はjsonファイルを指定するべきで
 おそらくプロジェクトルートに配置しておけばいいが、backend, frontend のような複数のプロジェクトが１つのディレクトリに収まっている場合は上手く反応しない。。。
 > 1    Vetur can't find `tsconfig.json` or `jsconfig.json` in /home/developer/work/cnpj/kokusai/cnpj_fastapi-users-sqlalchemy. 
