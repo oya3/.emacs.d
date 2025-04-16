@@ -1253,16 +1253,17 @@ mouse-3: delete other windows"
   (setq css-indent-offset 2)
   (setq js-indent-level 2)
   (flycheck-add-mode 'javascript-eslint 'vue-mode)
-  (add-hook 'vue-mode-hook 'flycheck-mode)
-)
+  (add-hook 'vue-mode-hook 'flycheck-mode))
 
 (use-package lsp-mode
   :ensure t
   :hook (vue-mode . lsp)
   :commands lsp
   :config
-  (setq lsp-clients-typescript-server "vls")
-  (setq lsp-auto-guess-root t))  ;; プロジェクトのルートディレクトリを自動的に推測
+  (setq lsp-clients-typescript-server "volar")
+  (setq lsp-auto-guess-root t)
+  (setq lsp-volar-take-over-mode t)
+  (setq lsp-volar-typescript-server-path "/home/developer/.anyenv/envs/nodenv/shims/tsc"))  ;; TypeScriptのパスを設定
 
 ;; (use-package company
 ;;   :ensure t
