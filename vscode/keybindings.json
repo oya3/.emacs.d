@@ -37,5 +37,21 @@
     {
         "key": "shift+left",
         "command": "workbench.action.focusPreviousGroup"
+    },
+    {
+        "key": "ctrl+x 2",
+        "command": "workbench.action.splitEditor"
+    },
+    {
+        "key": "ctrl+oem_5",
+        "command": "-workbench.action.splitEditor"
+    },
+    {
+        "key": "ctrl+x 3",
+        "command": "workbench.action.splitEditorDown"
+    },
+    {
+        "key": "ctrl+k ctrl+oem_5",
+        "command": "-workbench.action.splitEditorDown"
     }
 ]
