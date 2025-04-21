@@ -1,0 +1,10 @@
+dbaeumer.vscode-eslint
+dracula-theme.theme-dracula
+mechatroner.rainbow-csv
+ms-python.debugpy
+ms-python.python
+ms-python.vscode-pylance
+ms-vscode-remote.remote-wsl
+ms-vscode.powershell
+tuttieee.emacs-mcx
+vue.volar
