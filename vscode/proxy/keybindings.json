@@ -39,7 +39,7 @@
         "command": "workbench.action.focusPreviousGroup"
     },
     {
-        "key": "ctrl+x 2",
+        "key": "ctrl+x 3",
         "command": "workbench.action.splitEditor"
     },
     {
@@ -47,7 +47,7 @@
         "command": "-workbench.action.splitEditor"
     },
     {
-        "key": "ctrl+x 3",
+        "key": "ctrl+x 2",
         "command": "workbench.action.splitEditorDown"
     },
     {
