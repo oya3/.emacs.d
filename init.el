@@ -1255,6 +1255,15 @@ mouse-3: delete other windows"
   (flycheck-add-mode 'javascript-eslint 'vue-mode)
   (add-hook 'vue-mode-hook 'flycheck-mode))
 
+(defvar my-tsc-path
+  (cond
+   ((eq system-type 'windows-nt)
+    "C:\\Users\\大家一訓\\AppData\\Local\\fnm_multishells\\22284_1744770763216\\tsc")  ;; Windowsのパス
+   ((eq system-type 'gnu/linux)
+    "/home/developer/.anyenv/envs/nodenv/shims/tsc")  ;; Linuxのパス
+   ((eq system-type 'darwin)
+    "/Users/developer/.anyenv/envs/nodenv/shims/tsc"))) ;; macOSのパス
+
 (use-package lsp-mode
   :ensure t
   :hook (vue-mode . lsp)
@@ -1263,7 +1272,17 @@ mouse-3: delete other windows"
   (setq lsp-clients-typescript-server "volar")
   (setq lsp-auto-guess-root t)
   (setq lsp-volar-take-over-mode t)
-  (setq lsp-volar-typescript-server-path "/home/developer/.anyenv/envs/nodenv/shims/tsc"))  ;; TypeScriptのパスを設定
+  (setq lsp-volar-typescript-server-path my-tsc-path)) ;; 変数を使用
+
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :hook (vue-mode . lsp)
+;;   :commands lsp
+;;   :config
+;;   (setq lsp-clients-typescript-server "volar")
+;;   (setq lsp-auto-guess-root t)
+;;   (setq lsp-volar-take-over-mode t)
+;;   (setq lsp-volar-typescript-server-path "/home/developer/.anyenv/envs/nodenv/shims/tsc"))  ;; TypeScriptのパスを設定
 
 ;; (use-package company
 ;;   :ensure t
