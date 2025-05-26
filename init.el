@@ -137,6 +137,9 @@
 ;;     (setq mac-command-modifier 'super)
 ;;     )
 
+;; 選択時の背景色
+(set-face-attribute 'region nil :background "#999999")
+
 ;; ;;----------------------------
 ;; ;; クリップボードに反映する
 ;; ;; https://blog.misosi.ru/2017/01/17/osc52e-el/
@@ -958,6 +961,16 @@ mouse-3: delete other windows"
 (define-key company-active-map (kbd "C-p") 'company-select-previous)
 (define-key company-active-map (kbd "C-h") nil)
 
+
+
+(defun indent-region-with-tabs ()
+  "選択範囲をタブでインデントする"
+  (interactive)
+  (let ((indent-tabs-mode t))
+    (indent-region (region-beginning) (region-end))))
+(global-set-key (kbd "C-M-\\") 'indent-region-with-tabs) ;; キーバインドを設定
+
+
 ;;(autoload 'csharp-mode "csharp-mode" "Major mode for editing C# code." t)
 ;;(setq auto-mode-alist
 ;;      (append '(("\\.cs$" . csharp-mode)) auto-mode-alist))
@@ -1040,6 +1053,7 @@ mouse-3: delete other windows"
   :ensure t
   :init
   (elpy-enable)
+  (setq elpy-rpc-virtualenv-path 'current)
   (add-hook 'elpy-mode-hook
     '(lambda ()
        ;; (auto-complete-mode -1)
@@ -1255,6 +1269,16 @@ mouse-3: delete other windows"
   (flycheck-add-mode 'javascript-eslint 'vue-mode)
   (add-hook 'vue-mode-hook 'flycheck-mode))
 
+;; FIXME: このパスは自動設定するべきだけど方法がわからない。。。
+(defvar my-tsc-path
+  (cond
+   ((eq system-type 'windows-nt)
+    "C:/path/to/typescript/lib/tsserverlibrary.js") ;; Windowsのパス
+   ((eq system-type 'gnu/linux)
+    "/home/developer/.anyenv/envs/nodenv/shims/tsc") ;; Linuxのパス
+   ((eq system-type 'darwin)
+    "/Users/developer/.anyenv/envs/nodenv/shims/tsc"))) ;; macOSのパス
+
 (use-package lsp-mode
   :ensure t
   :hook (vue-mode . lsp)
@@ -1263,7 +1287,7 @@ mouse-3: delete other windows"
   (setq lsp-clients-typescript-server "volar")
   (setq lsp-auto-guess-root t)
   (setq lsp-volar-take-over-mode t)
-  (setq lsp-volar-typescript-server-path "/home/developer/.anyenv/envs/nodenv/shims/tsc"))  ;; TypeScriptのパスを設定
+  (setq lsp-volar-typescript-server-path my-tsc-path)) ;; 変数を使用(TypeScriptのパスを設定)
 
 ;; (use-package company
 ;;   :ensure t
