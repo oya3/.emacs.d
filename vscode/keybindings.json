@@ -39,7 +39,7 @@
         "command": "workbench.action.focusPreviousGroup"
     },
     {
-        "key": "ctrl+x 2",
+        "key": "ctrl+x 3",
         "command": "workbench.action.splitEditor"
     },
     {
@@ -47,11 +47,21 @@
         "command": "-workbench.action.splitEditor"
     },
     {
-        "key": "ctrl+x 3",
+        "key": "ctrl+x 2",
         "command": "workbench.action.splitEditorDown"
     },
     {
         "key": "ctrl+k ctrl+oem_5",
         "command": "-workbench.action.splitEditorDown"
+    },
+    {
+        "key": "ctrl+alt+oem_5",
+        "command": "editor.action.formatSelection",
+        "when": "editorHasDocumentSelectionFormattingProvider && editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+k ctrl+f",
+        "command": "-editor.action.formatSelection",
+        "when": "editorHasDocumentSelectionFormattingProvider && editorTextFocus && !editorReadonly"
     }
 ]

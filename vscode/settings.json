@@ -1,4 +1,17 @@
 {
     "editor.fontFamily": "'MesloLGS NF', Consolas, 'Courier New', monospace",
-    "workbench.colorTheme": "Dracula Theme"
+    "workbench.colorTheme": "Dracula Theme",
+    "http.proxyStrictSSL": false,
+    "macros": {
+	"formatCurrentLine": [
+	    "cursorLineSelect",
+            "editor.action.formatSelection"
+         ]
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "Vue.volar"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    }
 }
